@@ -1,12 +1,15 @@
 #ifndef PackageViewH
 #define PackageViewH
 
+#include <QTreeView>
+
 namespace Package
 {
-   class View
+   class View : public QTreeView
    {
+      Q_OBJECT
    public:
-      View();
+      View(QWidget* parent);
    };
 } // namespace Package
 

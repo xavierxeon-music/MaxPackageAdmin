@@ -28,6 +28,9 @@ MainWidget::MainWidget()
    overviewWidget = new OverviewWidget(this);
    addPersona(overviewWidget, "Overview");
 
+   connect(overviewWidget, &OverviewWidget::signalUpdateTitle, this, &MainWidget::slotUpdateTitle);
+   slotUpdateTitle();
+
    helpWidget = new HelpWidget(this);
    addPersona(helpWidget, "Help");
 
@@ -44,6 +47,14 @@ MainWidget::MainWidget()
       Settings widgetSettings("MainWidget");
       restoreGeometry(widgetSettings.bytes("Geometry"));
    }
+}
+
+void MainWidget::slotUpdateTitle()
+{
+   Settings settings;
+   const QString packageDir = settings.string("LastPackage");
+
+   setWindowTitle("Max Package Admin - " + packageDir);
 }
 
 void MainWidget::closeEvent(QCloseEvent* ce)

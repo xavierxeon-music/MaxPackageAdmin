@@ -12,6 +12,9 @@ class MainWidget : public QWidget
 public:
    MainWidget();
 
+private slots:
+   void slotUpdateTitle();
+
 private:
    void closeEvent(QCloseEvent* ce) override;
 

@@ -24,5 +24,8 @@ SOURCES += \
    PersonaWindow.cpp \
    Settings.cpp
 
+RESOURCES += \
+   resources/resources.qrc
+
 
 

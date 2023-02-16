@@ -12,6 +12,9 @@ public:
    PersonaWindow(MainWidget* mainWidget);
 
 protected:
+   void setLeftDock(QWidget* payload);
+
+protected:
    MainWidget* mainWidget;
 };
 
