@@ -1,10 +1,18 @@
 #ifndef PersonaWindowH
 #define PersonaWindowH
 
-class PersonaWindow
+#include <QMainWindow>
+
+class MainWidget;
+
+class PersonaWindow : public QMainWindow
 {
+   Q_OBJECT
 public:
-   PersonaWindow();
+   PersonaWindow(MainWidget* mainWidget);
+
+protected:
+   MainWidget* mainWidget;
 };
 
 #endif // NOT PersonaWindowH

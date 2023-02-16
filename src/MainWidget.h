@@ -1,10 +1,23 @@
-#ifndef MainWindowH
-#define MainWindowH
+#ifndef MainWidgetH
+#define MainWidgetH
 
-class MainWindow
+#include <QWidget>
+
+#include "Help/HelpWidget.h"
+#include "Overview/OverviewWidget.h"
+
+class MainWidget : public QWidget
 {
+   Q_OBJECT
 public:
-   MainWindow();
+   MainWidget();
+
+private:
+   void closeEvent(QCloseEvent* ce) override;
+
+private:
+   OverviewWidget* overviewWidget;
+   HelpWidget* helpWidget;
 };
 
-#endif // NOT MainWindowH
+#endif // NOT MainWidgetH

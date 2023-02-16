@@ -1,6 +1,10 @@
 #include "PersonaWindow.h"
 
-PersonaWindow::PersonaWindow()
+#include "MainWidget.h"
+
+PersonaWindow::PersonaWindow(MainWidget* mainWidget)
+   : QMainWindow(mainWidget)
+   , mainWidget(mainWidget)
 {
 }
 
