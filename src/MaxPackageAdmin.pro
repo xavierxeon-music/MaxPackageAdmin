@@ -1,4 +1,4 @@
-TARGET = MaxPackageHelpGenerator
+TARGET = MaxPackageAdmin
 TEMPLATE = app
 
 QT += gui
