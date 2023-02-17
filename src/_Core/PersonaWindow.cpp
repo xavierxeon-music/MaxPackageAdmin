@@ -9,8 +9,13 @@ PersonaWindow::PersonaWindow(MainWidget* mainWidget, const QString& name)
    , toolBar(nullptr)
 {
    toolBar = new QToolBar(mainWidget);
+   toolBar->setMovable(false);
 
-   mainWidget->addPersona(this, toolBar, name);
+   const int index = mainWidget->centralStackWidget->addWidget(this);
+   mainWidget->tabToolBar->addTab(index, name);
+
+   mainWidget->addToolBar(toolBar);
+   mainWidget->toolBarMap[index] = toolBar;
 }
 
 QToolBar* PersonaWindow::getToolBar()

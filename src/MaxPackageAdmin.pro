@@ -6,12 +6,9 @@ CONFIG += c++17
 
 DESTDIR = ../bin
 
-mac{
-   ICON = resources/MPA.icns
-   CONFIG(release, debug|release): DESTDIR = ~/Applications
-}
-
+include(Main/Main.pri)
 include(_Core/_Core.pri)
+
 include(Overview/Overview.pri)
 include(Help/Help.pri)
 
@@ -21,8 +18,6 @@ HEADERS += \
 SOURCES += \
    MainWidget.cpp
 
-RESOURCES += \
-   resources/resources.qrc
 
 
 

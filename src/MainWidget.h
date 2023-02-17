@@ -1,41 +1,37 @@
 #ifndef MainWidgetH
 #define MainWidgetH
 
-#include <QWidget>
+#include <QMainWindow>
 
-#include <QButtonGroup>
-#include <QHBoxLayout>
-#include <QStackedLayout>
+#include <QStackedWidget>
 
 #include "Help/HelpWidget.h"
+#include "Main/TabToolBar.h"
 #include "Overview/OverviewWidget.h"
 
-class MainWidget : public QWidget
+class MainWidget : public QMainWindow
 {
    Q_OBJECT
 public:
    MainWidget();
 
-public:
-   void addPersona(PersonaWindow* payload, QToolBar* toolBar, const QString& name);
-
 private:
    using ToolBarMap = QMap<int, QToolBar*>;
+   friend class PersonaWindow;
+   friend class TabToolBar;
 
 private slots:
    void slotUpdateTitle();
-   void slotChangePersona(int index);
 
 private:
    void closeEvent(QCloseEvent* ce) override;
 
 private:
-   QButtonGroup* buttonGroup;
-   QStackedLayout* stackLayout;
-   QHBoxLayout* toolBarLayout;
-   QWidget* toolBarSeperator;
+   // admin
+   TabToolBar* tabToolBar;
    ToolBarMap toolBarMap;
-
+   QStackedWidget* centralStackWidget;
+   // content
    OverviewWidget* overviewPersona;
    HelpWidget* helpPersona;
 };

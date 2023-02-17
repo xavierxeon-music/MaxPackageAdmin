@@ -8,53 +8,25 @@
 
 #include "Settings.h"
 
-static const int sideBarHeight = 48;
+#ifdef Q_OS_MACX
+#include "Main/Mac.h"
+#endif // Q_OS_MACX
 
 MainWidget::MainWidget()
-   : QWidget(nullptr)
-   , buttonGroup(nullptr)
-   , stackLayout(nullptr)
-   , toolBarLayout(nullptr)
-   , toolBarSeperator(nullptr)
+   : QMainWindow(nullptr)
+   , tabToolBar(nullptr)
    , toolBarMap()
+   , centralStackWidget(nullptr)
    , overviewPersona(nullptr)
    , helpPersona(nullptr)
 {
    setWindowTitle("Max Package Admin");
 
-   // side bar
-   {
-      buttonGroup = new QButtonGroup(this);
-      connect(buttonGroup, &QButtonGroup::idClicked, this, &MainWidget::slotChangePersona);
+   tabToolBar = new TabToolBar(this);
+   addToolBar(tabToolBar);
 
-      toolBarSeperator = new QWidget(this);
-      toolBarSeperator->setFixedSize(20, sideBarHeight);
-      toolBarSeperator->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-
-      QWidget* spacer = new QWidget(this);
-      spacer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
-
-      QLabel* iconLabel = new QLabel(this);
-      iconLabel->setPixmap(QPixmap(":/MPA.svg").scaled(sideBarHeight, sideBarHeight));
-
-      toolBarLayout = new QHBoxLayout();
-      toolBarLayout->setContentsMargins(0, 0, 0, 0);
-      toolBarLayout->setSpacing(0);
-      toolBarLayout->addWidget(toolBarSeperator);
-      toolBarLayout->addWidget(spacer);
-      toolBarLayout->addWidget(iconLabel);
-   }
-
-   // main area
-   {
-      stackLayout = new QStackedLayout();
-      stackLayout->setContentsMargins(0, 0, 0, 0);
-
-      QVBoxLayout* masterLayout = new QVBoxLayout(this);
-      masterLayout->setContentsMargins(5, 5, 5, 5);
-      masterLayout->addLayout(toolBarLayout);
-      masterLayout->addLayout(stackLayout);
-   }
+   centralStackWidget = new QStackedWidget(this);
+   setCentralWidget(centralStackWidget);
 
    overviewPersona = new OverviewWidget(this);
    helpPersona = new HelpWidget(this);
@@ -67,37 +39,7 @@ MainWidget::MainWidget()
       restoreGeometry(widgetSettings.bytes("Geometry"));
    }
 
-   slotChangePersona(0);
-}
-
-void MainWidget::addPersona(PersonaWindow* payload, QToolBar* toolBar, const QString& name)
-{
-   QPushButton* button = new QPushButton(this);
-   button->setFixedSize(sideBarHeight, sideBarHeight);
-   button->setText(name);
-
-   int buttonIindex = [&]()
-   {
-      for (int searchIndex = 0; searchIndex < toolBarLayout->count(); searchIndex++)
-      {
-         const QWidget* widget = toolBarLayout->itemAt(searchIndex)->widget();
-         if (widget == toolBarSeperator)
-            return searchIndex;
-      }
-
-      return 0;
-   }();
-
-   toolBarLayout->insertWidget(buttonIindex, button);
-   buttonGroup->addButton(button, buttonIindex);
-
-   toolBar->setFixedHeight(sideBarHeight);
-   toolBar->setMovable(false);
-   toolBar->setOrientation(Qt::Horizontal);
-   toolBarLayout->insertWidget(buttonIindex + 2, toolBar);
-   toolBarMap[buttonIindex] = toolBar;
-
-   stackLayout->addWidget(payload);
+   tabToolBar->slotChangeTab(0);
 }
 
 void MainWidget::slotUpdateTitle()
@@ -109,17 +51,6 @@ void MainWidget::slotUpdateTitle()
       setWindowTitle("Max Package Admin");
    else
       setWindowTitle("Max Package Admin - " + packageDir);
-}
-
-void MainWidget::slotChangePersona(int index)
-{
-   stackLayout->setCurrentIndex(index);
-
-   for (ToolBarMap::Iterator it = toolBarMap.begin(); it != toolBarMap.end(); it++)
-   {
-      QToolBar* toolBar = it.value();
-      toolBar->setVisible(it.key() == index);
-   }
 }
 
 void MainWidget::closeEvent(QCloseEvent* ce)
@@ -135,6 +66,9 @@ void MainWidget::closeEvent(QCloseEvent* ce)
 int main(int argc, char** argv)
 {
    QApplication app(argc, argv);
+#ifdef Q_OS_MACX
+   Mac::setToDarkTheme();
+#endif // Q_OS_MACX
 
    MainWidget mw;
    mw.show();
