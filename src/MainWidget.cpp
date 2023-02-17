@@ -41,7 +41,7 @@ MainWidget::MainWidget()
    masterLayout->setContentsMargins(0, 0, 0, 0);
    masterLayout->addWidget(tabBar, 0, 0);
    masterLayout->addWidget(spacer, 0, 1);
-   masterLayout->addWidget(stackWidget, 1, 0, 2, 1);
+   masterLayout->addWidget(stackWidget, 1, 0, 1, 2);
 
    {
       Settings widgetSettings("MainWidget");
@@ -54,7 +54,10 @@ void MainWidget::slotUpdateTitle()
    Settings settings;
    const QString packageDir = settings.string("LastPackage");
 
-   setWindowTitle("Max Package Admin - " + packageDir);
+   if (packageDir.isEmpty())
+      setWindowTitle("Max Package Admin");
+   else
+      setWindowTitle("Max Package Admin - " + packageDir);
 }
 
 void MainWidget::closeEvent(QCloseEvent* ce)

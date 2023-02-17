@@ -11,18 +11,15 @@ mac{
    CONFIG(release, debug|release): DESTDIR = ~/Applications
 }
 
+include(_Core/_Core.pri)
 include(Overview/Overview.pri)
 include(Help/Help.pri)
 
 HEADERS += \
-   MainWidget.h \
-   PersonaWindow.h \
-   Settings.h
+   MainWidget.h
 
 SOURCES += \
-   MainWidget.cpp \
-   PersonaWindow.cpp \
-   Settings.cpp
+   MainWidget.cpp
 
 RESOURCES += \
    resources/resources.qrc
