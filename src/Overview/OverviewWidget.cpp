@@ -1,34 +1,28 @@
 #include "OverviewWidget.h"
 
-#include <QLabel>
-
 #include <QAction>
-
 #include <QFileDialog>
-#include <QToolBar>
+#include <QVBoxLayout>
 
 #include "Settings.h"
 
 #include "PackageView.h"
 
 OverviewWidget::OverviewWidget(MainWidget* mainWidget)
-   : PersonaWindow(mainWidget)
+   : PersonaWindow(mainWidget, "OVER\nVIEW")
    , packageModel(nullptr)
 {
    packageModel = new Package::Model(this);
 
    Package::View* packageView = new Package::View(this);
    packageView->setModel(packageModel);
-   setLeftDock(packageView);
 
-   setCentralWidget(new QLabel("OVERVIEW"));
-
-   // toolbars and menus
-   QToolBar* packageBar = addToolBar("Package");
-   packageBar->setMovable(false);
-
-   QAction* openAction = packageBar->addAction(QIcon(":/Open.svg"), "Open", this, &OverviewWidget::slotOpenPackage);
+   QAction* openAction = getToolBar()->addAction(QIcon(":/Open.svg"), "Open", this, &OverviewWidget::slotOpenPackage);
    Q_UNUSED(openAction)
+
+   QVBoxLayout* masterLayout = new QVBoxLayout(this);
+   masterLayout->setContentsMargins(0, 0, 0, 0);
+   masterLayout->addWidget(packageView);
 
    // restore settings
    {

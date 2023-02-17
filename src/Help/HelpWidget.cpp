@@ -2,11 +2,8 @@
 
 #include "../MainWidget.h"
 
-#include <QLabel>
-
 HelpWidget::HelpWidget(MainWidget* mainWidget)
-   : PersonaWindow(mainWidget)
+   : PersonaWindow(mainWidget, "HELP")
 {
-   setCentralWidget(new QLabel("HELP"));
+   getToolBar()->addAction(QIcon(":/Reload.svg"), "Reload");
 }
-

@@ -2,20 +2,18 @@
 
 #include "MainWidget.h"
 
-#include <QDockWidget>
-
-PersonaWindow::PersonaWindow(MainWidget* mainWidget)
-   : QMainWindow(mainWidget)
+PersonaWindow::PersonaWindow(MainWidget* mainWidget, const QString& name)
+   : QWidget(mainWidget)
    , mainWidget(mainWidget)
+   , name(name)
+   , toolBar(nullptr)
 {
+   toolBar = new QToolBar(mainWidget);
+
+   mainWidget->addPersona(this, toolBar, name);
 }
 
-void PersonaWindow::setLeftDock(QWidget* payload)
+QToolBar* PersonaWindow::getToolBar()
 {
-   QDockWidget* packageDock = new QDockWidget(this);
-   packageDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
-   packageDock->setTitleBarWidget(new QWidget());
-
-   packageDock->setWidget(payload);
-   addDockWidget(Qt::LeftDockWidgetArea, packageDock);
+   return toolBar;
 }

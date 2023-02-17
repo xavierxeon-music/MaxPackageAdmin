@@ -1,7 +1,7 @@
 #ifndef OverviewWidgetH
 #define OverviewWidgetH
 
-#include "../PersonaWindow.h"
+#include <PersonaWindow.h>
 
 #include "PackageModel.h"
 

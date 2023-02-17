@@ -1,7 +1,7 @@
 #ifndef HelpWidgetH
 #define HelpWidgetH
 
-#include "../PersonaWindow.h"
+#include <PersonaWindow.h>
 
 class HelpWidget : public PersonaWindow
 {

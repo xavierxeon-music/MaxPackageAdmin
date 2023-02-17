@@ -1,21 +1,28 @@
 #ifndef PersonaWindowH
 #define PersonaWindowH
 
-#include <QMainWindow>
+#include <QWidget>
+
+#include <QStatusBar>
+#include <QToolBar>
 
 class MainWidget;
 
-class PersonaWindow : public QMainWindow
+class PersonaWindow : public QWidget
 {
    Q_OBJECT
 public:
-   PersonaWindow(MainWidget* mainWidget);
+   PersonaWindow(MainWidget* mainWidget, const QString& name);
 
 protected:
-   void setLeftDock(QWidget* payload);
+   QToolBar* getToolBar();
 
 protected:
    MainWidget* mainWidget;
+
+private:
+   const QString& name;
+   QToolBar* toolBar;
 };
 
 #endif // NOT PersonaWindowH
