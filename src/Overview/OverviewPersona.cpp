@@ -1,4 +1,4 @@
-#include "OverviewWidget.h"
+#include "OverviewPersona.h"
 
 #include <QAction>
 #include <QFileDialog>
@@ -8,8 +8,8 @@
 
 #include "PackageView.h"
 
-OverviewWidget::OverviewWidget(MainWidget* mainWidget)
-   : PersonaWindow(mainWidget, "OVER\nVIEW")
+OverviewPersona::OverviewPersona(MainWidget* mainWidget)
+   : Persona(mainWidget, "OVER\nVIEW")
    , packageModel(nullptr)
 {
    packageModel = new Package::Model(this);
@@ -17,7 +17,7 @@ OverviewWidget::OverviewWidget(MainWidget* mainWidget)
    Package::View* packageView = new Package::View(this);
    packageView->setModel(packageModel);
 
-   QAction* openAction = getToolBar()->addAction(QIcon(":/Open.svg"), "Open", this, &OverviewWidget::slotOpenPackage);
+   QAction* openAction = getToolBar()->addAction(QIcon(":/Open.svg"), "Open", this, &OverviewPersona::slotOpenPackage);
    Q_UNUSED(openAction)
 
    QVBoxLayout* masterLayout = new QVBoxLayout(this);
@@ -36,7 +36,7 @@ OverviewWidget::OverviewWidget(MainWidget* mainWidget)
    }
 }
 
-void OverviewWidget::slotOpenPackage()
+void OverviewPersona::slotOpenPackage()
 {
    const QString fileName = QFileDialog::getOpenFileName(this, "package", QString(), "package-info.json");
    if (fileName.isEmpty())

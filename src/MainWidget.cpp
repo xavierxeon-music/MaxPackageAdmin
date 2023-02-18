@@ -2,14 +2,14 @@
 
 #include <QApplication>
 #include <QCloseEvent>
-#include <QHBoxLayout>
+#include <QDockWidget>
 #include <QLabel>
-#include <QPushButton>
 
+#include "MessageWidget.h"
 #include "Settings.h"
 
 #ifdef Q_OS_MACX
-#include "Main/Mac.h"
+#include "Main/MacTheme.h"
 #endif // Q_OS_MACX
 
 MainWidget::MainWidget()
@@ -25,13 +25,30 @@ MainWidget::MainWidget()
    tabToolBar = new TabToolBar(this);
    addToolBar(tabToolBar);
 
+   QToolBar* mainToolBar = addToolBar("Main");
+   mainToolBar->setMovable(false);
+
    centralStackWidget = new QStackedWidget(this);
    setCentralWidget(centralStackWidget);
 
-   overviewPersona = new OverviewWidget(this);
-   helpPersona = new HelpWidget(this);
+   // message dock
+   {
+      QDockWidget* messageDock = new QDockWidget(this);
+      messageDock->setWidget(new MessageWidget(this));
+      messageDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
+      messageDock->setTitleBarWidget(new QWidget(this));
+      addDockWidget(Qt::BottomDockWidgetArea, messageDock);
 
-   connect(overviewPersona, &OverviewWidget::signalUpdateTitle, this, &MainWidget::slotUpdateTitle);
+      messageDock->hide();
+      QAction* messageAction = mainToolBar->addAction(QIcon(":/Message.svg"), "Messages");
+      messageAction->setCheckable(true);
+      connect(messageAction, &QAction::toggled, messageDock, &MessageWidget::setVisible);
+   }
+
+   overviewPersona = new OverviewPersona(this);
+   helpPersona = new HelpPersona(this);
+
+   connect(overviewPersona, &OverviewPersona::signalUpdateTitle, this, &MainWidget::slotUpdateTitle);
    slotUpdateTitle();
 
    {
@@ -67,7 +84,7 @@ int main(int argc, char** argv)
 {
    QApplication app(argc, argv);
 #ifdef Q_OS_MACX
-   Mac::setToDarkTheme();
+   MacTheme::dark();
 #endif // Q_OS_MACX
 
    MainWidget mw;

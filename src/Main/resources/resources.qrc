@@ -6,5 +6,6 @@
         <file>Open.svg</file>
         <file>Reload.svg</file>
         <file>Save.svg</file>
+        <file>Message.svg</file>
     </qresource>
 </RCC>

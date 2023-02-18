@@ -5,9 +5,9 @@
 
 #include <QStackedWidget>
 
-#include "Help/HelpWidget.h"
+#include "Help/HelpPersona.h"
 #include "Main/TabToolBar.h"
-#include "Overview/OverviewWidget.h"
+#include "Overview/OverviewPersona.h"
 
 class MainWidget : public QMainWindow
 {
@@ -17,7 +17,7 @@ public:
 
 private:
    using ToolBarMap = QMap<int, QToolBar*>;
-   friend class PersonaWindow;
+   friend class Persona;
    friend class TabToolBar;
 
 private slots:
@@ -32,8 +32,8 @@ private:
    ToolBarMap toolBarMap;
    QStackedWidget* centralStackWidget;
    // content
-   OverviewWidget* overviewPersona;
-   HelpWidget* helpPersona;
+   OverviewPersona* overviewPersona;
+   HelpPersona* helpPersona;
 };
 
 #endif // NOT MainWidgetH

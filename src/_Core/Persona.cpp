@@ -1,8 +1,8 @@
-#include "PersonaWindow.h"
+#include "Persona.h"
 
 #include "MainWidget.h"
 
-PersonaWindow::PersonaWindow(MainWidget* mainWidget, const QString& name)
+Persona::Persona(MainWidget* mainWidget, const QString& name)
    : QWidget(mainWidget)
    , mainWidget(mainWidget)
    , name(name)
@@ -18,7 +18,7 @@ PersonaWindow::PersonaWindow(MainWidget* mainWidget, const QString& name)
    mainWidget->toolBarMap[index] = toolBar;
 }
 
-QToolBar* PersonaWindow::getToolBar()
+QToolBar* Persona::getToolBar()
 {
    return toolBar;
 }

@@ -2,17 +2,15 @@ macx {
     ICON = $$PWD/resources/MPA.icns
     CONFIG(release, debug|release): DESTDIR = ~/Applications
 
-    HEADERS += $$PWD/Mac.h
-    OBJECTIVE_SOURCES += $$PWD/Mac.mm
+    HEADERS += $$PWD/MacTheme.h
+    OBJECTIVE_SOURCES += $$PWD/MacTheme.mm
 }
 
 HEADERS += \
-    $$PWD/MessageBar.h \
     $$PWD/SpacerToolBar.h \
     $$PWD/TabToolBar.h
 
-SOURCES += \
-    $$PWD/MessageBar.cpp \
+SOURCES += \    
     $$PWD/SpacerToolBar.cpp \
     $$PWD/TabToolBar.cpp
 

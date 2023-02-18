@@ -3,11 +3,11 @@ HEADERS += \
    $$PWD/HelpFilesView.h \
    $$PWD/HelpPatchModel.h \
    $$PWD/HelpPatchView.h \
-   $$PWD/HelpWidget.h
+   $$PWD/HelpPersona.h
 
 SOURCES += \
    $$PWD/HelpFilesModel.cpp \
    $$PWD/HelpFilesView.cpp \
    $$PWD/HelpPatchModel.cpp \
    $$PWD/HelpPatchView.cpp \
-   $$PWD/HelpWidget.cpp
+   $$PWD/HelpPersona.cpp

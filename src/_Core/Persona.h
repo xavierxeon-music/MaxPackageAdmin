@@ -1,5 +1,5 @@
-#ifndef PersonaWindowH
-#define PersonaWindowH
+#ifndef PersonaH
+#define PersonaH
 
 #include <QWidget>
 
@@ -8,11 +8,11 @@
 
 class MainWidget;
 
-class PersonaWindow : public QWidget
+class Persona : public QWidget
 {
    Q_OBJECT
 public:
-   PersonaWindow(MainWidget* mainWidget, const QString& name);
+   Persona(MainWidget* mainWidget, const QString& name);
 
 protected:
    QToolBar* getToolBar();
@@ -25,4 +25,4 @@ private:
    QToolBar* toolBar;
 };
 
-#endif // NOT PersonaWindowH
+#endif // NOT PersonaH
