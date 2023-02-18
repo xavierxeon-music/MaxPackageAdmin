@@ -1,6 +1,6 @@
 #include "PatchView.h"
 
-Patch::View::View()
+Patch::View::View(QWidget* parent)
+   : QTreeView(parent)
 {
 }
-

@@ -42,7 +42,7 @@ void Package::Model::setPath(const QString& packageDir)
                const QString name = fileInfo.fileName().replace(".maxpat", "");
                QStandardItem* patchItem = new QStandardItem(name);
                patchItem->setEditable(false);
-               patchItem->setData(fileInfo.absoluteFilePath());
+               patchItem->setData(fileInfo.absoluteFilePath(), RolePatch);
                patchParentItem->appendRow(patchItem);
             }
          };

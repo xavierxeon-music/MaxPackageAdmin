@@ -1,12 +1,15 @@
 #ifndef PatchViewH
 #define PatchViewH
 
+#include <QTreeView>
+
 namespace Patch
 {
-   class View
+   class View : public QTreeView
    {
+      Q_OBJECT
    public:
-      View();
+      View(QWidget* parent);
    };
 } // namespace Patch
 
