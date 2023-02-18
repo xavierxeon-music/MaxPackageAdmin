@@ -10,6 +10,9 @@ public:
    {
       virtual void setPackagePath(QString packageDir);
    };
+
+public:
+   static QString getPackagePath();
 };
 
 #endif // NOT CentralH

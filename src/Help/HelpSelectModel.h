@@ -18,19 +18,17 @@ namespace Help
       enum Role
       {
          RolePatchPath = Qt::UserRole + 1,
-         RoleHelpPath
       };
 
    public:
       SelectModel(QObject* parent);
 
    private:
-      using InfoVar = QString Info::*;
-      using InfoMap = QMap<QString, Info>;
+      using InfoMap = QMap<QString, QString>;
 
    private:
       void setPackagePath(QString packageDir) override;
-      void recursiveSearch(const QString& path, const QString& suffix, InfoVar infoVar, InfoMap& infoMap);
+      void recursiveSearch(const QString& path, InfoMap& infoMap);
    };
 } // namespace Help
 

@@ -19,9 +19,11 @@ namespace Abstract
 
    protected:
       virtual void clicked(QStandardItem* item);
+      virtual void doubleClicked(QStandardItem* item);
 
    private slots:
       void slotClicked(const QModelIndex& index);
+      void slotDoubleClicked(const QModelIndex& index);
       void slotResizeAllColumns();
 
    private:

@@ -15,7 +15,8 @@ namespace Help
       FileModel(QObject* parent);
 
    private:
-      void patchSelected(QString patchPath, QString helpPath) override;
+      void patchSelected(QString patchPath) override;
+      void createEmptyHelpFile(const QString& fileName, const QString &key) const;
    };
 } // namespace Help
 

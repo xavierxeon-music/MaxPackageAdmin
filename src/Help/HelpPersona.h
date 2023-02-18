@@ -10,12 +10,6 @@ namespace Help
    class PatchModel;
    class FileModel;
 
-   struct Info
-   {
-      QString patchPath;
-      QString helpPath;
-   };
-
    class Persona : public Abstract::Persona
    {
       Q_OBJECT
@@ -23,7 +17,7 @@ namespace Help
    public:
       struct FunctionHub : public Abstract::FunctionHub<Persona>
       {
-         virtual void patchSelected(QString patchPath, QString helpPath);
+         virtual void patchSelected(QString patchPath);
       };
 
    public:

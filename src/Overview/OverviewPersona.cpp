@@ -4,7 +4,7 @@
 #include <QFileDialog>
 #include <QHBoxLayout>
 
-#include "Settings.h"
+#include <Settings.h>
 
 #include "OverviewPackageModel.h"
 #include "OverviewPackageView.h"
@@ -46,24 +46,20 @@ void Overview::Persona::slotOpenPackage()
    if (fileName.isEmpty())
       return;
 
-   const QString packageDir = QFileInfo(fileName).absolutePath();
+   const QString packagePath = QFileInfo(fileName).absolutePath();
 
    {
       Settings settings;
-      settings.write("LastPackage", packageDir);
-      callOnAllHubInstances(&Persona::setPackagePath, packageDir);
+      settings.write("LastPackage", packagePath);
+      callOnAllHubInstances(&Central::FunctionHub::setPackagePath, packagePath);
    }
 }
 
 void Overview::Persona::init()
 {
-   // restore settings
+   const QString packagePath = Central::getPackagePath();
+   if (!packagePath.isEmpty())
    {
-      Settings settings;
-      const QString packageDir = settings.string("LastPackage");
-      if (!packageDir.isEmpty())
-      {
-         callOnAllHubInstances(&Persona::setPackagePath, packageDir);
-      }
+      callOnAllHubInstances(&Central::FunctionHub::setPackagePath, packagePath);
    }
 }

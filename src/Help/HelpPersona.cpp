@@ -11,11 +11,10 @@
 #include "HelpSelectModel.h"
 #include "HelpSelectView.h"
 
-void Help::Persona::FunctionHub::patchSelected(QString patchPath, QString helpPath)
+void Help::Persona::FunctionHub::patchSelected(QString patchPath)
 {
    // do nothing
    Q_UNUSED(patchPath)
-   Q_UNUSED(helpPath)
 }
 
 // persoma

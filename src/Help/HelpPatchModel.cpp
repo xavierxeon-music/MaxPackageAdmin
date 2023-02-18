@@ -11,9 +11,8 @@ Help::PatchModel::PatchModel(QObject* parent)
 {
 }
 
-void Help::PatchModel::patchSelected(QString patchPath, QString helpPath)
+void Help::PatchModel::patchSelected(QString patchPath)
 {
-   Q_UNUSED(helpPath)
    clear();
 
    setHorizontalHeaderLabels({"Type / Name", "Comment"});

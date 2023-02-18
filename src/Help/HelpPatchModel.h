@@ -15,7 +15,7 @@ namespace Help
       PatchModel(QObject* parent);
 
    private:
-      void patchSelected(QString patchPath, QString helpPath) override;
+      void patchSelected(QString patchPath) override;
    };
 } // namespace Help
 

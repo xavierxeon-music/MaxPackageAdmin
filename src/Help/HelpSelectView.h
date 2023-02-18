@@ -15,8 +15,9 @@ namespace Help
    public:
       SelectView(QWidget* parent, SelectModel* model);
 
-   public:
+   private:
       void clicked(QStandardItem* item) override;
+      void doubleClicked(QStandardItem* item) override;
    };
 } // namespace Help
 
