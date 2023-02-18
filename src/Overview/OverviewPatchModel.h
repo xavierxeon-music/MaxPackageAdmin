@@ -6,7 +6,7 @@
 
 namespace Overview
 {
-   class PatchModel : public QStandardItemModel, private FunctionHub
+   class PatchModel : public QStandardItemModel, private Persona::FunctionHub
    {
       Q_OBJECT
    public:

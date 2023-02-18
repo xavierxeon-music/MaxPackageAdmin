@@ -4,7 +4,7 @@
 
 Overview::PackageView::PackageView(QWidget* parent, PackageModel* model)
    : Abstract::ItemTreeView(parent, model)
-   , FunctionHub()
+   , Persona::FunctionHub()
 {
    setHeaderHidden(true);
 }

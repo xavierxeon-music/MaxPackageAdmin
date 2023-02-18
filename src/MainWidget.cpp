@@ -14,6 +14,7 @@
 
 MainWidget::MainWidget()
    : QMainWindow(nullptr)
+   , Central::FunctionHub()
    , tabToolBar(nullptr)
    , toolBarMap()
    , centralStackWidget(nullptr)
@@ -48,9 +49,6 @@ MainWidget::MainWidget()
    overviewPersona = new Overview::Persona(this);
    helpPersona = new Help::Persona(this);
 
-   connect(overviewPersona, &Overview::Persona::signalUpdateTitle, this, &MainWidget::slotUpdateTitle);
-   slotUpdateTitle();
-
    {
       Settings widgetSettings("MainWidget");
       restoreGeometry(widgetSettings.bytes("Geometry"));
@@ -59,11 +57,8 @@ MainWidget::MainWidget()
    tabToolBar->slotChangeTab(0);
 }
 
-void MainWidget::slotUpdateTitle()
+void MainWidget::setPackagePath(QString packageDir)
 {
-   Settings settings;
-   const QString packageDir = settings.string("LastPackage");
-
    if (packageDir.isEmpty())
       setWindowTitle("Max Package Admin");
    else

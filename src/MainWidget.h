@@ -9,7 +9,9 @@
 #include "Main/TabToolBar.h"
 #include "Overview/OverviewPersona.h"
 
-class MainWidget : public QMainWindow
+#include "Central.h"
+
+class MainWidget : public QMainWindow, private Central::FunctionHub
 {
    Q_OBJECT
 public:
@@ -20,10 +22,8 @@ private:
    friend class Abstract::Persona;
    friend class TabToolBar;
 
-private slots:
-   void slotUpdateTitle();
-
 private:
+   void setPackagePath(QString packageDir) override;
    void closeEvent(QCloseEvent* ce) override;
 
 private:

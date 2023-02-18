@@ -1,11 +1,12 @@
 #ifndef OverviewPackageModelH
 #define OverviewPackageModelH
 
+#include <Central.h>
 #include <QStandardItemModel>
 
 namespace Overview
 {
-   class PackageModel : public QStandardItemModel
+   class PackageModel : public QStandardItemModel, private Central::FunctionHub
    {
       Q_OBJECT
 
@@ -20,8 +21,8 @@ namespace Overview
    public:
       PackageModel(QObject* parent);
 
-   public:
-      void setPath(const QString& packageDir);
+   private:
+      void setPackagePath(QString packageDir) override;
    };
 } // namespace Overview
 

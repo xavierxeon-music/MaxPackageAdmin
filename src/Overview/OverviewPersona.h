@@ -3,31 +3,25 @@
 
 #include <AbstractFunctionHub.h>
 #include <AbstractPersona.h>
+#include <Central.h>
 
 namespace Overview
 {
-   class Persona;
    class PackageModel;
    class PatchModel;
 
-   class FunctionHub : public Abstract::FunctionHub<Persona>
-   {
-   public:
-      FunctionHub();
-
-   protected:
-      virtual void patchSelected(QString patchPath);
-   };
-
-   class Persona : public Abstract::Persona
+   class Persona : public Abstract::Persona, private Central::FunctionHub
    {
       Q_OBJECT
 
    public:
-      Persona(MainWidget* mainWidget);
+      struct FunctionHub : public Abstract::FunctionHub<Persona>
+      {
+         virtual void patchSelected(QString patchPath);
+      };
 
-   signals:
-      void signalUpdateTitle();
+   public:
+      Persona(MainWidget* mainWidget);
 
    private slots:
       void slotOpenPackage();

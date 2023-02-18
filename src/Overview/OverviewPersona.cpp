@@ -13,12 +13,7 @@
 
 // function hub
 
-Overview::FunctionHub::FunctionHub()
-   : Abstract::FunctionHub<Persona>()
-{
-}
-
-void Overview::FunctionHub::patchSelected(QString patchPath)
+void Overview::Persona::FunctionHub::patchSelected(QString patchPath)
 {
    // do nothing
    Q_UNUSED(patchPath)
@@ -28,6 +23,7 @@ void Overview::FunctionHub::patchSelected(QString patchPath)
 
 Overview::Persona::Persona(MainWidget* mainWidget)
    : Abstract::Persona(mainWidget, "OVER\nVIEW")
+   , Central::FunctionHub()
    , packageModel(nullptr)
    , patchModel(nullptr)
 {
@@ -50,8 +46,7 @@ Overview::Persona::Persona(MainWidget* mainWidget)
       const QString packageDir = settings.string("LastPackage");
       if (!packageDir.isEmpty())
       {
-         packageModel->setPath(packageDir);
-         emit signalUpdateTitle();
+         callOnAllHubInstances(&Persona::setPackagePath, packageDir);
       }
    }
 }
@@ -67,8 +62,6 @@ void Overview::Persona::slotOpenPackage()
    {
       Settings settings;
       settings.write("LastPackage", packageDir);
-      packageModel->setPath(packageDir);
+      callOnAllHubInstances(&Persona::setPackagePath, packageDir);
    }
-
-   emit signalUpdateTitle();
 }

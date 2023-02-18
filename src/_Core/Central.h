@@ -1,10 +1,15 @@
 #ifndef CentralH
 #define CentralH
 
+#include "AbstractFunctionHub.h"
+
 class Central
 {
 public:
-   Central();
+   struct FunctionHub : public Abstract::FunctionHub<Central>
+   {
+      virtual void setPackagePath(QString packageDir);
+   };
 };
 
 #endif // NOT CentralH

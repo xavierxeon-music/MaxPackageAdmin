@@ -13,7 +13,7 @@
 
 Overview::PatchModel::PatchModel(QObject* parent)
    : QStandardItemModel(parent)
-   , FunctionHub()
+   , Persona::FunctionHub()
 {
 }
 

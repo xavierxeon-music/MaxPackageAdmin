@@ -6,11 +6,11 @@
 namespace Abstract
 {
    template <typename WhatEver> // the typename is not used
-   class FunctionHub
+   struct FunctionHub
    {
-   public:
+   protected:
       inline FunctionHub();
-      inline ~FunctionHub();
+      inline virtual ~FunctionHub();
 
    protected:
       template <typename ClassType, typename... ArgumentsType>

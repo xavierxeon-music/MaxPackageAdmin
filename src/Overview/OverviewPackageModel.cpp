@@ -4,10 +4,11 @@
 
 Overview::PackageModel::PackageModel(QObject* parent)
    : QStandardItemModel(parent)
+   , Central::FunctionHub()
 {
 }
 
-void Overview::PackageModel::setPath(const QString& packageDir)
+void Overview::PackageModel::setPackagePath(QString packageDir)
 {
    clear();
 
