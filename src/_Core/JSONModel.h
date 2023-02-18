@@ -3,8 +3,12 @@
 
 #include <QStandardItemModel>
 
+#include <QJsonObject>
+
 namespace JSON
 {
+   QJsonObject fromFile(const QString& fileName);
+
    class Model : public QStandardItemModel
    {
       Q_OBJECT
@@ -14,10 +18,9 @@ namespace JSON
    public:
       void readFile(const QString& filePath);
 
-   private:
-      void iterateObject(const QJsonObject& object, QStandardItem* parent);
-      void iterateArray(const QJsonArray& array, QStandardItem* parent);
-      void addToModel(const QString& key, const QJsonValue& value, QStandardItem* parent);
+      static void iterateObject(const QJsonObject& object, QStandardItem* parent);
+      static void iterateArray(const QJsonArray& array, QStandardItem* parent);
+      static void addToModel(const QString& key, const QJsonValue& value, QStandardItem* parent);
    };
 } // namespace JSON
 

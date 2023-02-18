@@ -8,7 +8,8 @@ namespace Overview
 {
    class PackageModel;
 
-   class PackageView : public Abstract::ItemTreeView, private Persona::FunctionHub
+   class PackageView : public Abstract::ItemTreeView,
+                       private Persona::FunctionHub
    {
       Q_OBJECT
    public:

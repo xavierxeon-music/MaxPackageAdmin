@@ -6,9 +6,11 @@
 
 namespace Overview
 {
-   class PatchModel : public JSON::Model, private Persona::FunctionHub
+   class PatchModel : public JSON::Model,
+                      private Persona::FunctionHub
    {
       Q_OBJECT
+
    public:
       PatchModel(QObject* parent);
 

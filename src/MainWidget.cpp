@@ -54,6 +54,7 @@ MainWidget::MainWidget()
       restoreGeometry(widgetSettings.bytes("Geometry"));
    }
 
+   Abstract::Persona::initAll();
    tabToolBar->slotChangeTab(0);
 }
 

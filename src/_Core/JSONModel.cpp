@@ -5,11 +5,37 @@
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
-#include <QJsonObject>
 #include <QJsonParseError>
 #include <QJsonValue>
 
 #include <Message.h>
+
+QJsonObject JSON::fromFile(const QString& fileName)
+{
+   if (fileName.isEmpty())
+      return QJsonObject();
+
+   QFile file(fileName);
+   if (!file.open(QIODevice::ReadOnly))
+   {
+      Message::error(QString("unalbe to read JSON file %1").arg(fileName));
+      return QJsonObject();
+   }
+
+   const QByteArray content = file.readAll();
+   file.close();
+
+   QJsonParseError parserStatus;
+   QJsonDocument doc = QJsonDocument::fromJson(content, &parserStatus);
+   if (parserStatus.error != QJsonParseError::NoError)
+   {
+      Message::error(parserStatus.errorString());
+      return QJsonObject();
+   }
+
+   QJsonObject object = doc.object();
+   return object;
+}
 
 JSON::Model::Model(QObject* parent)
    : QStandardItemModel(parent)
@@ -22,22 +48,10 @@ void JSON::Model::readFile(const QString& filePath)
 
    setHorizontalHeaderLabels({"Name", "Type", "Value"});
 
-   if (filePath.isEmpty())
+   QJsonObject object = fromFile(filePath);
+   if (object.empty())
       return;
 
-   QFile file(filePath);
-   if (!file.open(QIODevice::ReadOnly))
-      return Message::error(QString("unalbe to read JSON file %1").arg(filePath));
-
-   const QByteArray content = file.readAll();
-   file.close();
-
-   QJsonParseError parserStatus;
-   QJsonDocument doc = QJsonDocument::fromJson(content, &parserStatus);
-   if (parserStatus.error != QJsonParseError::NoError)
-      return Message::error(parserStatus.errorString());
-
-   QJsonObject object = doc.object();
    iterateObject(object, invisibleRootItem());
 }
 
@@ -63,9 +77,8 @@ void JSON::Model::iterateArray(const QJsonArray& array, QStandardItem* parent)
 
 void JSON::Model::addToModel(const QString& key, const QJsonValue& value, QStandardItem* parent)
 {
-   QStandardItem* nameItem = new QStandardItem();
+   QStandardItem* nameItem = new QStandardItem(key);
    nameItem->setEditable(false);
-   nameItem->setText(key);
 
    QStandardItem* typeItem = new QStandardItem();
    typeItem->setEditable(false);

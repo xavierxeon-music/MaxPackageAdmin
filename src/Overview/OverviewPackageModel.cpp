@@ -12,7 +12,10 @@ void Overview::PackageModel::setPackagePath(QString packageDir)
 {
    clear();
 
-   for (QFileInfo fileInfo : QDir(packageDir).entryInfoList(QDir::NoDotAndDotDot | QDir::NoSymLinks | QDir::Files | QDir::Dirs))
+   setHorizontalHeaderLabels({"Name"});
+
+   const QDir::Filters filters = QDir::NoDotAndDotDot | QDir::NoSymLinks | QDir::Files | QDir::Dirs;
+   for (QFileInfo fileInfo : QDir(packageDir).entryInfoList(filters))
    {
       if (fileInfo.isFile() && "package-info.json" == fileInfo.fileName())
       {
@@ -30,7 +33,7 @@ void Overview::PackageModel::setPackagePath(QString packageDir)
 
          std::function<void(const QString)> recursiveFillPatches = [&](const QString dirPath)
          {
-            for (QFileInfo fileInfo : QDir(dirPath).entryInfoList(QDir::NoDotAndDotDot | QDir::NoSymLinks | QDir::Files | QDir::Dirs))
+            for (QFileInfo fileInfo : QDir(dirPath).entryInfoList(filters))
             {
                if (fileInfo.isDir())
                {

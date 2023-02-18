@@ -3,8 +3,6 @@
 #include "HelpPatchModel.h"
 
 Help::PatchView::PatchView(QWidget* parent, PatchModel* model)
-   : QTreeView(parent)
-   , model(model)
+   : Abstract::ItemTreeView(parent, model)
 {
-   setModel(model);
 }

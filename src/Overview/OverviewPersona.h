@@ -10,7 +10,8 @@ namespace Overview
    class PackageModel;
    class PatchModel;
 
-   class Persona : public Abstract::Persona, private Central::FunctionHub
+   class Persona : public Abstract::Persona,
+                   private Central::FunctionHub // to send package path
    {
       Q_OBJECT
 
@@ -25,6 +26,9 @@ namespace Overview
 
    private slots:
       void slotOpenPackage();
+
+   private:
+      void init() override;
 
    private:
       PackageModel* packageModel;

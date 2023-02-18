@@ -1,20 +1,17 @@
 #ifndef HelpFileViewH
 #define HelpFileViewH
 
-#include <QTreeView>
+#include <AbstractItemTreeView.h>
 
 namespace Help
 {
    class FileModel;
 
-   class FileView : public QTreeView
+   class FileView : public Abstract::ItemTreeView
    {
       Q_OBJECT
    public:
       FileView(QWidget* parent, FileModel* model);
-
-   private:
-      FileModel* model;
    };
 } // namespace Help
 

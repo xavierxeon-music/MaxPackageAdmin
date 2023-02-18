@@ -1,20 +1,22 @@
 #ifndef HelpSelectViewH
 #define HelpSelectViewH
 
-#include <QTreeView>
+#include "HelpPersona.h"
+#include <AbstractItemTreeView.h>
 
 namespace Help
 {
    class SelectModel;
 
-   class SelectView : public QTreeView
+   class SelectView : public Abstract::ItemTreeView,
+                      private Persona::FunctionHub
    {
       Q_OBJECT
    public:
       SelectView(QWidget* parent, SelectModel* model);
 
    public:
-      SelectModel* model;
+      void clicked(QStandardItem* item) override;
    };
 } // namespace Help
 

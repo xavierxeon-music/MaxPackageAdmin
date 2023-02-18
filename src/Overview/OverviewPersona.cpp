@@ -37,17 +37,7 @@ Overview::Persona::Persona(MainWidget* mainWidget)
    masterLayout->addWidget(packageView);
    masterLayout->addWidget(patchView);
 
-   QAction* openAction = getToolBar()->addAction(QIcon(":/Open.svg"), "Open", this, &Persona::slotOpenPackage);
-   Q_UNUSED(openAction)
-   // restore settings
-   {
-      Settings settings;
-      const QString packageDir = settings.string("LastPackage");
-      if (!packageDir.isEmpty())
-      {
-         callOnAllHubInstances(&Persona::setPackagePath, packageDir);
-      }
-   }
+   getToolBar()->addAction(QIcon(":/Open.svg"), "Open", this, &Persona::slotOpenPackage);
 }
 
 void Overview::Persona::slotOpenPackage()
@@ -62,5 +52,18 @@ void Overview::Persona::slotOpenPackage()
       Settings settings;
       settings.write("LastPackage", packageDir);
       callOnAllHubInstances(&Persona::setPackagePath, packageDir);
+   }
+}
+
+void Overview::Persona::init()
+{
+   // restore settings
+   {
+      Settings settings;
+      const QString packageDir = settings.string("LastPackage");
+      if (!packageDir.isEmpty())
+      {
+         callOnAllHubInstances(&Persona::setPackagePath, packageDir);
+      }
    }
 }

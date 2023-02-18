@@ -11,7 +11,8 @@
 
 #include "Central.h"
 
-class MainWidget : public QMainWindow, private Central::FunctionHub
+class MainWidget : public QMainWindow,
+                   private Central::FunctionHub
 {
    Q_OBJECT
 public:

@@ -3,8 +3,6 @@
 #include "HelpFileModel.h"
 
 Help::FileView::FileView(QWidget* parent, FileModel* model)
-   : QTreeView(parent)
-   , model(model)
+   : Abstract::ItemTreeView(parent, model)
 {
-   setModel(model);
 }

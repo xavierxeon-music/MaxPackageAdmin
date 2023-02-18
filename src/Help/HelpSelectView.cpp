@@ -3,8 +3,15 @@
 #include "HelpSelectModel.h"
 
 Help::SelectView::SelectView(QWidget* parent, SelectModel* model)
-   : QTreeView(parent)
-   , model(model)
+   : Abstract::ItemTreeView(parent, model)
+   , Persona::FunctionHub()
 {
-   setModel(model);
+}
+
+void Help::SelectView::clicked(QStandardItem* item)
+{
+   const QString patchPath = item->data(SelectModel::RolePatchPath).toString();
+   const QString helpPath = item->data(SelectModel::RoleHelpPath).toString();
+
+   callOnAllHubInstances(&SelectView::patchSelected, patchPath, helpPath);
 }

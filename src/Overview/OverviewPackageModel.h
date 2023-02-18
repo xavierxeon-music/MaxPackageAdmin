@@ -6,7 +6,8 @@
 
 namespace Overview
 {
-   class PackageModel : public QStandardItemModel, private Central::FunctionHub
+   class PackageModel : public QStandardItemModel,
+                        private Central::FunctionHub
    {
       Q_OBJECT
 
