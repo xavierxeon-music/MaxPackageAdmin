@@ -1,7 +1,7 @@
 #ifndef OverviewPatchViewH
 #define OverviewPatchViewH
 
-#include "AbstractItemTreeView.h"
+#include <AbstractItemTreeView.h>
 
 namespace Overview
 {

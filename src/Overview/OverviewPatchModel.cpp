@@ -13,11 +13,14 @@
 
 Overview::PatchModel::PatchModel(QObject* parent)
    : QStandardItemModel(parent)
+   , FunctionHub()
 {
 }
 
-void Overview::PatchModel::slotSetPatch(const QString& patchPath)
+void Overview::PatchModel::patchSelected(QString patchPath)
 {
+   qDebug() << __FUNCTION__ << patchPath;
+
    clear();
 
    setHorizontalHeaderLabels({"Name", "Type", "Value"});

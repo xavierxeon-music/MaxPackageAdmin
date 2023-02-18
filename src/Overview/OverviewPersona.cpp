@@ -6,8 +6,25 @@
 
 #include "Settings.h"
 
+#include "OverviewPackageModel.h"
 #include "OverviewPackageView.h"
+#include "OverviewPatchModel.h"
 #include "OverviewPatchView.h"
+
+// function hub
+
+Overview::FunctionHub::FunctionHub()
+   : Abstract::FunctionHub<Persona>()
+{
+}
+
+void Overview::FunctionHub::patchSelected(QString patchPath)
+{
+   // do nothing
+   Q_UNUSED(patchPath)
+}
+
+// presona
 
 Overview::Persona::Persona(MainWidget* mainWidget)
    : Abstract::Persona(mainWidget, "OVER\nVIEW")
@@ -19,7 +36,6 @@ Overview::Persona::Persona(MainWidget* mainWidget)
 
    PackageView* packageView = new PackageView(this, packageModel);
    PatchView* patchView = new PatchView(this, patchModel);
-   connect(packageView, &PackageView::signalPatchSelected, patchModel, &PatchModel::slotSetPatch);
 
    QHBoxLayout* masterLayout = new QHBoxLayout(this);
    masterLayout->setContentsMargins(0, 0, 0, 0);
