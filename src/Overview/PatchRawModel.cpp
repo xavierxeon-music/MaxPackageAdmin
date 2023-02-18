@@ -9,7 +9,7 @@
 #include <QJsonParseError>
 #include <QJsonValue>
 
-#include "MessageWidget.h"
+#include "Message.h"
 
 Patch::RawModel::RawModel(QObject* parent)
    : QStandardItemModel(parent)
@@ -27,7 +27,7 @@ void Patch::RawModel::slotSetPatch(const QString& patchPath)
 
    QFile file(patchPath);
    if (!file.open(QIODevice::ReadOnly))
-      return MessageWidget::error(QString("unalbe to read file %1").arg(patchPath));
+      return Message::error(QString("unalbe to read file %1").arg(patchPath));
 
    const QByteArray content = file.readAll();
    file.close();
@@ -35,7 +35,7 @@ void Patch::RawModel::slotSetPatch(const QString& patchPath)
    QJsonParseError parserStatus;
    QJsonDocument doc = QJsonDocument::fromJson(content, &parserStatus);
    if (parserStatus.error != QJsonParseError::NoError)
-      return MessageWidget::error(parserStatus.errorString());
+      return Message::error(parserStatus.errorString());
 
    QJsonObject object = doc.object();
    iterateModel(object, invisibleRootItem());

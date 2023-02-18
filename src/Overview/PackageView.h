@@ -1,13 +1,13 @@
 #ifndef PackageViewH
 #define PackageViewH
 
-#include <QTreeView>
+#include "AbstractItemTreeView.h"
 
 namespace Package
 {
    class Model;
 
-   class View : public QTreeView
+   class View : public Abstract::ItemTreeView
    {
       Q_OBJECT
    public:
@@ -16,11 +16,8 @@ namespace Package
    signals:
       void signalPatchSelected(const QString& patchPath);
 
-   public slots:
-      void slotClicked(const QModelIndex& index);
-
    private:
-      Model* model;
+      void clicked(QStandardItem* item) override;
    };
 } // namespace Package
 

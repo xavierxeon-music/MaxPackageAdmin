@@ -17,7 +17,7 @@ public:
 
 private:
    using ToolBarMap = QMap<int, QToolBar*>;
-   friend class Persona;
+   friend class Abstract::Persona;
    friend class TabToolBar;
 
 private slots:
@@ -32,8 +32,8 @@ private:
    ToolBarMap toolBarMap;
    QStackedWidget* centralStackWidget;
    // content
-   OverviewPersona* overviewPersona;
-   HelpPersona* helpPersona;
+   Overview::Persona* overviewPersona;
+   Help::Persona* helpPersona;
 };
 
 #endif // NOT MainWidgetH

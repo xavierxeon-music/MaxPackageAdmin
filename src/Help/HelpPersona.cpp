@@ -2,8 +2,8 @@
 
 #include "../MainWidget.h"
 
-HelpPersona::HelpPersona(MainWidget* mainWidget)
-   : Persona(mainWidget, "HELP")
+Help::Persona::Persona(MainWidget* mainWidget)
+   : Abstract::Persona(mainWidget, "HELP")
 {
    getToolBar()->addAction(QIcon(":/Reload.svg"), "Reload");
 }

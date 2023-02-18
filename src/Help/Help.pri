@@ -1,13 +1,17 @@
 HEADERS += \
-   $$PWD/HelpFilesModel.h \
-   $$PWD/HelpFilesView.h \
+   $$PWD/HelpFileModel.h \
+   $$PWD/HelpFileView.h \
    $$PWD/HelpPatchModel.h \
    $$PWD/HelpPatchView.h \
-   $$PWD/HelpPersona.h
+   $$PWD/HelpPersona.h \
+   $$PWD/HelpSelectModel.h \
+   $$PWD/HelpSelectView.h
 
 SOURCES += \
-   $$PWD/HelpFilesModel.cpp \
-   $$PWD/HelpFilesView.cpp \
+   $$PWD/HelpFileModel.cpp \
+   $$PWD/HelpFileView.cpp \
    $$PWD/HelpPatchModel.cpp \
    $$PWD/HelpPatchView.cpp \
-   $$PWD/HelpPersona.cpp
+   $$PWD/HelpPersona.cpp \
+   $$PWD/HelpSelectModel.cpp \
+   $$PWD/HelpSelectView.cpp

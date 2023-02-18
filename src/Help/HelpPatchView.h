@@ -1,12 +1,20 @@
 #ifndef HelpPatchViewH
 #define HelpPatchViewH
 
+#include <QTreeView>
+
 namespace Help
 {
-   class PatchView
+   class PatchModel;
+
+   class PatchView : public QTreeView
    {
+      Q_OBJECT
    public:
-      PatchView();
+      PatchView(QWidget* parent, PatchModel* model);
+
+   private:
+      PatchModel* model;
    };
 } // namespace Help
 

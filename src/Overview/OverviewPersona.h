@@ -1,26 +1,29 @@
 #ifndef OverviewPersonaH
 #define OverviewPersonaH
 
-#include <Persona.h>
+#include <AbstractPersona.h>
 
 #include "PackageModel.h"
 #include "PatchRawModel.h"
 
-class OverviewPersona : public Persona
+namespace Overview
 {
-   Q_OBJECT
-public:
-   OverviewPersona(MainWidget* mainWidget);
+   class Persona : public Abstract::Persona
+   {
+      Q_OBJECT
+   public:
+      Persona(MainWidget* mainWidget);
 
-signals:
-   void signalUpdateTitle();
+   signals:
+      void signalUpdateTitle();
 
-private slots:
-   void slotOpenPackage();
+   private slots:
+      void slotOpenPackage();
 
-private:
-   Package::Model* packageModel;
-   Patch::RawModel* patchRawModel;
-};
+   private:
+      Package::Model* packageModel;
+      Patch::RawModel* patchRawModel;
+   };
+} // namespace Overview
 
 #endif // NOT OverviewPersonaH

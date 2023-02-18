@@ -1,12 +1,15 @@
 #ifndef HelpPatchModelH
 #define HelpPatchModelH
 
+#include <QStandardItemModel>
+
 namespace Help
 {
-   class PatchModel
+   class PatchModel : public QStandardItemModel
    {
+      Q_OBJECT
    public:
-      PatchModel();
+      PatchModel(QObject* parent);
    };
 } // namespace Help
 

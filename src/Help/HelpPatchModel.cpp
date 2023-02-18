@@ -1,6 +1,6 @@
 #include "HelpPatchModel.h"
 
-Help::PatchModel::PatchModel()
+Help::PatchModel::PatchModel(QObject* parent)
+   : QStandardItemModel(parent)
 {
 }
-

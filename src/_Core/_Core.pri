@@ -1,14 +1,17 @@
 INCLUDEPATH += $$PWD
 
 HEADERS += \
+    $$PWD/AbstractItemTreeView.h \
+    $$PWD/AbstractItemTreeView.hpp \
+    $$PWD/AbstractPersona.h \
     $$PWD/Central.h \
-    $$PWD/Persona.h \
+    $$PWD/Message.h \
     $$PWD/Settings.h \
-    $$PWD/MessageWidget.h \
 
 SOURCES += \
+    $$PWD/AbstractItemTreeView.cpp \
+    $$PWD/AbstractPersona.cpp \
     $$PWD/Central.cpp \
-    $$PWD/Persona.cpp \
+    $$PWD/Message.cpp \
     $$PWD/Settings.cpp \
-    $$PWD/MessageWidget.cpp \
 

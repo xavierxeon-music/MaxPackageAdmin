@@ -3,18 +3,13 @@
 #include "PackageModel.h"
 
 Package::View::View(QWidget* parent, Model* model)
-   : QTreeView(parent)
-   , model(model)
+   : Abstract::ItemTreeView(parent, model)
 {
    setHeaderHidden(true);
-   connect(this, &QAbstractItemView::clicked, this, &View::slotClicked);
-
-   setModel(model);
 }
 
-void Package::View::slotClicked(const QModelIndex& index)
+void Package::View::clicked(QStandardItem* item)
 {
-   QStandardItem* item = model->itemFromIndex(index);
    QVariant data = item->data(Model::RolePatch);
    if (data.isNull())
    {

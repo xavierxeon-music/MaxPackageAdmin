@@ -9,8 +9,8 @@
 #include "PackageView.h"
 #include "PatchRawView.h"
 
-OverviewPersona::OverviewPersona(MainWidget* mainWidget)
-   : Persona(mainWidget, "OVER\nVIEW")
+Overview::Persona::Persona(MainWidget* mainWidget)
+   : Abstract::Persona(mainWidget, "OVER\nVIEW")
    , packageModel(nullptr)
    , patchRawModel(nullptr)
 {
@@ -26,7 +26,7 @@ OverviewPersona::OverviewPersona(MainWidget* mainWidget)
    masterLayout->addWidget(packageView);
    masterLayout->addWidget(patchView);
 
-   QAction* openAction = getToolBar()->addAction(QIcon(":/Open.svg"), "Open", this, &OverviewPersona::slotOpenPackage);
+   QAction* openAction = getToolBar()->addAction(QIcon(":/Open.svg"), "Open", this, &Persona::slotOpenPackage);
    Q_UNUSED(openAction)
    // restore settings
    {
@@ -40,7 +40,7 @@ OverviewPersona::OverviewPersona(MainWidget* mainWidget)
    }
 }
 
-void OverviewPersona::slotOpenPackage()
+void Overview::Persona::slotOpenPackage()
 {
    const QString fileName = QFileDialog::getOpenFileName(this, "package", QString(), "package-info.json");
    if (fileName.isEmpty())
