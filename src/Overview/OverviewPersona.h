@@ -4,7 +4,7 @@
 #include <Persona.h>
 
 #include "PackageModel.h"
-#include "PatchModel.h"
+#include "PatchRawModel.h"
 
 class OverviewPersona : public Persona
 {
@@ -20,7 +20,7 @@ private slots:
 
 private:
    Package::Model* packageModel;
-   Patch::Model* patchModel;
+   Patch::RawModel* patchRawModel;
 };
 
 #endif // NOT OverviewPersonaH
