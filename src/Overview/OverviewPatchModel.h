@@ -2,24 +2,18 @@
 #define OverviewPatchModelH
 
 #include "OverviewPersona.h"
-#include <QStandardItemModel>
+#include <JSONModel.h>
 
 namespace Overview
 {
-   class PatchModel : public QStandardItemModel, private Persona::FunctionHub
+   class PatchModel : public JSON::Model, private Persona::FunctionHub
    {
       Q_OBJECT
    public:
       PatchModel(QObject* parent);
 
-   signals:
-      void signalUpdated();
-
    private:
       void patchSelected(QString patchPath) override;
-      void iterateObject(const QJsonObject& object, QStandardItem* parent);
-      void iterateArray(const QJsonArray& array, QStandardItem* parent);
-      void addToModel(const QString& key, const QJsonValue& value, QStandardItem* parent);
    };
 } // namespace Overview
 

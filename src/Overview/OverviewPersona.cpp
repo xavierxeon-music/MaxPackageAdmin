@@ -9,7 +9,6 @@
 #include "OverviewPackageModel.h"
 #include "OverviewPackageView.h"
 #include "OverviewPatchModel.h"
-#include "OverviewPatchView.h"
 
 // function hub
 
@@ -31,7 +30,7 @@ Overview::Persona::Persona(MainWidget* mainWidget)
    patchModel = new PatchModel(this);
 
    PackageView* packageView = new PackageView(this, packageModel);
-   PatchView* patchView = new PatchView(this, patchModel);
+   Abstract::ItemTreeView* patchView = new Abstract::ItemTreeView(this, patchModel);
 
    QHBoxLayout* masterLayout = new QHBoxLayout(this);
    masterLayout->setContentsMargins(0, 0, 0, 0);
