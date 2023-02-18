@@ -1,11 +1,11 @@
-#ifndef PackageModelH
-#define PackageModelH
+#ifndef OverviewPackageModelH
+#define OverviewPackageModelH
 
 #include <QStandardItemModel>
 
-namespace Package
+namespace Overview
 {
-   class Model : public QStandardItemModel
+   class PackageModel : public QStandardItemModel
    {
       Q_OBJECT
 
@@ -18,11 +18,11 @@ namespace Package
       };
 
    public:
-      Model(QObject* parent);
+      PackageModel(QObject* parent);
 
    public:
       void setPath(const QString& packageDir);
    };
-} // namespace Package
+} // namespace Overview
 
-#endif // NOT PackageModelH
+#endif // NOT OverviewPackageModelH

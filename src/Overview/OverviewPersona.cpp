@@ -6,20 +6,20 @@
 
 #include "Settings.h"
 
-#include "PackageView.h"
-#include "PatchRawView.h"
+#include "OverviewPackageView.h"
+#include "OverviewPatchView.h"
 
 Overview::Persona::Persona(MainWidget* mainWidget)
    : Abstract::Persona(mainWidget, "OVER\nVIEW")
    , packageModel(nullptr)
-   , patchRawModel(nullptr)
+   , patchModel(nullptr)
 {
-   packageModel = new Package::Model(this);
-   patchRawModel = new Patch::RawModel(this);
+   packageModel = new PackageModel(this);
+   patchModel = new PatchModel(this);
 
-   Package::View* packageView = new Package::View(this, packageModel);
-   Patch::RawView* patchView = new Patch::RawView(this, patchRawModel);
-   connect(packageView, &Package::View::signalPatchSelected, patchRawModel, &Patch::RawModel::slotSetPatch);
+   PackageView* packageView = new PackageView(this, packageModel);
+   PatchView* patchView = new PatchView(this, patchModel);
+   connect(packageView, &PackageView::signalPatchSelected, patchModel, &PatchModel::slotSetPatch);
 
    QHBoxLayout* masterLayout = new QHBoxLayout(this);
    masterLayout->setContentsMargins(0, 0, 0, 0);

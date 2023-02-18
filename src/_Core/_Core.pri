@@ -5,6 +5,8 @@ HEADERS += \
     $$PWD/AbstractItemTreeView.hpp \
     $$PWD/AbstractPersona.h \
     $$PWD/Central.h \
+    $$PWD/FunctionHub.h \
+    $$PWD/FunctionHub.hpp \
     $$PWD/Message.h \
     $$PWD/Settings.h \
 

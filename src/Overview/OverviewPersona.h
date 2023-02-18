@@ -3,8 +3,8 @@
 
 #include <AbstractPersona.h>
 
-#include "PackageModel.h"
-#include "PatchRawModel.h"
+#include "OverviewPackageModel.h"
+#include "OverviewPatchModel.h"
 
 namespace Overview
 {
@@ -21,8 +21,8 @@ namespace Overview
       void slotOpenPackage();
 
    private:
-      Package::Model* packageModel;
-      Patch::RawModel* patchRawModel;
+      PackageModel* packageModel;
+      PatchModel* patchModel;
    };
 } // namespace Overview
 

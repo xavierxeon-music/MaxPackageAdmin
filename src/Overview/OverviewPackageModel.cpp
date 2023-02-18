@@ -1,13 +1,13 @@
-#include "PackageModel.h"
+#include "OverviewPackageModel.h"
 
 #include <QDir>
 
-Package::Model::Model(QObject* parent)
+Overview::PackageModel::PackageModel(QObject* parent)
    : QStandardItemModel(parent)
 {
 }
 
-void Package::Model::setPath(const QString& packageDir)
+void Overview::PackageModel::setPath(const QString& packageDir)
 {
    clear();
 

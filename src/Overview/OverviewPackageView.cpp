@@ -1,16 +1,16 @@
-#include "PackageView.h"
+#include "OverviewPackageView.h"
 
-#include "PackageModel.h"
+#include "OverviewPackageModel.h"
 
-Package::View::View(QWidget* parent, Model* model)
+Overview::PackageView::PackageView(QWidget* parent, PackageModel* model)
    : Abstract::ItemTreeView(parent, model)
 {
    setHeaderHidden(true);
 }
 
-void Package::View::clicked(QStandardItem* item)
+void Overview::PackageView::clicked(QStandardItem* item)
 {
-   QVariant data = item->data(Model::RolePatch);
+   QVariant data = item->data(PackageModel::RolePatch);
    if (data.isNull())
    {
       emit signalPatchSelected(QString());

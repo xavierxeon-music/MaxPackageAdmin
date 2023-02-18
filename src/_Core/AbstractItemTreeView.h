@@ -22,6 +22,7 @@ namespace Abstract
 
    private slots:
       void slotClicked(const QModelIndex& index);
+      void slotResizeAllColumns();
 
    private:
       QStandardItemModel* model;

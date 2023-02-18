@@ -1,13 +1,13 @@
 HEADERS += \
-   $$PWD/OverviewPersona.h \
-   $$PWD/PackageModel.h \
-   $$PWD/PackageView.h \
-   $$PWD/PatchRawModel.h \
-   $$PWD/PatchRawView.h
+   $$PWD/OverviewPackageModel.h \
+   $$PWD/OverviewPackageView.h \
+   $$PWD/OverviewPatchModel.h \
+   $$PWD/OverviewPatchView.h \
+   $$PWD/OverviewPersona.h
 
 SOURCES += \
-   $$PWD/OverviewPersona.cpp \
-   $$PWD/PackageModel.cpp \
-   $$PWD/PackageView.cpp \
-   $$PWD/PatchRawModel.cpp \
-   $$PWD/PatchRawView.cpp
+   $$PWD/OverviewPackageModel.cpp \
+   $$PWD/OverviewPackageView.cpp \
+   $$PWD/OverviewPatchModel.cpp \
+   $$PWD/OverviewPatchView.cpp \
+   $$PWD/OverviewPersona.cpp

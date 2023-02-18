@@ -1,4 +1,4 @@
-#include "PatchRawModel.h"
+#include "OverviewPatchModel.h"
 
 #include <limits.h>
 
@@ -11,12 +11,12 @@
 
 #include "Message.h"
 
-Patch::RawModel::RawModel(QObject* parent)
+Overview::PatchModel::PatchModel(QObject* parent)
    : QStandardItemModel(parent)
 {
 }
 
-void Patch::RawModel::slotSetPatch(const QString& patchPath)
+void Overview::PatchModel::slotSetPatch(const QString& patchPath)
 {
    clear();
 
@@ -38,12 +38,12 @@ void Patch::RawModel::slotSetPatch(const QString& patchPath)
       return Message::error(parserStatus.errorString());
 
    QJsonObject object = doc.object();
-   iterateModel(object, invisibleRootItem());
+   iterateObject(object, invisibleRootItem());
 
    emit signalUpdated();
 }
 
-void Patch::RawModel::iterateModel(const QJsonObject& object, QStandardItem* parent)
+void Overview::PatchModel::iterateObject(const QJsonObject& object, QStandardItem* parent)
 {
    for (const QString& key : object.keys())
    {
@@ -52,7 +52,7 @@ void Patch::RawModel::iterateModel(const QJsonObject& object, QStandardItem* par
    }
 }
 
-void Patch::RawModel::iterateModel(const QJsonArray& array, QStandardItem* parent)
+void Overview::PatchModel::iterateArray(const QJsonArray& array, QStandardItem* parent)
 {
    const int itemCount = array.count();
    for (int index = 0; index < itemCount; index++)
@@ -63,7 +63,7 @@ void Patch::RawModel::iterateModel(const QJsonArray& array, QStandardItem* paren
    }
 }
 
-void Patch::RawModel::addToModel(const QString& key, const QJsonValue& value, QStandardItem* parent)
+void Overview::PatchModel::addToModel(const QString& key, const QJsonValue& value, QStandardItem* parent)
 {
    QStandardItem* nameItem = new QStandardItem();
    nameItem->setEditable(false);
@@ -82,7 +82,7 @@ void Patch::RawModel::addToModel(const QString& key, const QJsonValue& value, QS
          typeItem->setText("object");
 
          const QJsonObject childObject = value.toObject();
-         iterateModel(childObject, nameItem);
+         iterateObject(childObject, nameItem);
 
          valueItem->setText(QString("%1 keys").arg(childObject.keys().count()));
          break;
@@ -92,7 +92,7 @@ void Patch::RawModel::addToModel(const QString& key, const QJsonValue& value, QS
          typeItem->setText("array");
 
          const QJsonArray childArray = value.toArray();
-         iterateModel(childArray, nameItem);
+         iterateArray(childArray, nameItem);
 
          valueItem->setText(QString("%1 entries").arg(childArray.count()));
          break;
