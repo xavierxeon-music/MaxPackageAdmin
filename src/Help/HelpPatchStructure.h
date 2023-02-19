@@ -18,8 +18,14 @@ namespace Help
       void writeXML();
 
    private:
+      using TagMap = QMap<QString, QString>;
+
+   private:
       void readXML();
       void addJSON();
+
+      QDomElement createSubElement(QDomElement parent, const QString& name, const QString& text = QString(), const TagMap& tagMap = TagMap());
+      Port& findOrCreatePort(Port::List& portList, const int id);
 
    private:
       QString patchName;

@@ -13,6 +13,8 @@ public:
 
 public:
    static QString getPackagePath();
+   static QString getAuthor();
+   static QString getPackageName();
 };
 
 #endif // NOT CentralH

@@ -11,7 +11,7 @@ public:
    {
       Symbol,
       Float,
-      Int
+      Integer
    };
 
    struct Digest
@@ -25,7 +25,6 @@ public:
    struct Port
    {
       int id;
-      Type type;
       Digest digest;
 
       using List = QList<Port>;
@@ -36,7 +35,7 @@ public:
    {
       QString name;
       bool optional;
-      Type type;
+      Type type = Symbol;
       Digest digest;
 
       using List = QList<Argument>;
@@ -57,8 +56,8 @@ public:
       QString name;
       bool get;
       bool set;
-      Type type;
-      int size;
+      Type type = Symbol;
+      int size = 1;
       Digest digest;
 
       using List = QList<Attribute>;
@@ -67,7 +66,6 @@ public:
    using SeeAlsoList = QStringList;
 
 public:
-   QString author;
    Digest patchDigest;
    MetaTagList metaTagList;
    Port::List inletList;
@@ -76,6 +74,9 @@ public:
    Attribute::List attributeList;
    Message::List messageList;
    SeeAlsoList seeAlsoList;
+
+public:
+   QString typeName(const Type& type);
 };
 
 #endif // NOT PatchStructureH

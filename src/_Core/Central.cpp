@@ -15,3 +15,13 @@ QString Central::getPackagePath()
 
    return packagePath;
 }
+
+QString Central::getAuthor()
+{
+   return "Ralf Waspe";
+}
+
+QString Central::getPackageName()
+{
+   return "WaMaxPackage";
+}

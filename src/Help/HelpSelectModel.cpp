@@ -36,7 +36,6 @@ void Help::SelectModel::setPackagePath(QString packageDir)
       if (!parentMap.contains(patchDir))
       {
          const QString folderName = QString(patchDir).replace(packageDir + "/patchers/", "");
-         qDebug() << folderName << patchDir;
 
          QStandardItem* item = new QStandardItem(folderName);
          item->setEditable(false);
