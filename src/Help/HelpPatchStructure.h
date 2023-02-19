@@ -21,11 +21,17 @@ namespace Help
       using TagMap = QMap<QString, QString>;
 
    private:
-      void readXML();
-      void addJSON();
-
       QDomElement createSubElement(QDomElement parent, const QString& name, const QString& text = QString(), const TagMap& tagMap = TagMap());
-      Port& findOrCreatePort(Port::Map& portMap, const int id);
+      void addDigest(const QDomElement& parentElement, const Digest& digest);
+
+      void readXML();
+      void readDigest(const QDomElement& parentElement, Digest& digest) const;
+      QString readText(const QDomElement& element) const;
+      QDomElement findFirstDirectChildElementWithAttributes(const QDomElement& element, const QString& tag, const TagMap& tagMap) const;
+      QList<QDomElement> compileAllDirectChildElements(const QDomElement& element, const QString& tag, const TagMap& tagMap = TagMap()) const;
+
+      void addJSON();
+      Outlet& findOrCreateOutlet(const int id);
 
    private:
       QString patchName;

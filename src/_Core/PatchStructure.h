@@ -8,8 +8,9 @@
 class PatchStructure
 {
 public:
-   enum Type
+   enum class Type
    {
+      Unkown,
       Symbol,
       Float,
       Integer,
@@ -24,12 +25,12 @@ public:
 
    using MetaTagList = QStringList;
 
-   struct Port
+   struct Outlet
    {
       QString name;
       QString description;
 
-      using Map = QMap<int, Port>; // inlet number vs port
+      using Map = QMap<int, Outlet>; // outlet number vs port
    };
 
    // things in patcherargs without @
@@ -38,7 +39,7 @@ public:
    {
       QString name;
       bool optional;
-      Type type = Symbol;
+      Type type = Type::Symbol;
       Digest digest;
 
       using List = QList<Argument>;
@@ -49,22 +50,19 @@ public:
       Argument::List arguments;
       Digest digest;
 
-      QMap<int, QString> inletDescriptions; // for example name = "int" on inlet 1 or 2 or 3...
-
       using Map = QMap<QString, Message>; // name vs message
    };
 
    // things in patcherargs with @
    struct Attribute
    {
-      QString name;
       bool get;
       bool set;
-      Type type = Symbol;
+      Type type = Type::Symbol;
       int size = 1;
       Digest digest;
 
-      using List = QList<Attribute>;
+      using Map = QMap<QString, Attribute>; // name vs message
    };
 
    using SeeAlsoList = QStringList;
@@ -72,15 +70,15 @@ public:
 public:
    Digest patchDigest;
    MetaTagList metaTagList;
-   Port::Map inletMap;
-   Port::Map outletMap;
+   Outlet::Map outletMap;
    Argument::List argumentList;
-   Attribute::List attributeList;
+   Attribute::Map attributeMap;
    Message::Map messageMap;
    SeeAlsoList seeAlsoList;
 
 public:
    QString typeName(const Type& type);
+   Type toType(const QString& name);
 };
 
 #endif // NOT PatchStructureH

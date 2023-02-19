@@ -8,6 +8,7 @@
 
 #include <Central.h>
 #include <JSONModel.h>
+#include <Message.h>
 
 Help::PatchStructure::PatchStructure()
    : ::PatchStructure()
@@ -45,25 +46,18 @@ void Help::PatchStructure::writeXML()
 
    QDomElement rootElement = doc.createElement("c74object");
    doc.appendChild(rootElement);
-
    rootElement.setAttribute("name", patchName);
-
-   auto addDigest = [&](QDomElement parentElement, const Digest& digest)
-   {
-      createSubElement(parentElement, "digest", digest.text);
-      if (!digest.description.isEmpty())
-         createSubElement(parentElement, "description", digest.description);
-   };
-
    addDigest(rootElement, patchDigest);
 
    QDomElement metaDataElement = createSubElement(rootElement, "metadatalist");
    createSubElement(metaDataElement, "metadata", Central::getAuthor(), {{"name", "author"}});
    createSubElement(metaDataElement, "metadata", Central::getPackageName(), {{"name", "tag"}});
+   for (const QString& tag : metaTagList)
+      createSubElement(metaDataElement, "metadata", tag, {{"name", "tag"}});
 
    QDomElement outletListElement = createSubElement(rootElement, "misc");
    outletListElement.setAttribute("name", "Outputs");
-   for (Port::Map::ConstIterator it = outletMap.constBegin(); it != outletMap.constEnd(); it++)
+   for (Outlet::Map::ConstIterator it = outletMap.constBegin(); it != outletMap.constEnd(); it++)
    {
       QDomElement outletElement = createSubElement(outletListElement, "entry");
       outletElement.setAttribute("name", it.value().name);
@@ -84,10 +78,12 @@ void Help::PatchStructure::writeXML()
    }
 
    QDomElement attributeListElement = createSubElement(rootElement, "attributelist");
-   for (const Attribute& attribute : attributeList)
+   for (Attribute::Map::ConstIterator it = attributeMap.constBegin(); it != attributeMap.constEnd(); it++)
    {
+      const Attribute& attribute = it.value();
+
       QDomElement attributeElement = createSubElement(attributeListElement, "attribute");
-      attributeElement.setAttribute("name", attribute.name);
+      attributeElement.setAttribute("name", it.key());
       attributeElement.setAttribute("get", attribute.get ? "1" : "0");
       attributeElement.setAttribute("set", attribute.set ? "1" : "0");
       attributeElement.setAttribute("type", typeName(attribute.type));
@@ -117,12 +113,6 @@ void Help::PatchStructure::writeXML()
       }
 
       addDigest(messageElement, message.digest);
-
-      for (QMap<int, QString>::ConstIterator it2 = message.inletDescriptions.constBegin(); it2 != message.inletDescriptions.constEnd(); it2++)
-      {
-         QDomElement inletDescriptonElement = createSubElement(messageElement, "inlet", it2.value());
-         inletDescriptonElement.setAttribute("id", QString::number(it2.key()));
-      }
    }
 
    QDomElement seeAlsoListElement = createSubElement(rootElement, "seealsolist");
@@ -144,8 +134,234 @@ void Help::PatchStructure::writeXML()
    file.close();
 }
 
+QDomElement Help::PatchStructure::createSubElement(QDomElement parent, const QString& name, const QString& text, const TagMap& tagMap)
+{
+   QDomElement element = parent.ownerDocument().createElement(name);
+   parent.appendChild(element);
+
+   if (!text.isEmpty())
+   {
+      QDomText textNode = parent.ownerDocument().createTextNode(text);
+      element.appendChild(textNode);
+   }
+
+   for (TagMap::ConstIterator it = tagMap.constBegin(); it != tagMap.constEnd(); it++)
+   {
+      element.setAttribute(it.key(), it.value());
+   }
+
+   return element;
+}
+
+void Help::PatchStructure::addDigest(const QDomElement& parentElement, const Digest& digest)
+{
+   createSubElement(parentElement, "digest", digest.text);
+   if (!digest.description.isEmpty())
+      createSubElement(parentElement, "description", digest.description);
+}
+
 void Help::PatchStructure::readXML()
 {
+   QFile file(helpPath);
+   if (!file.open(QIODevice::ReadOnly))
+      return;
+
+   const QByteArray content = file.readAll();
+   file.close();
+
+   QString errorMessage;
+   QDomDocument doc;
+   if (!doc.setContent(content, false, &errorMessage))
+   {
+      ::Message::error(errorMessage);
+      return;
+   }
+
+   const QDomElement rootElement = doc.documentElement();
+   readDigest(rootElement, patchDigest);
+
+   const QDomElement metaDataElement = rootElement.firstChildElement("metadatalist");
+   if (!metaDataElement.isNull())
+   {
+      const QString& packageName = Central::getPackageName();
+      for (const QDomElement& element : compileAllDirectChildElements(metaDataElement, "metadata"))
+      {
+         const QString& name = element.attribute("name");
+         if ("tag" != name)
+            return;
+
+         const QString text = readText(element);
+         if (packageName != text)
+            metaTagList.append(text);
+      }
+   }
+
+   const QDomElement outletListElement = findFirstDirectChildElementWithAttributes(rootElement, "misc", {{"name", "Outputs"}});
+   if (!outletListElement.isNull())
+   {
+      for (const QDomElement& outletElement : compileAllDirectChildElements(outletListElement, "entry"))
+      {
+         const int id = outletElement.attribute("id").toInt();
+
+         const QString name = outletElement.attribute("name");
+         const QString description = readText(outletElement);
+
+         outletMap[id] = {name, description};
+      }
+   }
+
+   const QDomElement objArgListElement = rootElement.firstChildElement("objarglist");
+   if (!objArgListElement.isNull())
+   {
+      for (const QDomElement& arguemntElement : compileAllDirectChildElements(objArgListElement, "objarg"))
+      {
+         Argument argument;
+         argument.name = arguemntElement.attribute("name");
+         argument.optional = ("1" == arguemntElement.attribute("optional"));
+         argument.type = toType(arguemntElement.attribute("type"));
+
+         readDigest(arguemntElement, argument.digest);
+
+         argumentList.append(argument);
+      }
+   }
+
+   const QDomElement attributeListElement = rootElement.firstChildElement("attributelist");
+   if (!attributeListElement.isNull())
+   {
+      for (const QDomElement& attributeElement : compileAllDirectChildElements(attributeListElement, "attribute"))
+      {
+         const QString name = attributeElement.attribute("name");
+
+         Attribute attribute;
+         attribute.get = ("1" == attributeElement.attribute("get"));
+         attribute.set = ("1" == attributeElement.attribute("set"));
+         attribute.type = toType(attributeElement.attribute("type"));
+         attribute.size = attributeElement.attribute("size").toInt();
+
+         readDigest(attributeElement, attribute.digest);
+
+         attributeMap[name] = attribute;
+      }
+   }
+
+   const QDomElement messageListElement = rootElement.firstChildElement("methodlist");
+   if (!messageListElement.isNull())
+   {
+      for (const QDomElement& messageElement : compileAllDirectChildElements(messageListElement, "method"))
+      {
+         const QString name = messageElement.attribute("name");
+
+         Message message;
+
+         const QDomElement argListElement = messageElement.firstChildElement("arglist");
+         if (!argListElement.isNull())
+         {
+            for (const QDomElement& arguemntElement : compileAllDirectChildElements(argListElement, "arg"))
+            {
+               Argument argument;
+               argument.name = arguemntElement.attribute("name");
+               argument.optional = ("1" == arguemntElement.attribute("optional"));
+               argument.type = toType(arguemntElement.attribute("type"));
+
+               message.arguments.append(argument);
+            }
+         }
+
+         readDigest(messageElement, message.digest);
+
+         messageMap[name] = message;
+      }
+   }
+
+   const QDomElement seeAlsoListElement = rootElement.firstChildElement("seealsolist");
+   if (!seeAlsoListElement.isNull())
+   {
+      for (QDomElement element = seeAlsoListElement.firstChildElement("seealso"); !element.isNull(); element = element.nextSiblingElement("seealso"))
+      {
+         const QString& name = element.attribute("name");
+         seeAlsoList.append(name);
+      }
+   }
+}
+
+void Help::PatchStructure::readDigest(const QDomElement& parentElement, Digest& digest) const
+{
+   const QDomElement textElement = parentElement.firstChildElement("digest");
+   digest.text = readText(textElement);
+
+   const QDomElement descriptionElement = parentElement.firstChildElement("description");
+   digest.description = readText(descriptionElement);
+}
+
+QString Help::PatchStructure::readText(const QDomElement& element) const
+{
+   if (element.isNull())
+      return QString();
+
+   const QDomText textNode = element.firstChild().toText();
+   if (textNode.isNull())
+      return QString();
+
+   return textNode.data();
+}
+
+QDomElement Help::PatchStructure::findFirstDirectChildElementWithAttributes(const QDomElement& element, const QString& tag, const TagMap& tagMap) const
+{
+   for (QDomElement childElement = element.firstChildElement(tag); !childElement.isNull(); childElement = childElement.nextSiblingElement(tag))
+   {
+      auto hasTags = [&]()
+      {
+         if (tagMap.empty())
+            return true;
+
+         for (TagMap::ConstIterator it = tagMap.constBegin(); it != tagMap.constEnd(); it++)
+         {
+            if (!childElement.hasAttribute(it.key()))
+               continue;
+
+            if (it.value() == childElement.attribute(it.key()))
+               return true;
+         }
+
+         return false;
+      };
+
+      if (hasTags())
+         return element;
+   }
+   return QDomElement();
+}
+
+QList<QDomElement> Help::PatchStructure::compileAllDirectChildElements(const QDomElement& element, const QString& tag, const TagMap& tagMap) const
+{
+   QList<QDomElement> list;
+   for (QDomElement childElement = element.firstChildElement(tag); !childElement.isNull(); childElement = childElement.nextSiblingElement(tag))
+   {
+      auto hasTags = [&]()
+      {
+         if (tagMap.empty())
+            return true;
+
+         for (TagMap::ConstIterator it = tagMap.constBegin(); it != tagMap.constEnd(); it++)
+         {
+            if (!childElement.hasAttribute(it.key()))
+               continue;
+
+            if (it.value() == childElement.attribute(it.key()))
+               return true;
+         }
+
+         return false;
+      };
+
+      if (!hasTags())
+         continue;
+
+      list.append(element);
+   }
+
+   return list;
 }
 
 void Help::PatchStructure::addJSON()
@@ -180,19 +396,13 @@ void Help::PatchStructure::addJSON()
       if ("inlet" == className)
       {
          const int index = boxObject["index"].toInt();
-         Port& inlet = findOrCreatePort(inletMap, index);
-
-         const QString comment = boxObject["comment"].toString();
-         if (inlet.name.isEmpty())
-            inlet.name = comment;
-
          const QString id = boxObject["id"].toString();
          inletConnectionMap[id] = {index, QStringList()};
       }
       else if ("outlet" == className)
       {
          const int index = boxObject["index"].toInt();
-         Port& outlet = findOrCreatePort(outletMap, index);
+         Outlet& outlet = findOrCreateOutlet(index);
 
          const QString comment = boxObject["comment"].toString();
          if (outlet.name.isEmpty())
@@ -230,14 +440,15 @@ void Help::PatchStructure::addJSON()
                argument.digest.text = arg;
                argument.optional = true;
 
-               argumentList.append(argument);
+               if (i > argumentList.count())
+                  argumentList.append(argument);
             }
             else if (State::AttributeName == state)
             {
                Attribute attribute;
-               attribute.name = arg.mid(1);
-
-               attributeList.append(attribute);
+               const QString& name = arg.mid(1);
+               if (!attributeMap.contains(name))
+                  attributeMap[name] = attribute;
             }
          }
       }
@@ -300,37 +511,17 @@ void Help::PatchStructure::addJSON()
          {
             const QString& messageText = contentList.at(i);
 
-            Message& message = messageMap[messageText];
-            if (!message.inletDescriptions.contains(connectedIndex))
-               message.inletDescriptions[connectedIndex] = QString();
+            if (!messageMap.contains(messageText))
+               messageMap[messageText] = Message{};
          }
       }
    }
 }
 
-QDomElement Help::PatchStructure::createSubElement(QDomElement parent, const QString& name, const QString& text, const TagMap& tagMap)
+PatchStructure::Outlet& Help::PatchStructure::findOrCreateOutlet(const int id)
 {
-   QDomElement element = parent.ownerDocument().createElement(name);
-   parent.appendChild(element);
+   if (!outletMap.contains(id))
+      outletMap[id] = Outlet{};
 
-   if (!text.isEmpty())
-   {
-      QDomText textNode = parent.ownerDocument().createTextNode(text);
-      element.appendChild(textNode);
-   }
-
-   for (TagMap::ConstIterator it = tagMap.constBegin(); it != tagMap.constEnd(); it++)
-   {
-      element.setAttribute(it.key(), it.value());
-   }
-
-   return element;
-}
-
-PatchStructure::Port& Help::PatchStructure::findOrCreatePort(Port::Map& portMap, const int id)
-{
-   if (!portMap.contains(id))
-      portMap[id] = Port{};
-
-   return portMap[id];
+   return outletMap[id];
 }
