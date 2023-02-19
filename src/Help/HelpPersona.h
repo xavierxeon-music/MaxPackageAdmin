@@ -10,7 +10,6 @@ namespace Help
 {
    class SelectModel;
    class ComponentsModel;
-   class FileModel;
 
    class Persona : public Abstract::Persona
    {
@@ -20,17 +19,20 @@ namespace Help
       struct FunctionHub : public Abstract::FunctionHub<Persona>
       {
          virtual void patchSelected(QString patchPath);
-
-         PatchStructure patchStructure;
       };
 
    public:
       Persona(MainWidget* mainWidget);
 
+   public:
+      void buildPatchStructure(QString patchPath);
+      PatchStructure* patchStructureRef();
+
    private:
       SelectModel* selectModel;
       ComponentsModel* componentsModel;
-      FileModel* fileModel;
+
+      PatchStructure patchStructure;
    };
 } // namespace Help
 

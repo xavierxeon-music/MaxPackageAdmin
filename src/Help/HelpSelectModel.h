@@ -24,7 +24,7 @@ namespace Help
       SelectModel(QObject* parent);
 
    private:
-      using InfoMap = QMap<QString, QString>;
+      using InfoMap = QMap<QString, QFileInfo>;
 
    private:
       void setPackagePath(QString packageDir) override;

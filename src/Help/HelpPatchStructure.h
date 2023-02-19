@@ -1,88 +1,30 @@
 #ifndef HelpPatchStructureH
 #define HelpPatchStructureH
 
-#include <QString>
-#include <QStringList>
+#include <PatchStructure.h>
+
+#include <QDomElement>
+#include <QMap>
 
 namespace Help
 {
-   class PatchStructure
+   class PatchStructure : public ::PatchStructure
    {
    public:
       PatchStructure();
-      PatchStructure(const QString& patchPath, const QString& helpPath);
+      PatchStructure(const QString& patchPath);
 
    public:
-      enum Type
-      {
-         Symbol,
-         Float,
-         Int
-      };
-
-      struct Digest
-      {
-         QString text;
-         QString description;
-      };
-
-      using MetaTagList = QStringList;
-
-      struct Port
-      {
-         int id;
-         Type type;
-         Digest digest;
-
-         using List = QList<Port>;
-      };
-
-      // things in patcherargs without @
-      struct Argument
-      {
-         QString name;
-         bool optional;
-         Type type;
-         Digest digest;
-
-         using List = QList<Argument>;
-      };
-
-      struct Message
-      {
-         QString name;
-         Argument::List arguments;
-         Digest digest;
-
-         using List = QList<Message>;
-      };
-
-      // things in patcherargs with @
-      struct Attribute
-      {
-         QString name;
-         bool get;
-         bool set;
-         Type type;
-         int size;
-         Digest digest;
-
-         using List = QList<Attribute>;
-      };
-
-      using SeeAlsoList = QStringList;
+      void writeXML();
 
    private:
+      void readXML();
+      void addJSON();
+
+   private:
+      QString patchName;
       QString patchPath;
       QString helpPath;
-
-      Digest patchDigest;
-      MetaTagList metaTagList;
-      Port::List inletList;
-      Port::List outletList;
-      Argument::List argumentList;
-      Attribute::List attributeList;
-      Message::List messageList;
    };
 } // namespace Help
 

@@ -19,15 +19,33 @@ void Help::SelectModel::setPackagePath(QString packageDir)
    InfoMap infoMap;
    recursiveSearch(packageDir + "/patchers", infoMap);
 
+   QMap<QString, QStandardItem*> parentMap;
+   parentMap[packageDir + "/patchers"] = invisibleRootItem();
+
    for (InfoMap::ConstIterator it = infoMap.constBegin(); it != infoMap.constEnd(); it++)
    {
       const QString patchName = it.key();
 
       QStandardItem* patchItem = new QStandardItem(patchName);
       patchItem->setEditable(false);
-      patchItem->setData(it.value(), RolePatchPath);
 
-      invisibleRootItem()->appendRow(patchItem);
+      const QString patchPath = it.value().absoluteFilePath();
+      patchItem->setData(patchPath, RolePatchPath);
+
+      const QString patchDir = it.value().absolutePath();
+      if (!parentMap.contains(patchDir))
+      {
+         const QString folderName = QString(patchDir).replace(packageDir + "/patchers/", "");
+         qDebug() << folderName << patchDir;
+
+         QStandardItem* item = new QStandardItem(folderName);
+         item->setEditable(false);
+         invisibleRootItem()->appendRow(item);
+
+         parentMap[patchDir] = item;
+      }
+
+      parentMap[patchDir]->appendRow(patchItem);
    }
 }
 
@@ -47,6 +65,6 @@ void Help::SelectModel::recursiveSearch(const QString& path, InfoMap& infoMap)
 
       const QString key = fileInfo.fileName().replace(".maxpat", "");
 
-      infoMap[key] = fileInfo.absoluteFilePath();
+      infoMap[key] = fileInfo;
    }
 }

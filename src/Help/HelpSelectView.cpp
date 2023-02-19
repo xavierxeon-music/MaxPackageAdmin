@@ -5,23 +5,32 @@
 
 #include "HelpSelectModel.h"
 
-Help::SelectView::SelectView(QWidget* parent, SelectModel* model)
-   : Abstract::ItemTreeView(parent, model)
+Help::SelectView::SelectView(Persona* persona, SelectModel* model)
+   : Abstract::ItemTreeView(persona, model)
    , Persona::FunctionHub()
+   , persona(persona)
 {
    setHeaderHidden(true);
-   setRootIsDecorated(false);
 }
 
 void Help::SelectView::clicked(QStandardItem* item)
 {
-   const QString patchPath = item->data(SelectModel::RolePatchPath).toString();
+   const QVariant data = item->data(SelectModel::RolePatchPath);
+   if (!data.isValid())
+      return;
+
+   const QString patchPath = data.toString();
+   persona->buildPatchStructure(patchPath);
 
    callOnAllHubInstances(&SelectView::patchSelected, patchPath);
 }
 
 void Help::SelectView::doubleClicked(QStandardItem* item)
 {
-   const QString patchPath = item->data(SelectModel::RolePatchPath).toString();
+   const QVariant data = item->data(SelectModel::RolePatchPath);
+   if (!data.isValid())
+      return;
+
+   const QString patchPath = data.toString();
    QDesktopServices::openUrl(QUrl::fromLocalFile(patchPath));
 }

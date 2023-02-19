@@ -9,6 +9,7 @@ HEADERS += \
     $$PWD/Central.h \
     $$PWD/JSONModel.h \
     $$PWD/Message.h \
+   $$PWD/PatchStructure.h \
     $$PWD/Settings.h \
 
 SOURCES += \
@@ -17,5 +18,6 @@ SOURCES += \
     $$PWD/Central.cpp \
     $$PWD/JSONModel.cpp \
     $$PWD/Message.cpp \
+   $$PWD/PatchStructure.cpp \
     $$PWD/Settings.cpp \
 
