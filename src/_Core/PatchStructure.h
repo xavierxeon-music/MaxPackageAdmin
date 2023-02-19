@@ -1,6 +1,7 @@
 #ifndef PatchStructureH
 #define PatchStructureH
 
+#include <QMap>
 #include <QString>
 #include <QStringList>
 
@@ -11,7 +12,8 @@ public:
    {
       Symbol,
       Float,
-      Integer
+      Integer,
+      Bang
    };
 
    struct Digest
@@ -24,13 +26,14 @@ public:
 
    struct Port
    {
-      int id;
-      Digest digest;
+      QString name;
+      QString description;
 
-      using List = QList<Port>;
+      using Map = QMap<int, Port>; // inlet number vs port
    };
 
    // things in patcherargs without @
+   // message argumetns
    struct Argument
    {
       QString name;
@@ -43,11 +46,12 @@ public:
 
    struct Message
    {
-      QString name;
       Argument::List arguments;
       Digest digest;
 
-      using List = QList<Message>;
+      QMap<int, QString> inletDescriptions; // for example name = "int" on inlet 1 or 2 or 3...
+
+      using Map = QMap<QString, Message>; // name vs message
    };
 
    // things in patcherargs with @
@@ -68,11 +72,11 @@ public:
 public:
    Digest patchDigest;
    MetaTagList metaTagList;
-   Port::List inletList;
-   Port::List outletList;
+   Port::Map inletMap;
+   Port::Map outletMap;
    Argument::List argumentList;
    Attribute::List attributeList;
-   Message::List messageList;
+   Message::Map messageMap;
    SeeAlsoList seeAlsoList;
 
 public:

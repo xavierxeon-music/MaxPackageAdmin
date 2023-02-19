@@ -22,84 +22,6 @@
 			Control
 		</metadata>
 	</metadatalist>
-	<!--INLETS-->
-	<inletlist>
-		<inlet id="0" type="INLET_TYPE">
-			<digest>
-				int, bang are Counted, set Sets Counter Value
-			</digest>
-			<description>
-				TEXT_HERE
-			</description>
-		</inlet>
-		<inlet id="1" type="INLET_TYPE">
-			<digest>
-				Set Direction: 0 = Up, 1 = Down, 2 = UpDown
-			</digest>
-			<description>
-				TEXT_HERE
-			</description>
-		</inlet>
-		<inlet id="2" type="INLET_TYPE">
-			<digest>
-				Resets Counter to Number on Next Clock
-			</digest>
-			<description>
-				TEXT_HERE
-			</description>
-		</inlet>
-		<inlet id="3" type="INLET_TYPE">
-			<digest>
-				Resets Counter to Number Immediately
-			</digest>
-			<description>
-				TEXT_HERE
-			</description>
-		</inlet>
-		<inlet id="4" type="INLET_TYPE">
-			<digest>
-				Sets Count Maximum
-			</digest>
-			<description>
-				TEXT_HERE
-			</description>
-		</inlet>
-	</inletlist>
-	<!--OUTLETS-->
-	<outletlist>
-		<outlet id="0" type="OUTLET_TYPE">
-			<digest>
-				Current Count
-			</digest>
-			<description>
-				TEXT_HERE
-			</description>
-		</outlet>
-		<outlet id="1" type="OUTLET_TYPE">
-			<digest>
-				Underflow (Counter Hit Minimum) Flag
-			</digest>
-			<description>
-				TEXT_HERE
-			</description>
-		</outlet>
-		<outlet id="2" type="OUTLET_TYPE">
-			<digest>
-				Carry (Counter Hit Maximum) Flag
-			</digest>
-			<description>
-				TEXT_HERE
-			</description>
-		</outlet>
-		<outlet id="3" type="OUTLET_TYPE">
-			<digest>
-				Carry Count
-			</digest>
-			<description>
-				TEXT_HERE
-			</description>
-		</outlet>
-	</outletlist>
 	<!--ARGUMENTS-->
 	<objarglist>
 		<objarg name="options" optional="1" type="int">
@@ -404,6 +326,7 @@
 		<seealso name="tempo" />
 		<seealso name="basicchapter11" module="max" type="tutorial" />
 	</seealsolist>
+   <!--OUTPUT-->
 	<misc name="Output">
 		<entry name="int">
 			<description>

@@ -25,7 +25,7 @@ namespace Help
       void addJSON();
 
       QDomElement createSubElement(QDomElement parent, const QString& name, const QString& text = QString(), const TagMap& tagMap = TagMap());
-      Port& findOrCreatePort(Port::List& portList, const int id);
+      Port& findOrCreatePort(Port::Map& portMap, const int id);
 
    private:
       QString patchName;
