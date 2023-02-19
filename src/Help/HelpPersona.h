@@ -4,10 +4,12 @@
 #include <AbstractFunctionHub.h>
 #include <AbstractPersona.h>
 
+#include "HelpPatchStructure.h"
+
 namespace Help
 {
    class SelectModel;
-   class PatchModel;
+   class ComponentsModel;
    class FileModel;
 
    class Persona : public Abstract::Persona
@@ -18,6 +20,8 @@ namespace Help
       struct FunctionHub : public Abstract::FunctionHub<Persona>
       {
          virtual void patchSelected(QString patchPath);
+
+         PatchStructure patchStructure;
       };
 
    public:
@@ -25,7 +29,7 @@ namespace Help
 
    private:
       SelectModel* selectModel;
-      PatchModel* patchModel;
+      ComponentsModel* componentsModel;
       FileModel* fileModel;
    };
 } // namespace Help

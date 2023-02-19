@@ -26,11 +26,17 @@ MainWidget::MainWidget()
    tabToolBar = new TabToolBar(this);
    addToolBar(tabToolBar);
 
-   QToolBar* mainToolBar = addToolBar("Main");
-   mainToolBar->setMovable(false);
-
    centralStackWidget = new QStackedWidget(this);
    setCentralWidget(centralStackWidget);
+
+   helpPersona = new Help::Persona(this);
+   overviewPersona = new Overview::Persona(this);
+
+   QToolBar* mainToolBar = addToolBar("Main");
+   mainToolBar->setMovable(false);
+   QWidget* spacer = new QWidget(this);
+   spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+   mainToolBar->addWidget(spacer);
 
    // message dock
    {
@@ -46,15 +52,11 @@ MainWidget::MainWidget()
       connect(messageAction, &QAction::toggled, messageDock, &QWidget::setVisible);
    }
 
-   overviewPersona = new Overview::Persona(this);
-   helpPersona = new Help::Persona(this);
+   Settings widgetSettings("MainWidget");
+   restoreGeometry(widgetSettings.bytes("Geometry"));
 
-   {
-      Settings widgetSettings("MainWidget");
-      restoreGeometry(widgetSettings.bytes("Geometry"));
-   }
+   Abstract::Persona::callOnAllInstances(&Abstract::Persona::laodState);
 
-   Abstract::Persona::initAll();
    tabToolBar->slotChangeTab(0);
 }
 
@@ -70,6 +72,8 @@ void MainWidget::closeEvent(QCloseEvent* ce)
 {
    Settings widgetSettings("MainWidget");
    widgetSettings.write("Geometry", saveGeometry());
+
+   Abstract::Persona::callOnAllInstances(&Abstract::Persona::saveState);
 
    ce->accept();
 }

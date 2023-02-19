@@ -28,7 +28,7 @@ namespace Overview
       void slotOpenPackage();
 
    private:
-      void init() override;
+      void laodState() override;
 
    private:
       PackageModel* packageModel;

@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-#include <QStatusBar>
+#include <QSplitter>
 #include <QToolBar>
 
 class MainWidget;
@@ -18,19 +18,22 @@ namespace Abstract
       virtual ~Persona();
 
    public:
-      static void initAll();
+      static void callOnAllInstances(void (Persona::*functionPointer)());
+      virtual void laodState();
+      virtual void saveState();
 
    protected:
-      virtual void init();
       QToolBar* getToolBar();
+      void addWidget(QWidget* widget, const QString& title);
 
    protected:
       MainWidget* mainWidget;
 
    private:
       static QList<Persona*> personaList;
-      const QString& name;
+      const QString name;
       QToolBar* toolBar;
+      QSplitter* splitter;
    };
 } // namespace Abstract
 

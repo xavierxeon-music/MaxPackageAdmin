@@ -1,17 +1,17 @@
-#include "HelpPatchModel.h"
+#include "HelpComponentsModel.h"
 
 #include <QJsonArray>
 #include <QJsonValue>
 
 #include <JSONModel.h>
 
-Help::PatchModel::PatchModel(QObject* parent)
+Help::ComponentsModel::ComponentsModel(QObject* parent)
    : QStandardItemModel(parent)
    , Persona::FunctionHub()
 {
 }
 
-void Help::PatchModel::patchSelected(QString patchPath)
+void Help::ComponentsModel::patchSelected(QString patchPath)
 {
    clear();
 

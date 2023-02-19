@@ -4,17 +4,22 @@
 
 #include <AbstractItemTreeView.h>
 
+#include "HelpComponentsModel.h"
+#include "HelpComponentsView.h"
 #include "HelpFileModel.h"
 #include "HelpFileView.h"
-#include "HelpPatchModel.h"
-#include "HelpPatchView.h"
 #include "HelpSelectModel.h"
 #include "HelpSelectView.h"
 
 void Help::Persona::FunctionHub::patchSelected(QString patchPath)
 {
-   // do nothing
-   Q_UNUSED(patchPath)
+   const QFileInfo patchInfo(patchPath);
+   const QString key = patchInfo.fileName().replace(".maxpat", "");
+   const QString packagePath = Central::getPackagePath();
+
+   const QString helpPath = packagePath + "/docs/" + key + ".maxref.xml";
+
+   patchStructure = PatchStructure(patchPath, helpPath);
 }
 
 // persoma
@@ -22,22 +27,20 @@ void Help::Persona::FunctionHub::patchSelected(QString patchPath)
 Help::Persona::Persona(MainWidget* mainWidget)
    : Abstract::Persona(mainWidget, "HELP")
    , selectModel(nullptr)
-   , patchModel(nullptr)
+   , componentsModel(nullptr)
    , fileModel(nullptr)
 {
    selectModel = new SelectModel(this);
-   patchModel = new PatchModel(this);
+   componentsModel = new ComponentsModel(this);
    fileModel = new FileModel(this);
 
    SelectView* selectView = new SelectView(this, selectModel);
-   PatchView* patchView = new PatchView(this, patchModel);
+   ComponentsView* componentsView = new ComponentsView(this, componentsModel);
    FileView* fileView = new FileView(this, fileModel);
 
-   QHBoxLayout* masterLayout = new QHBoxLayout(this);
-   masterLayout->setContentsMargins(0, 0, 0, 0);
-   masterLayout->addWidget(selectView);
-   masterLayout->addWidget(patchView);
-   masterLayout->addWidget(fileView);
+   addWidget(selectView, "select");
+   addWidget(componentsView, "components");
+   addWidget(fileView, "description");
 
    getToolBar()->addAction(QIcon(":/Reload.svg"), "Reload");
 }

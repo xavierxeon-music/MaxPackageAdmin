@@ -32,10 +32,8 @@ Overview::Persona::Persona(MainWidget* mainWidget)
    PackageView* packageView = new PackageView(this, packageModel);
    Abstract::ItemTreeView* patchView = new Abstract::ItemTreeView(this, patchModel);
 
-   QHBoxLayout* masterLayout = new QHBoxLayout(this);
-   masterLayout->setContentsMargins(0, 0, 0, 0);
-   masterLayout->addWidget(packageView);
-   masterLayout->addWidget(patchView);
+   addWidget(packageView, "files");
+   addWidget(patchView, "patch");
 
    getToolBar()->addAction(QIcon(":/Open.svg"), "Open", this, &Persona::slotOpenPackage);
 }
@@ -55,8 +53,10 @@ void Overview::Persona::slotOpenPackage()
    }
 }
 
-void Overview::Persona::init()
+void Overview::Persona::laodState()
 {
+   Abstract::Persona::laodState();
+
    const QString packagePath = Central::getPackagePath();
    if (!packagePath.isEmpty())
    {
