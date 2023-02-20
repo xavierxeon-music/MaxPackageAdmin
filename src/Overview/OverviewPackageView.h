@@ -16,7 +16,7 @@ namespace Overview
       PackageView(QWidget* parent, PackageModel* model);
 
    private:
-      void clicked(QStandardItem* item) override;
+      void clicked(ModelItem* item) override;
    };
 } // namespace Overview
 

@@ -1,90 +1,92 @@
 #include "HelpComponentsModel.h"
 
-#include <QJsonArray>
-#include <QJsonValue>
+#include <ModelItem.h>
 
-#include <JSONModel.h>
-
-Help::ComponentsModel::ComponentsModel(QObject* parent)
-   : QStandardItemModel(parent)
+Help::ComponentsModel::ComponentsModel(Persona* persona)
+   : QStandardItemModel(persona)
    , Persona::FunctionHub()
+   , persona(persona)
 {
 }
 
 void Help::ComponentsModel::patchSelected(QString patchPath)
 {
+   Q_UNUSED(patchPath)
+
    clear();
 
-   setHorizontalHeaderLabels({"Type / Name", "Comment"});
+   const PatchStructure* structure = persona->patchStructureRef();
 
-   QJsonObject object = JSON::fromFile(patchPath);
-   if (object.empty())
-      return;
-
-   const QJsonObject patcherObject = object["patcher"].toObject();
-
-   const QJsonArray boxArray = patcherObject["boxes"].toArray();
-   for (int index = 0; index < boxArray.size(); index++)
+   auto addMarker = [](ModelItem* item, const PatchStructure::Marker& marker, const QVariant& data)
    {
-      QJsonObject boxObject = boxArray.at(index).toObject();
-      boxObject = boxObject["box"].toObject();
+      item->setData(QVariant::fromValue(marker), PatchStructure::RoleMarker);
+      item->setData(data, PatchStructure::RoleData);
+   };
 
-      if (!boxObject.contains("maxclass"))
-         continue;
+   {
+      ModelItem* patchItem = new ModelItem("PATCH");
+      addMarker(patchItem, PatchStructure::Marker::Patch, true);
 
-      const QString className = boxObject["maxclass"].toString();
-      if ("inlet" == className)
+      ModelItem* patchDigestItem = new ModelItem(structure->patchDigest.text);
+
+      invisibleRootItem()->appendRow({patchItem, patchDigestItem});
+   }
+
+   {
+      ModelItem* argumentListItem = new ModelItem("ARGUMENTS");
+      invisibleRootItem()->appendRow(argumentListItem);
+      for (int index = 0; index < structure->argumentList.count(); index++)
       {
-         const QString inletText = QString("Inlet %1").arg(boxObject["index"].toInt());
-         QStandardItem* inletItem = new QStandardItem(inletText);
-         inletItem->setEditable(false);
+         const PatchStructure::Argument& argument = structure->argumentList.at(index);
 
-         const QString comment = boxObject["comment"].toString();
-         QStandardItem* textItem = new QStandardItem(comment);
-         textItem->setEditable(false);
+         ModelItem* argItem = new ModelItem(argument.name);
+         addMarker(argItem, PatchStructure::Marker::Argument, index);
 
-         invisibleRootItem()->appendRow({inletItem, textItem});
-      }
-      else if ("outlet" == className)
-      {
-         const QString outletText = QString("Outlet %1").arg(boxObject["index"].toInt());
-         QStandardItem* outletItem = new QStandardItem(outletText);
-         outletItem->setEditable(false);
+         ModelItem* argDigestItem = new ModelItem(argument.digest.text);
 
-         const QString comment = boxObject["comment"].toString();
-         QStandardItem* textItem = new QStandardItem(comment);
-
-         invisibleRootItem()->appendRow({outletItem, textItem});
-      }
-      else if ("newobj" == className)
-      {
-         const QString text = boxObject["text"].toString();
-         if (text.startsWith("patcherargs"))
-         {
-            QStandardItem* patcherArgsItem = new QStandardItem("Arguments");
-
-            const QString comment = text.mid(12);
-            QStandardItem* textItem = new QStandardItem(comment);
-
-            invisibleRootItem()->appendRow({patcherArgsItem, textItem});
-         }
-         else if (text.startsWith("route"))
-         {
-            QStandardItem* routeItem = new QStandardItem("Route");
-
-            const QString comment = text.mid(6);
-            QStandardItem* textItem = new QStandardItem(comment);
-
-            invisibleRootItem()->appendRow({routeItem, textItem});
-         }
-      }
-      else
-      {
+         argumentListItem->appendRow({argItem, argDigestItem});
       }
    }
 
-   const QJsonArray lineArray = patcherObject["lines"].toArray();
-   for (int index = 0; index < lineArray.size(); index++)
    {
+      ModelItem* attributeListItem = new ModelItem("ATTRIBUTES");
+      invisibleRootItem()->appendRow(attributeListItem);
+      for (PatchStructure::Attribute::Map::ConstIterator it = structure->attributeMap.constBegin(); it != structure->attributeMap.constEnd(); it++)
+      {
+         ModelItem* attrItem = new ModelItem(it.key());
+         addMarker(attrItem, PatchStructure::Marker::Attribute, it.key());
+
+         ModelItem* attrrDigestItem = new ModelItem(it.value().digest.text);
+
+         attributeListItem->appendRow({attrItem, attrrDigestItem});
+      }
+   }
+
+   {
+      ModelItem* messageListItem = new ModelItem("MESSAGES");
+      invisibleRootItem()->appendRow(messageListItem);
+      for (PatchStructure::Message::Map::ConstIterator it = structure->messageMap.constBegin(); it != structure->messageMap.constEnd(); it++)
+      {
+         ModelItem* msgItem = new ModelItem(it.key());
+         addMarker(msgItem, PatchStructure::Marker::Mesasge, it.key());
+
+         ModelItem* msgDigestItem = new ModelItem(it.value().digest.text);
+
+         messageListItem->appendRow({msgItem, msgDigestItem});
+      }
+   }
+
+   {
+      ModelItem* outetListItem = new ModelItem("OUTLETS");
+      invisibleRootItem()->appendRow(outetListItem);
+      for (PatchStructure::Outlet::Map::ConstIterator it = structure->outletMap.constBegin(); it != structure->outletMap.constEnd(); it++)
+      {
+         ModelItem* outletItem = new ModelItem(QString::number(it.key()));
+         addMarker(outletItem, PatchStructure::Marker::Outlet, it.key());
+
+         ModelItem* outletDigestItem = new ModelItem(it.value().name);
+
+         outetListItem->appendRow({outletItem, outletDigestItem});
+      }
    }
 }

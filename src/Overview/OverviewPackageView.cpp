@@ -9,7 +9,7 @@ Overview::PackageView::PackageView(QWidget* parent, PackageModel* model)
    setHeaderHidden(true);
 }
 
-void Overview::PackageView::clicked(QStandardItem* item)
+void Overview::PackageView::clicked(ModelItem* item)
 {
    QVariant data = item->data(PackageModel::RolePatch);
    if (data.isNull())

@@ -13,13 +13,13 @@ Abstract::ItemTreeView::ItemTreeView(QWidget* parent, QStandardItemModel* model)
    connect(this, &QTreeView::collapsed, this, &ItemTreeView::slotResizeAllColumns);
 }
 
-void Abstract::ItemTreeView::clicked(QStandardItem* item)
+void Abstract::ItemTreeView::clicked(ModelItem* item)
 {
    // do nothing
    Q_UNUSED(item)
 }
 
-void Abstract::ItemTreeView::doubleClicked(QStandardItem* item)
+void Abstract::ItemTreeView::doubleClicked(ModelItem* item)
 {
    // do nothing
    Q_UNUSED(item)
@@ -28,13 +28,15 @@ void Abstract::ItemTreeView::doubleClicked(QStandardItem* item)
 void Abstract::ItemTreeView::slotClicked(const QModelIndex& index)
 {
    QStandardItem* item = model->itemFromIndex(index);
-   clicked(item);
+   ModelItem* modelItem = static_cast<ModelItem*>(item);
+   clicked(modelItem);
 }
 
 void Abstract::ItemTreeView::slotDoubleClicked(const QModelIndex& index)
 {
    QStandardItem* item = model->itemFromIndex(index);
-   doubleClicked(item);
+   ModelItem* modelItem = static_cast<ModelItem*>(item);
+   doubleClicked(modelItem);
 }
 
 void Abstract::ItemTreeView::slotResizeAllColumns()

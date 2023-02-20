@@ -77,14 +77,9 @@ void JSON::Model::iterateArray(const QJsonArray& array, QStandardItem* parent)
 
 void JSON::Model::addToModel(const QString& key, const QJsonValue& value, QStandardItem* parent)
 {
-   QStandardItem* nameItem = new QStandardItem(key);
-   nameItem->setEditable(false);
-
-   QStandardItem* typeItem = new QStandardItem();
-   typeItem->setEditable(false);
-
-   QStandardItem* valueItem = new QStandardItem();
-   valueItem->setEditable(false);
+   ModelItem* nameItem = new ModelItem(key);
+   ModelItem* typeItem = new ModelItem();
+   ModelItem* valueItem = new ModelItem();
 
    switch (value.type())
    {

@@ -5,4 +5,5 @@
 Help::ComponentsView::ComponentsView(QWidget* parent, ComponentsModel* model)
    : Abstract::ItemTreeView(parent, model)
 {
+   setHeaderHidden(true);
 }

@@ -12,10 +12,13 @@ namespace Help
       Q_OBJECT
 
    public:
-      ComponentsModel(QObject* parent);
+      ComponentsModel(Persona* persona);
 
    private:
       void patchSelected(QString patchPath) override;
+
+   private:
+      Persona* persona;
    };
 } // namespace Help
 

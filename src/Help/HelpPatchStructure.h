@@ -5,11 +5,30 @@
 
 #include <QDomElement>
 #include <QMap>
+#include <QObject>
 
 namespace Help
 {
    class PatchStructure : public ::PatchStructure
    {
+      Q_GADGET
+   public:
+      enum Role
+      {
+         RoleMarker = Qt::UserRole + 1,
+         RoleData = Qt::UserRole + 2
+      };
+
+      enum class Marker
+      {
+         Patch,
+         Argument,
+         Attribute,
+         Mesasge,
+         Outlet
+      };
+      Q_ENUM(Marker)
+
    public:
       PatchStructure();
       PatchStructure(const QString& patchPath);
@@ -19,8 +38,6 @@ namespace Help
 
    private:
       using TagMap = QMap<QString, QString>;
-
-   private:
       friend class Persona;
 
    private:

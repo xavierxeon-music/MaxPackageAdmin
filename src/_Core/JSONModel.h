@@ -5,6 +5,8 @@
 
 #include <QJsonObject>
 
+#include <ModelItem.h>
+
 namespace JSON
 {
    QJsonObject fromFile(const QString& fileName);

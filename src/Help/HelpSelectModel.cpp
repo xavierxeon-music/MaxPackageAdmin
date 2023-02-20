@@ -2,6 +2,8 @@
 
 #include <QDir>
 
+#include <ModelItem.h>
+
 Help::SelectModel::SelectModel(QObject* parent)
    : QStandardItemModel(parent)
    , Central::FunctionHub()
@@ -26,8 +28,7 @@ void Help::SelectModel::setPackagePath(QString packageDir)
    {
       const QString patchName = it.key();
 
-      QStandardItem* patchItem = new QStandardItem(patchName);
-      patchItem->setEditable(false);
+      ModelItem* patchItem = new ModelItem(patchName);
 
       const QString patchPath = it.value().absoluteFilePath();
       patchItem->setData(patchPath, RolePatchPath);
@@ -37,8 +38,7 @@ void Help::SelectModel::setPackagePath(QString packageDir)
       {
          const QString folderName = QString(patchDir).replace(packageDir + "/patchers/", "");
 
-         QStandardItem* item = new QStandardItem(folderName);
-         item->setEditable(false);
+         ModelItem* item = new ModelItem(folderName);
          invisibleRootItem()->appendRow(item);
 
          parentMap[patchDir] = item;

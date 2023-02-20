@@ -5,6 +5,8 @@
 
 #include <QStandardItemModel>
 
+#include <ModelItem.h>
+
 namespace Abstract
 {
    class ItemTreeView : public QTreeView
@@ -18,8 +20,8 @@ namespace Abstract
       ItemModel* getModel();
 
    protected:
-      virtual void clicked(QStandardItem* item);
-      virtual void doubleClicked(QStandardItem* item);
+      virtual void clicked(ModelItem* item);
+      virtual void doubleClicked(ModelItem* item);
 
    private slots:
       void slotClicked(const QModelIndex& index);

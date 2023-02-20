@@ -17,8 +17,8 @@ namespace Help
       SelectView(Persona* persona, SelectModel* model);
 
    private:
-      void clicked(QStandardItem* item) override;
-      void doubleClicked(QStandardItem* item) override;
+      void clicked(ModelItem* item) override;
+      void doubleClicked(ModelItem* item) override;
 
    private:
       Persona* persona;
