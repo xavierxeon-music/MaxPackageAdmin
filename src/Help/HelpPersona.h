@@ -27,6 +27,7 @@ namespace Help
    public:
       void buildPatchStructure(QString patchPath);
       PatchStructure* patchStructureRef();
+      void savePatchStructure();
 
    private:
       SelectModel* selectModel;

@@ -21,6 +21,9 @@ namespace Help
       using TagMap = QMap<QString, QString>;
 
    private:
+      friend class Persona;
+
+   private:
       QDomElement createSubElement(QDomElement parent, const QString& name, const QString& text = QString(), const TagMap& tagMap = TagMap());
       void addDigest(const QDomElement& parentElement, const Digest& digest);
 

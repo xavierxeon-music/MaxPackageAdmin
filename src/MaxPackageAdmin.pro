@@ -2,7 +2,7 @@ TARGET = MaxPackageAdmin
 TEMPLATE = app
 
 QT += widgets xml svg
-CONFIG += c++17
+CONFIG += c++20
 
 DESTDIR = ../bin
 

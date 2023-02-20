@@ -46,3 +46,8 @@ Help::PatchStructure* Help::Persona::patchStructureRef()
 {
    return &patchStructure;
 }
+
+void Help::Persona::savePatchStructure()
+{
+      patchStructure.writeXML();
+}
