@@ -25,12 +25,12 @@ public:
 
    using MetaTagList = QStringList;
 
-   struct Outlet
+   struct Output
    {
       QString name;
       QString description;
 
-      using Map = QMap<int, Outlet>; // outlet number vs port
+      using Map = QMap<int, Output>; // outlet number vs port
    };
 
    // things in patcherargs without @
@@ -70,7 +70,7 @@ public:
 public:
    Digest patchDigest;
    MetaTagList metaTagList;
-   Outlet::Map outletMap;
+   Output::Map outputMap;
    Argument::List argumentList;
    Attribute::Map attributeMap;
    Message::Map messageMap;

@@ -68,7 +68,7 @@ void Help::ComponentsModel::patchSelected(QString patchPath)
       for (PatchStructure::Message::Map::ConstIterator it = structure->messageMap.constBegin(); it != structure->messageMap.constEnd(); it++)
       {
          ModelItem* msgItem = new ModelItem(it.key());
-         addMarker(msgItem, PatchStructure::Marker::Mesasge, it.key());
+         addMarker(msgItem, PatchStructure::Marker::Message, it.key());
 
          ModelItem* msgDigestItem = new ModelItem(it.value().digest.text);
 
@@ -77,16 +77,16 @@ void Help::ComponentsModel::patchSelected(QString patchPath)
    }
 
    {
-      ModelItem* outetListItem = new ModelItem("OUTLETS");
-      invisibleRootItem()->appendRow(outetListItem);
-      for (PatchStructure::Outlet::Map::ConstIterator it = structure->outletMap.constBegin(); it != structure->outletMap.constEnd(); it++)
+      ModelItem* outputListItem = new ModelItem("OUTPUTS");
+      invisibleRootItem()->appendRow(outputListItem);
+      for (PatchStructure::Output::Map::ConstIterator it = structure->outputMap.constBegin(); it != structure->outputMap.constEnd(); it++)
       {
-         ModelItem* outletItem = new ModelItem(QString::number(it.key()));
-         addMarker(outletItem, PatchStructure::Marker::Outlet, it.key());
+         ModelItem* outputItem = new ModelItem(QString::number(it.key()));
+         addMarker(outputItem, PatchStructure::Marker::Output, it.key());
 
-         ModelItem* outletDigestItem = new ModelItem(it.value().name);
+         ModelItem* outputDigestItem = new ModelItem(it.value().name);
 
-         outetListItem->appendRow({outletItem, outletDigestItem});
+         outputListItem->appendRow({outputItem, outputDigestItem});
       }
    }
 }

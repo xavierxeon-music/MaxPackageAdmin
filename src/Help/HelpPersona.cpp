@@ -3,9 +3,9 @@
 #include <QFile>
 #include <QHBoxLayout>
 
-#include "HelpComponentEditor.h"
 #include "HelpComponentsModel.h"
 #include "HelpComponentsView.h"
+#include "HelpEditContainer.h"
 #include "HelpSelectModel.h"
 #include "HelpSelectView.h"
 
@@ -13,6 +13,13 @@ void Help::Persona::FunctionHub::patchSelected(QString patchPath)
 {
    // do nothing
    Q_UNUSED(patchPath)
+}
+
+void Help::Persona::FunctionHub::componentSelected(PatchStructure::Marker marker, QVariant data)
+{
+   // do nothing
+   Q_UNUSED(marker)
+   Q_UNUSED(data)
 }
 
 // persoma
@@ -28,11 +35,11 @@ Help::Persona::Persona(MainWidget* mainWidget)
 
    SelectView* selectView = new SelectView(this, selectModel);
    ComponentsView* componentsView = new ComponentsView(this, componentsModel);
-   ComponentEditor* componentEditor = new ComponentEditor(this);
+   Edit::Container* editorContainer = new Edit::Container(this);
 
    addWidget(selectView, "select");
    addWidget(componentsView, "components");
-   addWidget(componentEditor, "edit");
+   addWidget(editorContainer, "edit");
 
    getToolBar()->addAction(QIcon(":/Reload.svg"), "Reload");
 }

@@ -49,7 +49,7 @@ void Overview::Persona::slotOpenPackage()
    {
       Settings settings;
       settings.write("LastPackage", packagePath);
-      callOnAllHubInstances(&Central::FunctionHub::setPackagePath, packagePath);
+      callOnAllHubInstances(&Persona::setPackagePath, packagePath);
    }
 }
 
@@ -60,6 +60,6 @@ void Overview::Persona::laodState()
    const QString packagePath = Central::getPackagePath();
    if (!packagePath.isEmpty())
    {
-      callOnAllHubInstances(&Central::FunctionHub::setPackagePath, packagePath);
+      callOnAllHubInstances(&Persona::setPackagePath, packagePath);
    }
 }

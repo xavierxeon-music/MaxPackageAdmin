@@ -19,6 +19,7 @@ namespace Help
       struct FunctionHub : public Abstract::FunctionHub<Persona>
       {
          virtual void patchSelected(QString patchPath);
+         virtual void componentSelected(PatchStructure::Marker marker, QVariant data);
       };
 
    public:

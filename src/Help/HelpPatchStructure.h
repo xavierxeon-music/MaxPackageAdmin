@@ -24,8 +24,8 @@ namespace Help
          Patch,
          Argument,
          Attribute,
-         Mesasge,
-         Outlet
+         Message,
+         Output
       };
       Q_ENUM(Marker)
 
@@ -51,7 +51,7 @@ namespace Help
       QList<QDomElement> compileAllDirectChildElements(const QDomElement& element, const QString& tag, const TagMap& tagMap = TagMap()) const;
 
       void addJSON();
-      Outlet& findOrCreateOutlet(const int id);
+      Output& findOrCreateOutput(const int id);
 
    private:
       QString patchName;

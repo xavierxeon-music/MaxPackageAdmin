@@ -49,76 +49,88 @@ void Help::PatchStructure::writeXML()
    rootElement.setAttribute("name", patchName);
    addDigest(rootElement, patchDigest);
 
-   QDomElement metaDataElement = createSubElement(rootElement, "metadatalist");
-   createSubElement(metaDataElement, "metadata", Central::getAuthor(), {{"name", "author"}});
-   createSubElement(metaDataElement, "metadata", Central::getPackageName(), {{"name", "tag"}});
-   for (const QString& tag : metaTagList)
-      createSubElement(metaDataElement, "metadata", tag, {{"name", "tag"}});
-
-   QDomElement outletListElement = createSubElement(rootElement, "misc");
-   outletListElement.setAttribute("name", "Outputs");
-   for (Outlet::Map::ConstIterator it = outletMap.constBegin(); it != outletMap.constEnd(); it++)
    {
-      QDomElement outletElement = createSubElement(outletListElement, "entry");
-      outletElement.setAttribute("name", it.value().name);
-      outletElement.setAttribute("id", QString::number(it.key()));
-
-      createSubElement(outletElement, it.value().description);
+      QDomElement metaDataElement = createSubElement(rootElement, "metadatalist");
+      createSubElement(metaDataElement, "metadata", Central::getAuthor(), {{"name", "author"}});
+      createSubElement(metaDataElement, "metadata", Central::getPackageName(), {{"name", "tag"}});
+      for (const QString& tag : metaTagList)
+         createSubElement(metaDataElement, "metadata", tag, {{"name", "tag"}});
    }
 
-   QDomElement objArgListElement = createSubElement(rootElement, "objarglist");
-   for (const Argument& argument : argumentList)
    {
-      QDomElement arguemntElement = createSubElement(objArgListElement, "objarg");
-      arguemntElement.setAttribute("name", argument.name);
-      arguemntElement.setAttribute("optional", argument.optional ? "1" : "0");
-      arguemntElement.setAttribute("type", typeName(argument.type));
-
-      addDigest(arguemntElement, argument.digest);
-   }
-
-   QDomElement attributeListElement = createSubElement(rootElement, "attributelist");
-   for (Attribute::Map::ConstIterator it = attributeMap.constBegin(); it != attributeMap.constEnd(); it++)
-   {
-      const Attribute& attribute = it.value();
-
-      QDomElement attributeElement = createSubElement(attributeListElement, "attribute");
-      attributeElement.setAttribute("name", it.key());
-      attributeElement.setAttribute("get", attribute.get ? "1" : "0");
-      attributeElement.setAttribute("set", attribute.set ? "1" : "0");
-      attributeElement.setAttribute("type", typeName(attribute.type));
-      attributeElement.setAttribute("size", QString::number(attribute.size));
-
-      addDigest(attributeElement, attribute.digest);
-   }
-
-   QDomElement messageListElement = createSubElement(rootElement, "methodlist");
-   for (Message::Map::ConstIterator it = messageMap.constBegin(); it != messageMap.constEnd(); it++)
-   {
-      const Message& message = it.value();
-
-      QDomElement messageElement = createSubElement(messageListElement, "method");
-      messageElement.setAttribute("name", it.key());
-
-      if (!message.arguments.empty())
+      QDomElement outputListElement = createSubElement(rootElement, "misc");
+      outputListElement.setAttribute("name", "Outputs");
+      for (Output::Map::ConstIterator it = outputMap.constBegin(); it != outputMap.constEnd(); it++)
       {
-         QDomElement argListElement = createSubElement(messageElement, "arglist");
-         for (const Argument& argument : message.arguments)
-         {
-            QDomElement arguemntElement = createSubElement(argListElement, "arg");
-            arguemntElement.setAttribute("name", argument.name);
-            arguemntElement.setAttribute("optional", argument.optional ? "1" : "0");
-            arguemntElement.setAttribute("type", typeName(argument.type));
-         }
-      }
+         QDomElement outputElement = createSubElement(outputListElement, "entry");
+         outputElement.setAttribute("name", it.value().name);
+         outputElement.setAttribute("id", QString::number(it.key()));
 
-      addDigest(messageElement, message.digest);
+         createSubElement(outputElement, it.value().description);
+      }
    }
 
-   QDomElement seeAlsoListElement = createSubElement(rootElement, "seealsolist");
-   for (const QString& seeAlso : seeAlsoList)
    {
-      createSubElement(seeAlsoListElement, "seealso", QString(), {{"name", seeAlso}});
+      QDomElement objArgListElement = createSubElement(rootElement, "objarglist");
+      for (const Argument& argument : argumentList)
+      {
+         QDomElement arguemntElement = createSubElement(objArgListElement, "objarg");
+         arguemntElement.setAttribute("name", argument.name);
+         arguemntElement.setAttribute("optional", argument.optional ? "1" : "0");
+         arguemntElement.setAttribute("type", typeName(argument.type));
+
+         addDigest(arguemntElement, argument.digest);
+      }
+   }
+
+   {
+      QDomElement attributeListElement = createSubElement(rootElement, "attributelist");
+      for (Attribute::Map::ConstIterator it = attributeMap.constBegin(); it != attributeMap.constEnd(); it++)
+      {
+         const Attribute& attribute = it.value();
+
+         QDomElement attributeElement = createSubElement(attributeListElement, "attribute");
+         attributeElement.setAttribute("name", it.key());
+         attributeElement.setAttribute("get", attribute.get ? "1" : "0");
+         attributeElement.setAttribute("set", attribute.set ? "1" : "0");
+         attributeElement.setAttribute("type", typeName(attribute.type));
+         attributeElement.setAttribute("size", QString::number(attribute.size));
+
+         addDigest(attributeElement, attribute.digest);
+      }
+   }
+
+   {
+      QDomElement messageListElement = createSubElement(rootElement, "methodlist");
+      for (Message::Map::ConstIterator it = messageMap.constBegin(); it != messageMap.constEnd(); it++)
+      {
+         const Message& message = it.value();
+
+         QDomElement messageElement = createSubElement(messageListElement, "method");
+         messageElement.setAttribute("name", it.key());
+
+         if (!message.arguments.empty())
+         {
+            QDomElement argListElement = createSubElement(messageElement, "arglist");
+            for (const Argument& argument : message.arguments)
+            {
+               QDomElement arguemntElement = createSubElement(argListElement, "arg");
+               arguemntElement.setAttribute("name", argument.name);
+               arguemntElement.setAttribute("optional", argument.optional ? "1" : "0");
+               arguemntElement.setAttribute("type", typeName(argument.type));
+            }
+         }
+
+         addDigest(messageElement, message.digest);
+      }
+   }
+
+   {
+      QDomElement seeAlsoListElement = createSubElement(rootElement, "seealsolist");
+      for (const QString& seeAlso : seeAlsoList)
+      {
+         createSubElement(seeAlsoListElement, "seealso", QString(), {{"name", seeAlso}});
+      }
    }
 
    QFile file(helpPath);
@@ -206,7 +218,7 @@ void Help::PatchStructure::readXML()
          const QString name = outletElement.attribute("name");
          const QString description = readText(outletElement);
 
-         outletMap[id] = {name, description};
+         outputMap[id] = {name, description};
       }
    }
 
@@ -402,11 +414,11 @@ void Help::PatchStructure::addJSON()
       else if ("outlet" == className)
       {
          const int index = boxObject["index"].toInt();
-         Outlet& outlet = findOrCreateOutlet(index);
+         Output& output = findOrCreateOutput(index);
 
          const QString comment = boxObject["comment"].toString();
-         if (outlet.name.isEmpty())
-            outlet.name = comment;
+         if (output.name.isEmpty())
+            output.name = comment;
       }
       else if ("newobj" == className)
       {
@@ -518,10 +530,10 @@ void Help::PatchStructure::addJSON()
    }
 }
 
-PatchStructure::Outlet& Help::PatchStructure::findOrCreateOutlet(const int id)
+PatchStructure::Output& Help::PatchStructure::findOrCreateOutput(const int id)
 {
-   if (!outletMap.contains(id))
-      outletMap[id] = Outlet{};
+   if (!outputMap.contains(id))
+      outputMap[id] = Output{};
 
-   return outletMap[id];
+   return outputMap[id];
 }

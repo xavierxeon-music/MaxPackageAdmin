@@ -18,15 +18,7 @@ void Help::SelectView::clicked(ModelItem* item)
 {
    const QVariant data = item->data(SelectModel::RolePatchPath);
    if (!data.isValid())
-   {
-      const QModelIndex index = item->index();
-      if (isExpanded(index))
-         collapse(index);
-      else
-         expand(index);
-
       return;
-   }
 
    const QString patchPath = data.toString();
 
