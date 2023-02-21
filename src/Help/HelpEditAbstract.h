@@ -12,7 +12,8 @@ namespace Help
 
    namespace Edit
    {
-      class Abstract : public QWidget
+      class Abstract : public QWidget,
+                       protected Persona::FunctionHub
       {
          Q_OBJECT
 
@@ -21,7 +22,15 @@ namespace Help
          virtual ~Abstract();
 
       protected:
+         virtual void componentSelected(PatchStructure::Marker marker, QVariant data) = 0;
+         PatchStructure* structureRef();
+
+      private:
+         void patchSelected(QString patchPath, QString key) override final;
+
+      protected:
          Persona* persona;
+         QString key;
          const PatchStructure::Marker marker;
       };
    } // namespace Edit

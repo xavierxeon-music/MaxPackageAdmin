@@ -14,6 +14,12 @@ namespace Help
 
       public:
          Output(Persona* persona, const PatchStructure::Marker& marker);
+
+      private:
+         void componentSelected(PatchStructure::Marker marker, QVariant data) override;
+
+      private:
+         int outputIndex;
       };
    } // namespace Edit
 } // namespace Help

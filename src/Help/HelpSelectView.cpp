@@ -21,12 +21,13 @@ void Help::SelectView::clicked(ModelItem* item)
       return;
 
    const QString patchPath = data.toString();
+   const QString key = item->data(SelectModel::RoleKey).toString();
 
    QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
-   persona->buildPatchStructure(patchPath);
+   persona->buildPatchStructure(patchPath, key);
    QApplication::restoreOverrideCursor();
 
-   callOnAllHubInstances(&SelectView::patchSelected, patchPath);
+   callOnAllHubInstances(&SelectView::patchSelected, patchPath, key);
 }
 
 void Help::SelectView::doubleClicked(ModelItem* item)

@@ -14,6 +14,12 @@ namespace Help
 
       public:
          Attribute(Persona* persona, const PatchStructure::Marker& marker);
+
+      private:
+         void componentSelected(PatchStructure::Marker marker, QVariant data) override;
+
+      private:
+         QString attributeName;
       };
    } // namespace Edit
 } // namespace Help

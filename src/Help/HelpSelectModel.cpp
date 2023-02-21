@@ -32,6 +32,7 @@ void Help::SelectModel::setPackagePath(QString packageDir)
 
       const QString patchPath = it.value().absoluteFilePath();
       patchItem->setData(patchPath, RolePatchPath);
+      patchItem->setData(patchName, RoleKey);
 
       const QString patchDir = it.value().absolutePath();
       if (!parentMap.contains(patchDir))

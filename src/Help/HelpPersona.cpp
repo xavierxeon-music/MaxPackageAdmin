@@ -9,10 +9,11 @@
 #include "HelpSelectModel.h"
 #include "HelpSelectView.h"
 
-void Help::Persona::FunctionHub::patchSelected(QString patchPath)
+void Help::Persona::FunctionHub::patchSelected(QString patchPath, QString key)
 {
    // do nothing
    Q_UNUSED(patchPath)
+   Q_UNUSED(key)
 }
 
 void Help::Persona::FunctionHub::componentSelected(PatchStructure::Marker marker, QVariant data)
@@ -28,7 +29,7 @@ Help::Persona::Persona(MainWidget* mainWidget)
    : Abstract::Persona(mainWidget, "HELP")
    , selectModel(nullptr)
    , componentsModel(nullptr)
-   , patchStructure()
+   , structureMap()
 {
    selectModel = new SelectModel(this);
    componentsModel = new ComponentsModel(this);
@@ -44,17 +45,19 @@ Help::Persona::Persona(MainWidget* mainWidget)
    getToolBar()->addAction(QIcon(":/Reload.svg"), "Reload");
 }
 
-void Help::Persona::buildPatchStructure(QString patchPath)
+void Help::Persona::buildPatchStructure(QString patchPath, const QString& key)
 {
-   patchStructure = PatchStructure(patchPath);
+   if (!structureMap.contains(key))
+      structureMap[key] = PatchStructure(patchPath);
 }
 
-Help::PatchStructure* Help::Persona::patchStructureRef()
+Help::PatchStructure* Help::Persona::patchStructureRef(const QString& key)
 {
-   return &patchStructure;
+   return &structureMap[key];
 }
 
-void Help::Persona::savePatchStructure()
+void Help::Persona::savePatchStructures()
 {
+   for (PatchStructure& patchStructure : structureMap)
       patchStructure.writeXML();
 }

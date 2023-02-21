@@ -9,13 +9,13 @@ Help::ComponentsModel::ComponentsModel(Persona* persona)
 {
 }
 
-void Help::ComponentsModel::patchSelected(QString patchPath)
+void Help::ComponentsModel::patchSelected(QString patchPath, QString key)
 {
    Q_UNUSED(patchPath)
 
    clear();
 
-   const PatchStructure* structure = persona->patchStructureRef();
+   const PatchStructure* structure = persona->patchStructureRef(key);
 
    auto addMarker = [](ModelItem* item, const PatchStructure::Marker& marker, const QVariant& data)
    {

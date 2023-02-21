@@ -18,7 +18,7 @@ namespace Help
    public:
       struct FunctionHub : public Abstract::FunctionHub<Persona>
       {
-         virtual void patchSelected(QString patchPath);
+         virtual void patchSelected(QString patchPath, QString key);
          virtual void componentSelected(PatchStructure::Marker marker, QVariant data);
       };
 
@@ -26,15 +26,18 @@ namespace Help
       Persona(MainWidget* mainWidget);
 
    public:
-      void buildPatchStructure(QString patchPath);
-      PatchStructure* patchStructureRef();
-      void savePatchStructure();
+      PatchStructure* patchStructureRef(const QString& key);
+
+      void savePatchStructures();
+      void buildPatchStructure(QString patchPath, const QString& key);
+
+   private:
+      using StructureMap = QMap<QString, PatchStructure>;
 
    private:
       SelectModel* selectModel;
       ComponentsModel* componentsModel;
-
-      PatchStructure patchStructure;
+      StructureMap structureMap;
    };
 } // namespace Help
 

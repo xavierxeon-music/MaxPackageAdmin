@@ -14,6 +14,12 @@ namespace Help
 
       public:
          Argument(Persona* persona, const PatchStructure::Marker& marker);
+
+      private:
+         void componentSelected(PatchStructure::Marker marker, QVariant data) override;
+
+      private:
+         int argumentIndex;
       };
    } // namespace Edit
 } // namespace Help

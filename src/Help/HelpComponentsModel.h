@@ -15,7 +15,7 @@ namespace Help
       ComponentsModel(Persona* persona);
 
    private:
-      void patchSelected(QString patchPath) override;
+      void patchSelected(QString patchPath, QString key) override;
 
    private:
       Persona* persona;

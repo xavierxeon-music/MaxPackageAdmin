@@ -18,6 +18,7 @@ namespace Help
       enum Role
       {
          RolePatchPath = Qt::UserRole + 1,
+         RoleKey = Qt::UserRole + 2
       };
 
    public:
