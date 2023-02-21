@@ -9,6 +9,7 @@ public:
    struct FunctionHub : public Abstract::FunctionHub<Central>
    {
       virtual void setPackagePath(QString packageDir);
+      virtual void setModified(bool enabled);
    };
 
 public:

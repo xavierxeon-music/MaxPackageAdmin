@@ -27,6 +27,7 @@ void Help::Persona::FunctionHub::componentSelected(PatchStructure::Marker marker
 
 Help::Persona::Persona(MainWidget* mainWidget)
    : Abstract::Persona(mainWidget, "HELP")
+   , Central::FunctionHub()
    , selectModel(nullptr)
    , componentsModel(nullptr)
    , structureMap()
@@ -42,7 +43,9 @@ Help::Persona::Persona(MainWidget* mainWidget)
    addWidget(componentsView, "components");
    addWidget(editorContainer, "edit");
 
-   getToolBar()->addAction(QIcon(":/Reload.svg"), "Reload");
+   getToolBar()->addAction(QIcon(":/Reload.svg"), "Reload", this, &Persona::slotReload);
+   QAction* saveAction = getToolBar()->addAction(QIcon(":/Save.svg"), "Save", this, &Persona::slotSave);
+   saveAction->setShortcut(QKeySequence::Save);
 }
 
 void Help::Persona::buildPatchStructure(QString patchPath, const QString& key)
@@ -60,4 +63,15 @@ void Help::Persona::savePatchStructures()
 {
    for (PatchStructure& patchStructure : structureMap)
       patchStructure.writeXML();
+
+   callOnAllHubInstances(&Persona::setModified, false);
+}
+
+void Help::Persona::slotReload()
+{
+}
+
+void Help::Persona::slotSave()
+{
+   savePatchStructures();
 }

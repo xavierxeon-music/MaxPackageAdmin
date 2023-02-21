@@ -65,7 +65,12 @@ void MainWidget::setPackagePath(QString packageDir)
    if (packageDir.isEmpty())
       setWindowTitle("Max Package Admin");
    else
-      setWindowTitle("Max Package Admin - " + packageDir);
+      setWindowTitle("Max Package Admin - [*]" + packageDir);
+}
+
+void MainWidget::setModified(bool enabled)
+{
+   setWindowModified(enabled);
 }
 
 void MainWidget::closeEvent(QCloseEvent* ce)

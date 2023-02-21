@@ -24,7 +24,14 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
-       <widget class="QLineEdit" name="metaTagEdit"/>
+       <widget class="QLineEdit" name="metaTagEdit">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>30</height>
+         </size>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -86,7 +93,14 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QLineEdit" name="digestEdit"/>
+       <widget class="QLineEdit" name="digestEdit">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>30</height>
+         </size>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPlainTextEdit" name="descrptionEdit"/>
@@ -104,7 +118,14 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <widget class="QLineEdit" name="seeAlsoEdit"/>
+       <widget class="QLineEdit" name="seeAlsoEdit">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>30</height>
+         </size>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

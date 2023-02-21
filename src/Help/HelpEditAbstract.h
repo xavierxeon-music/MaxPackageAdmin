@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include <Central.h>
+
 #include "HelpPatchStructure.h"
 #include "HelpPersona.h"
 
@@ -13,7 +15,8 @@ namespace Help
    namespace Edit
    {
       class Abstract : public QWidget,
-                       protected Persona::FunctionHub
+                       protected Persona::FunctionHub,
+                       private Central::FunctionHub
       {
          Q_OBJECT
 
@@ -22,8 +25,9 @@ namespace Help
          virtual ~Abstract();
 
       protected:
-         virtual void componentSelected(PatchStructure::Marker marker, QVariant data) = 0;
+         virtual void componentSelected(PatchStructure::Marker marker, QVariant data) override = 0;
          PatchStructure* structureRef();
+         void markModified();
 
       private:
          void patchSelected(QString patchPath, QString key) override final;

@@ -25,6 +25,7 @@ private:
 
 private:
    void setPackagePath(QString packageDir) override;
+   void setModified(bool enabled) override;
    void closeEvent(QCloseEvent* ce) override;
 
 private:

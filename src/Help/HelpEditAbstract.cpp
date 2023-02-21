@@ -5,6 +5,7 @@
 Help::Edit::Abstract::Abstract(Persona* persona, const PatchStructure::Marker& marker)
    : QWidget(persona)
    , Persona::FunctionHub()
+   , Central::FunctionHub()
    , persona(persona)
    , key()
    , marker(marker)
@@ -17,7 +18,12 @@ Help::Edit::Abstract::~Abstract()
 
 Help::PatchStructure* Help::Edit::Abstract::structureRef()
 {
-   return structureRef();
+   return persona->patchStructureRef(key);
+}
+
+void Help::Edit::Abstract::markModified()
+{
+   Central::FunctionHub::callOnAllHubInstances(&Central::FunctionHub::setModified, true);
 }
 
 void Help::Edit::Abstract::patchSelected(QString patchPath, QString key)

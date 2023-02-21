@@ -16,6 +16,10 @@ namespace Help
          Patch(Persona* persona, const PatchStructure::Marker& marker);
 
       private:
+         void slotChangeDigest();
+         void slotChangeDescription();
+
+      private:
          void componentSelected(PatchStructure::Marker marker, QVariant data) override;
       };
    } // namespace Edit

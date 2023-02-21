@@ -4,6 +4,8 @@
 #include <AbstractFunctionHub.h>
 #include <AbstractPersona.h>
 
+#include <Central.h>
+
 #include "HelpPatchStructure.h"
 
 namespace Help
@@ -11,7 +13,8 @@ namespace Help
    class SelectModel;
    class ComponentsModel;
 
-   class Persona : public Abstract::Persona
+   class Persona : public Abstract::Persona,
+                   private Central::FunctionHub
    {
       Q_OBJECT
 
@@ -33,6 +36,10 @@ namespace Help
 
    private:
       using StructureMap = QMap<QString, PatchStructure>;
+
+   private slots:
+      void slotReload();
+      void slotSave();
 
    private:
       SelectModel* selectModel;

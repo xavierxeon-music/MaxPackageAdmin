@@ -8,6 +8,12 @@ void Central::FunctionHub::setPackagePath(QString packageDir)
    Q_UNUSED(packageDir);
 }
 
+void Central::FunctionHub::setModified(bool enabled)
+{
+   // do nothing
+   Q_UNUSED(enabled);
+}
+
 QString Central::getPackagePath()
 {
    Settings settings;
