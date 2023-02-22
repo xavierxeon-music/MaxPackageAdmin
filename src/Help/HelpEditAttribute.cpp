@@ -13,5 +13,5 @@ void Help::Edit::Attribute::componentSelected(PatchStructure::Marker marker, QVa
       return;
 
    attributeName = data.toString();
-   const PatchStructure::Attribute& attribute = structureRef()->attributeMap[attributeName];
+   const PatchStructure::Attribute& attribute = structureRef().attributeMap[attributeName];
 }

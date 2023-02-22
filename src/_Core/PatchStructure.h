@@ -14,7 +14,9 @@ public:
       Symbol,
       Float,
       Integer,
-      Bang
+      Bang,
+      List,
+      Signal
    };
 
    struct Digest
@@ -28,7 +30,7 @@ public:
    struct Output
    {
       QString name;
-      QString description;
+      Digest digest;
 
       using Map = QMap<int, Output>; // outlet number vs port
    };
@@ -40,6 +42,7 @@ public:
       QString name;
       bool optional;
       Type type = Type::Symbol;
+      QString defaultValue;
       Digest digest;
 
       using List = QList<Argument>;

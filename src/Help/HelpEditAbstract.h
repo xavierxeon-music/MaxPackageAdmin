@@ -26,8 +26,11 @@ namespace Help
 
       protected:
          virtual void componentSelected(PatchStructure::Marker marker, QVariant data) override = 0;
-         PatchStructure* structureRef();
-         void markModified();
+         const PatchStructure& structure() const;
+         PatchStructure& structureRef();
+
+         template <typename DataType>
+         bool copyIfChanged(DataType& target, const DataType& data);
 
       private:
          void patchSelected(QString patchPath, QString key) override final;
@@ -39,5 +42,9 @@ namespace Help
       };
    } // namespace Edit
 } // namespace Help
+
+#ifndef HelpEditAbstractHPP
+#include "HelpEditAbstract.hpp"
+#endif // NOT HelpEditAbstractHPP
 
 #endif // NOT HelpEditAbstractH

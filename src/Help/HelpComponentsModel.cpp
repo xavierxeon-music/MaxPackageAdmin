@@ -80,8 +80,8 @@ void Help::ComponentsModel::patchSelected(QString patchPath, QString key)
       invisibleRootItem()->appendRow(outputListItem);
       for (PatchStructure::Output::Map::ConstIterator it = structure->outputMap.constBegin(); it != structure->outputMap.constEnd(); it++)
       {
-         ModelItem* outputItem = new ModelItem(QString::number(it.key()));
-         ModelItem* outputDigestItem = new ModelItem(it.value().name);
+         ModelItem* outputItem = new ModelItem(it.value().name);
+         ModelItem* outputDigestItem = new ModelItem(QString::number(it.key()));
 
          outputListItem->appendRow({outputItem, outputDigestItem});
          addMarker(PatchStructure::Marker::Output, it.key(), outputItem, outputDigestItem);

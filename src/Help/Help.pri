@@ -2,6 +2,7 @@ HEADERS += \
    $$PWD/HelpComponentsModel.h \
    $$PWD/HelpComponentsView.h \
    $$PWD/HelpEditAbstract.h \
+   $$PWD/HelpEditAbstract.hpp \
    $$PWD/HelpEditArgument.h \
    $$PWD/HelpEditAttribute.h \
    $$PWD/HelpEditContainer.h \

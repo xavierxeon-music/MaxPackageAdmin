@@ -16,14 +16,14 @@ Help::Edit::Abstract::~Abstract()
 {
 }
 
-Help::PatchStructure* Help::Edit::Abstract::structureRef()
+const Help::PatchStructure& Help::Edit::Abstract::structure() const
 {
-   return persona->patchStructureRef(key);
+   return *(persona->patchStructureRef(key));
 }
 
-void Help::Edit::Abstract::markModified()
+Help::PatchStructure& Help::Edit::Abstract::structureRef()
 {
-   Central::FunctionHub::callOnAllHubInstances(&Central::FunctionHub::setModified, true);
+   return *(persona->patchStructureRef(key));
 }
 
 void Help::Edit::Abstract::patchSelected(QString patchPath, QString key)

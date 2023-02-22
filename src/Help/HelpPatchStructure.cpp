@@ -66,7 +66,7 @@ void Help::PatchStructure::writeXML()
          outputElement.setAttribute("name", it.value().name);
          outputElement.setAttribute("id", QString::number(it.key()));
 
-         createSubElement(outputElement, it.value().description);
+         addDigest(outputElement, it.value().digest);
       }
    }
 
@@ -78,6 +78,7 @@ void Help::PatchStructure::writeXML()
          arguemntElement.setAttribute("name", argument.name);
          arguemntElement.setAttribute("optional", argument.optional ? "1" : "0");
          arguemntElement.setAttribute("type", typeName(argument.type));
+         arguemntElement.setAttribute("default", argument.defaultValue);
 
          addDigest(arguemntElement, argument.digest);
       }
@@ -118,6 +119,7 @@ void Help::PatchStructure::writeXML()
                arguemntElement.setAttribute("name", argument.name);
                arguemntElement.setAttribute("optional", argument.optional ? "1" : "0");
                arguemntElement.setAttribute("type", typeName(argument.type));
+               arguemntElement.setAttribute("default", argument.defaultValue);
             }
          }
 
@@ -208,17 +210,21 @@ void Help::PatchStructure::readXML()
       }
    }
 
-   const QDomElement outletListElement = findFirstDirectChildElementWithAttributes(rootElement, "misc", {{"name", "Outputs"}});
-   if (!outletListElement.isNull())
+   const QDomElement outputListElement = findFirstDirectChildElementWithAttributes(rootElement, "misc", {{"name", "Outputs"}});
+   if (!outputListElement.isNull())
    {
-      for (const QDomElement& outletElement : compileAllDirectChildElements(outletListElement, "entry"))
+      for (const QDomElement& outletElement : compileAllDirectChildElements(outputListElement, "entry"))
       {
          const int id = outletElement.attribute("id").toInt();
 
-         const QString name = outletElement.attribute("name");
+         Output output;
+         output.name = outletElement.attribute("name");
+
+         readDigest(outletElement, output.digest);
+
          const QString description = readText(outletElement);
 
-         outputMap[id] = {name, description};
+         outputMap[id] = output;
       }
    }
 
@@ -231,6 +237,7 @@ void Help::PatchStructure::readXML()
          argument.name = arguemntElement.attribute("name");
          argument.optional = ("1" == arguemntElement.attribute("optional"));
          argument.type = toType(arguemntElement.attribute("type"));
+         argument.defaultValue = arguemntElement.attribute("default");
 
          readDigest(arguemntElement, argument.digest);
 
@@ -275,6 +282,7 @@ void Help::PatchStructure::readXML()
                argument.name = arguemntElement.attribute("name");
                argument.optional = ("1" == arguemntElement.attribute("optional"));
                argument.type = toType(arguemntElement.attribute("type"));
+               argument.defaultValue = arguemntElement.attribute("default");
 
                message.arguments.append(argument);
             }
@@ -449,7 +457,8 @@ void Help::PatchStructure::addJSON()
             if (State::Argument == state)
             {
                Argument argument;
-               argument.digest.text = arg;
+               argument.name = QString::number(i);
+               argument.defaultValue = arg;
                argument.optional = true;
 
                if (i > argumentList.count())
@@ -461,6 +470,9 @@ void Help::PatchStructure::addJSON()
                const QString& name = arg.mid(1);
                if (!attributeMap.contains(name))
                   attributeMap[name] = attribute;
+            }
+            else if (State::AttributeArg == state)
+            {
             }
          }
       }

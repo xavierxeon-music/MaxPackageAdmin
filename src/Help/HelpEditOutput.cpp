@@ -13,5 +13,5 @@ void Help::Edit::Output::componentSelected(PatchStructure::Marker marker, QVaria
       return;
 
    outputIndex = data.toInt();
-   const PatchStructure::Output& output = structureRef()->outputMap[outputIndex];
+   const PatchStructure::Output& output = structureRef().outputMap[outputIndex];
 }
