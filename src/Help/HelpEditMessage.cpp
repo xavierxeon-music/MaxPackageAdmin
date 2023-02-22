@@ -13,5 +13,5 @@ void Help::Edit::Message::componentSelected(PatchStructure::Marker marker, QVari
       return;
 
    messageName = data.toString();
-   const PatchStructure::Message& message = structureRef().messageMap[messageName];
+   const PatchStructure::Message& message = persona->structure().messageMap[messageName];
 }

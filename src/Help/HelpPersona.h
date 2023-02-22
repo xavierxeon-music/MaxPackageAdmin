@@ -29,8 +29,9 @@ namespace Help
       Persona(MainWidget* mainWidget);
 
    public:
-      PatchStructure* patchStructureRef(const QString& key);
-
+      const QString& getCurrentKey() const;
+      PatchStructure structure() const;
+      PatchStructure& structureRef();
       void savePatchStructures();
       void buildPatchStructure(QString patchPath, const QString& key);
 
@@ -44,6 +45,7 @@ namespace Help
    private:
       SelectModel* selectModel;
       ComponentsModel* componentsModel;
+      QString currentKey;
       StructureMap structureMap;
    };
 } // namespace Help

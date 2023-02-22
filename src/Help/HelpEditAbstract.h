@@ -26,18 +26,12 @@ namespace Help
 
       protected:
          virtual void componentSelected(PatchStructure::Marker marker, QVariant data) override = 0;
-         const PatchStructure& structure() const;
-         PatchStructure& structureRef();
 
          template <typename DataType>
          bool copyIfChanged(DataType& target, const DataType& data);
 
-      private:
-         void patchSelected(QString patchPath, QString key) override final;
-
       protected:
          Persona* persona;
-         QString key;
          const PatchStructure::Marker marker;
       };
    } // namespace Edit

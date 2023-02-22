@@ -12,10 +12,11 @@ Help::ComponentsModel::ComponentsModel(Persona* persona)
 void Help::ComponentsModel::patchSelected(QString patchPath, QString key)
 {
    Q_UNUSED(patchPath)
+   Q_UNUSED(key)
 
    clear();
 
-   const PatchStructure* structure = persona->patchStructureRef(key);
+   const PatchStructure structure = persona->structure();
 
    auto addMarker = [](const PatchStructure::Marker& marker, const QVariant& data, ModelItem* item1, ModelItem* item2)
    {
@@ -28,7 +29,7 @@ void Help::ComponentsModel::patchSelected(QString patchPath, QString key)
 
    {
       ModelItem* patchItem = new ModelItem("PATCH");
-      ModelItem* patchDigestItem = new ModelItem(structure->patchDigest.text);
+      ModelItem* patchDigestItem = new ModelItem(structure.patchDigest.text);
 
       invisibleRootItem()->appendRow({patchItem, patchDigestItem});
       addMarker(PatchStructure::Marker::Patch, true, patchItem, patchDigestItem);
@@ -37,9 +38,9 @@ void Help::ComponentsModel::patchSelected(QString patchPath, QString key)
    {
       ModelItem* argumentListItem = new ModelItem("ARGUMENTS");
       invisibleRootItem()->appendRow(argumentListItem);
-      for (int index = 0; index < structure->argumentList.count(); index++)
+      for (int index = 0; index < structure.argumentList.count(); index++)
       {
-         const PatchStructure::Argument& argument = structure->argumentList.at(index);
+         const PatchStructure::Argument& argument = structure.argumentList.at(index);
 
          ModelItem* argItem = new ModelItem(argument.name);
          ModelItem* argDigestItem = new ModelItem(argument.digest.text);
@@ -52,7 +53,7 @@ void Help::ComponentsModel::patchSelected(QString patchPath, QString key)
    {
       ModelItem* attributeListItem = new ModelItem("ATTRIBUTES");
       invisibleRootItem()->appendRow(attributeListItem);
-      for (PatchStructure::Attribute::Map::ConstIterator it = structure->attributeMap.constBegin(); it != structure->attributeMap.constEnd(); it++)
+      for (PatchStructure::Attribute::Map::ConstIterator it = structure.attributeMap.constBegin(); it != structure.attributeMap.constEnd(); it++)
       {
          ModelItem* attrItem = new ModelItem(it.key());
          ModelItem* attrrDigestItem = new ModelItem(it.value().digest.text);
@@ -65,7 +66,7 @@ void Help::ComponentsModel::patchSelected(QString patchPath, QString key)
    {
       ModelItem* messageListItem = new ModelItem("MESSAGES");
       invisibleRootItem()->appendRow(messageListItem);
-      for (PatchStructure::Message::Map::ConstIterator it = structure->messageMap.constBegin(); it != structure->messageMap.constEnd(); it++)
+      for (PatchStructure::Message::Map::ConstIterator it = structure.messageMap.constBegin(); it != structure.messageMap.constEnd(); it++)
       {
          ModelItem* msgItem = new ModelItem(it.key());
          ModelItem* msgDigestItem = new ModelItem(it.value().digest.text);
@@ -78,7 +79,7 @@ void Help::ComponentsModel::patchSelected(QString patchPath, QString key)
    {
       ModelItem* outputListItem = new ModelItem("OUTPUTS");
       invisibleRootItem()->appendRow(outputListItem);
-      for (PatchStructure::Output::Map::ConstIterator it = structure->outputMap.constBegin(); it != structure->outputMap.constEnd(); it++)
+      for (PatchStructure::Output::Map::ConstIterator it = structure.outputMap.constBegin(); it != structure.outputMap.constEnd(); it++)
       {
          ModelItem* outputItem = new ModelItem(it.value().name);
          ModelItem* outputDigestItem = new ModelItem(QString::number(it.key()));

@@ -30,6 +30,7 @@ Help::Persona::Persona(MainWidget* mainWidget)
    , Central::FunctionHub()
    , selectModel(nullptr)
    , componentsModel(nullptr)
+   , currentKey()
    , structureMap()
 {
    selectModel = new SelectModel(this);
@@ -48,15 +49,27 @@ Help::Persona::Persona(MainWidget* mainWidget)
    saveAction->setShortcut(QKeySequence::Save);
 }
 
-void Help::Persona::buildPatchStructure(QString patchPath, const QString& key)
+const QString& Help::Persona::getCurrentKey() const
 {
-   if (!structureMap.contains(key))
-      structureMap[key] = PatchStructure(patchPath);
+   return currentKey;
 }
 
-Help::PatchStructure* Help::Persona::patchStructureRef(const QString& key)
+Help::PatchStructure Help::Persona::structure() const
 {
-   return &structureMap[key];
+   return structureMap[currentKey];
+}
+
+Help::PatchStructure& Help::Persona::structureRef()
+{
+   return structureMap[currentKey];
+}
+
+void Help::Persona::buildPatchStructure(QString patchPath, const QString& key)
+{
+   currentKey = key;
+
+   if (!structureMap.contains(key))
+      structureMap[key] = PatchStructure(patchPath);
 }
 
 void Help::Persona::savePatchStructures()

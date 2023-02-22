@@ -144,6 +144,8 @@ void Help::PatchStructure::writeXML()
    content += "<?xml-stylesheet href=\"./_c74_ref.xsl\" type=\"text/xsl\"?>\n";
    content += doc.toByteArray(4);
 
+   content = domToMaxFile(content);
+
    file.write(content);
    file.close();
 }
@@ -180,7 +182,7 @@ void Help::PatchStructure::readXML()
    if (!file.open(QIODevice::ReadOnly))
       return;
 
-   const QByteArray content = file.readAll();
+   const QByteArray content = maxFileToDom(file.readAll());
    file.close();
 
    QString errorMessage;
@@ -202,7 +204,7 @@ void Help::PatchStructure::readXML()
       {
          const QString& name = element.attribute("name");
          if ("tag" != name)
-            return;
+            continue;
 
          const QString text = readText(element);
          if (packageName != text)
@@ -378,7 +380,7 @@ QList<QDomElement> Help::PatchStructure::compileAllDirectChildElements(const QDo
       if (!hasTags())
          continue;
 
-      list.append(element);
+      list.append(childElement);
    }
 
    return list;
@@ -548,4 +550,24 @@ PatchStructure::Output& Help::PatchStructure::findOrCreateOutput(const int id)
       outputMap[id] = Output{};
 
    return outputMap[id];
+}
+
+QByteArray Help::PatchStructure::domToMaxFile(QByteArray domXML) const
+{
+   domXML.replace("&lt;", "<");
+   domXML.replace("&gt;", ">");
+   return domXML;
+}
+
+QByteArray Help::PatchStructure::maxFileToDom(QByteArray maxXML) const
+{
+   static const QList<QByteArray> descriptionMaxTags = {"o", "m", "at", "ar", "b", "u", "i"};
+   for (const QByteArray& tag : descriptionMaxTags)
+   {
+      maxXML.replace("<" + tag + ">", "&lt;" + tag + "&gt;");
+      maxXML.replace("</" + tag + ">", "&lt;/" + tag + "&gt;");
+   }
+   maxXML.replace("<br/>", "&lt;br/&gt;");
+
+   return maxXML;
 }

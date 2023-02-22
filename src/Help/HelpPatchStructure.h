@@ -49,6 +49,8 @@ namespace Help
       QString readText(const QDomElement& element) const;
       QDomElement findFirstDirectChildElementWithAttributes(const QDomElement& element, const QString& tag, const TagMap& tagMap) const;
       QList<QDomElement> compileAllDirectChildElements(const QDomElement& element, const QString& tag, const TagMap& tagMap = TagMap()) const;
+      QByteArray domToMaxFile(QByteArray domXML) const;
+      QByteArray maxFileToDom(QByteArray maxXML) const;
 
       void addJSON();
       Output& findOrCreateOutput(const int id);

@@ -27,7 +27,7 @@ Help::Edit::Patch::Patch(Persona* persona, const PatchStructure::Marker& marker)
 void Help::Edit::Patch::slotChangedMetaTag()
 {
    const QStringList metaTageList = metaTagEdit->text().split(";");
-   copyIfChanged(structureRef().metaTagList, metaTageList);
+   copyIfChanged(persona->structureRef().metaTagList, metaTageList);
 }
 
 void Help::Edit::Patch::slotAddStandardMethond(int type)
@@ -37,18 +37,18 @@ void Help::Edit::Patch::slotAddStandardMethond(int type)
 
 void Help::Edit::Patch::slotChangeDigest()
 {
-   copyIfChanged(structureRef().patchDigest.text, digestEdit->text());
+   copyIfChanged(persona->structureRef().patchDigest.text, digestEdit->text());
 }
 
 void Help::Edit::Patch::slotChangeDescription()
 {
-   copyIfChanged(structureRef().patchDigest.description, descrptionEdit->toPlainText());
+   copyIfChanged(persona->structureRef().patchDigest.description, descrptionEdit->toPlainText());
 }
 
 void Help::Edit::Patch::slotChangeSeeAlso()
 {
    const QStringList seeAlsoList = seeAlsoEdit->text().split(";");
-   copyIfChanged(structureRef().seeAlsoList, seeAlsoList);
+   copyIfChanged(persona->structureRef().seeAlsoList, seeAlsoList);
 }
 
 void Help::Edit::Patch::componentSelected(PatchStructure::Marker marker, QVariant data)
@@ -60,10 +60,10 @@ void Help::Edit::Patch::componentSelected(PatchStructure::Marker marker, QVarian
 
    ChildrenSignalBlocker blocker(this);
 
-   keyInfo->setText(key);
+   keyInfo->setText(persona->getCurrentKey());
 
-   metaTagEdit->setText(structure().metaTagList.join(";"));
-   digestEdit->setText(structure().patchDigest.text);
-   descrptionEdit->setPlainText(structure().patchDigest.description);
-   seeAlsoEdit->setText(structure().seeAlsoList.join(";"));
+   metaTagEdit->setText(persona->structure().metaTagList.join(";"));
+   digestEdit->setText(persona->structure().patchDigest.text);
+   descrptionEdit->setPlainText(persona->structure().patchDigest.description);
+   seeAlsoEdit->setText(persona->structure().seeAlsoList.join(";"));
 }

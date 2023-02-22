@@ -13,5 +13,5 @@ void Help::Edit::Argument::componentSelected(PatchStructure::Marker marker, QVar
       return;
 
    argumentIndex = data.toInt();
-   const PatchStructure::Argument& argument = structureRef().argumentList.at(argumentIndex);
+   const PatchStructure::Argument& argument = persona->structure().argumentList.at(argumentIndex);
 }
