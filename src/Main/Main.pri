@@ -6,6 +6,10 @@ macx {
     OBJECTIVE_SOURCES += $$PWD/MacTheme.mm
 }
 
+windows {
+    RC_ICONS = $$PWD/resources/MPA.ico
+}
+
 HEADERS += \
     $$PWD/SpacerToolBar.h \
     $$PWD/TabToolBar.h

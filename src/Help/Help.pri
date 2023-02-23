@@ -1,6 +1,7 @@
 HEADERS += \
    $$PWD/HelpComponentsModel.h \
    $$PWD/HelpComponentsView.h \
+   $$PWD/HelpDescriptionHighlighter.h \
    $$PWD/HelpEditAbstract.h \
    $$PWD/HelpEditAbstract.hpp \
    $$PWD/HelpEditArgument.h \
@@ -17,6 +18,7 @@ HEADERS += \
 SOURCES += \
    $$PWD/HelpComponentsModel.cpp \
    $$PWD/HelpComponentsView.cpp \
+   $$PWD/HelpDescriptionHighlighter.cpp \
    $$PWD/HelpEditAbstract.cpp \
    $$PWD/HelpEditArgument.cpp \
    $$PWD/HelpEditAttribute.cpp \

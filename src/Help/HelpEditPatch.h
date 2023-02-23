@@ -4,6 +4,8 @@
 #include "HelpEditAbstract.h"
 #include "ui_HelpEditPatch.h"
 
+#include "HelpDescriptionHighlighter.h"
+
 namespace Help
 {
    namespace Edit
@@ -26,6 +28,7 @@ namespace Help
          void componentSelected(PatchParser::Marker marker, QVariant data) override;
 
       private:
+         DescriptionHighlighter* highlighter;
          QButtonGroup* standardMethodGroup;
       };
    } // namespace Edit

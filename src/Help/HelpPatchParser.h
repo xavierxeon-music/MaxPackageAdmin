@@ -29,6 +29,8 @@ namespace Help
       };
       Q_ENUM(Marker)
 
+      static const QList<QByteArray> descriptionMaxTags;
+
    public:
       PatchParser();
       PatchParser(const QString& patchPath);

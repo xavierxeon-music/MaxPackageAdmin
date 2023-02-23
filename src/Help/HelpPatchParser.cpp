@@ -10,6 +10,9 @@
 #include <JSONModel.h>
 #include <Message.h>
 
+const QList<QByteArray> Help::PatchParser::descriptionMaxTags = {"o", "m", "at", "ar", "b", "u", "i"};
+
+
 Help::PatchParser::PatchParser()
    : PatchStructure()
    , patchName()
@@ -190,7 +193,11 @@ void Help::PatchParser::addDigest(const QDomElement& parentElement, const Digest
 {
    createSubElement(parentElement, "digest", digest.text);
    if (!digest.description.isEmpty())
-      createSubElement(parentElement, "description", digest.description);
+   {
+      QString description = digest.description;
+      description.replace("\n", "&lt;br/&gt;");
+      createSubElement(parentElement, "description", description);
+   }
 }
 
 void Help::PatchParser::readXML()
@@ -579,20 +586,21 @@ PatchStructure::Output& Help::PatchParser::findOrCreateOutput(const int id)
 
 QByteArray Help::PatchParser::domToMaxFile(QByteArray domXML) const
 {
+   domXML.replace("&amp;", "&");
    domXML.replace("&lt;", "<");
    domXML.replace("&gt;", ">");
+
    return domXML;
 }
 
 QByteArray Help::PatchParser::maxFileToDom(QByteArray maxXML) const
 {
-   static const QList<QByteArray> descriptionMaxTags = {"o", "m", "at", "ar", "b", "u", "i"};
    for (const QByteArray& tag : descriptionMaxTags)
    {
       maxXML.replace("<" + tag + ">", "&lt;" + tag + "&gt;");
       maxXML.replace("</" + tag + ">", "&lt;/" + tag + "&gt;");
    }
-   maxXML.replace("<br/>", "&lt;br/&gt;");
+   maxXML.replace("<br/>", "\n");
 
    return maxXML;
 }
