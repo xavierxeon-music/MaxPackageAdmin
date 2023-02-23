@@ -1,17 +1,17 @@
 #ifndef HelpDescriptionHighlighterH
 #define HelpDescriptionHighlighterH
 
-#include <QSyntaxHighlighter>
 #include <QRegularExpression>
+#include <QSyntaxHighlighter>
 
 namespace Help
 {
-   class DescriptionHighlighter: public QSyntaxHighlighter
+   class DescriptionHighlighter : public QSyntaxHighlighter
    {
       Q_OBJECT
 
    public:
-      DescriptionHighlighter(QTextDocument* document);
+      DescriptionHighlighter(QObject* parent);
 
    protected:
       void highlightBlock(const QString& text) override;

@@ -10,8 +10,8 @@ Help::Edit::Patch::Patch(Persona* persona, const PatchParser::Marker& marker)
    , standardMethodGroup(nullptr)
 {
    setupUi(this);
-
    highlighter = new DescriptionHighlighter(descrptionEdit->document());
+   keyInfo->setText("PATCH");
 
    standardMethodGroup = new QButtonGroup(this);
    standardMethodGroup->addButton(messageBangButton, static_cast<int>(PatchStructure::Type::Bang));
@@ -63,12 +63,12 @@ void Help::Edit::Patch::componentSelected(PatchParser::Marker marker, QVariant d
 
    ChildrenSignalBlocker blocker(this);
 
-   keyInfo->setText(persona->getCurrentKey());
-
-   metaTagEdit->setText(persona->parser().metaTagList.join(";"));
-   digestEdit->setText(persona->parser().patchDigest.text);
-   descrptionEdit->setPlainText(persona->parser().patchDigest.description);
-   seeAlsoEdit->setText(persona->parser().seeAlsoList.join(";"));
+   keyInfo->setText("PATCH " + persona->getCurrentKey());
+   metaTagEdit->setText(persona->parserRef().metaTagList.join(";"));
+   digestEdit->setText(persona->parserRef().patchDigest.text);
+   descrptionEdit->setPlainText(persona->parserRef().patchDigest.description);
+   seeAlsoEdit->setText(persona->parserRef().seeAlsoList.join(";"));
 
    highlighter->rehighlight(); // because signals are blocked
+   qDebug() << __FUNCTION__ << "end";
 }

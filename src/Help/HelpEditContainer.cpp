@@ -34,5 +34,8 @@ void Help::Edit::Container::componentSelected(PatchParser::Marker marker, QVaria
 {
    Q_UNUSED(data);
 
-   setCurrentWidget(editorMap[marker]);
+   if (!editorMap.contains(marker))
+      return;
+
+   setCurrentWidget(editorMap.value(marker));
 }

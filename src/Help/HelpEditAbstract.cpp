@@ -8,6 +8,7 @@ Help::Edit::Abstract::Abstract(Persona* persona, const PatchParser::Marker& mark
    , Central::FunctionHub()
    , persona(persona)
    , marker(marker)
+
 {
 }
 

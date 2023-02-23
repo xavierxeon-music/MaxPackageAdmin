@@ -2,8 +2,8 @@
 
 #include "HelpPatchParser.h"
 
-Help::DescriptionHighlighter::DescriptionHighlighter(QTextDocument* document)
-   : QSyntaxHighlighter(document)
+Help::DescriptionHighlighter::DescriptionHighlighter(QObject* parent)
+   : QSyntaxHighlighter(parent)
    , tagFormat()
    , contentFormat()
    , errorFormat()
