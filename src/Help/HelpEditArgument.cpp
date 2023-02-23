@@ -1,13 +1,13 @@
 #include "HelpEditArgument.h"
 
-Help::Edit::Argument::Argument(Persona* persona, const PatchStructure::Marker& marker)
+Help::Edit::Argument::Argument(Persona* persona, const PatchParser::Marker& marker)
    : Abstract(persona, marker)
    , argumentIndex()
 {
    setupUi(this);
 }
 
-void Help::Edit::Argument::componentSelected(PatchStructure::Marker marker, QVariant data)
+void Help::Edit::Argument::componentSelected(PatchParser::Marker marker, QVariant data)
 {
    if (this->marker != marker)
       return;

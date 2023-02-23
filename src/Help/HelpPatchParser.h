@@ -1,5 +1,5 @@
-#ifndef HelpPatchStructureH
-#define HelpPatchStructureH
+#ifndef HelpPatchParserH
+#define HelpPatchParserH
 
 #include <PatchStructure.h>
 
@@ -9,7 +9,7 @@
 
 namespace Help
 {
-   class PatchStructure : public ::PatchStructure
+   class PatchParser : public PatchStructure
    {
       Q_GADGET
    public:
@@ -30,8 +30,8 @@ namespace Help
       Q_ENUM(Marker)
 
    public:
-      PatchStructure();
-      PatchStructure(const QString& patchPath);
+      PatchParser();
+      PatchParser(const QString& patchPath);
 
    public:
       void writeXML();
@@ -62,4 +62,4 @@ namespace Help
    };
 } // namespace Help
 
-#endif // NOT HelpPatchStructureH
+#endif // NOT HelpPatchParserH

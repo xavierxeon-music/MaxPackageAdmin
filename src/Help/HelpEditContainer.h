@@ -4,7 +4,7 @@
 #include <QStackedWidget>
 
 #include "HelpEditAbstract.h"
-#include "HelpPatchStructure.h"
+#include "HelpPatchParser.h"
 
 namespace Help
 {
@@ -21,13 +21,13 @@ namespace Help
          Container(Persona* persona);
 
       private:
-         using EditorMap = QMap<PatchStructure::Marker, Abstract*>;
+         using EditorMap = QMap<PatchParser::Marker, Abstract*>;
 
       private:
          template <typename EditorType>
-         void addEditor(const PatchStructure::Marker& marker);
+         void addEditor(const PatchParser::Marker& marker);
 
-         void componentSelected(PatchStructure::Marker marker, QVariant data) override;
+         void componentSelected(PatchParser::Marker marker, QVariant data) override;
 
       private:
          Persona* persona;

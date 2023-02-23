@@ -1,7 +1,7 @@
 #include "HelpComponentsView.h"
 
 #include "HelpComponentsModel.h"
-#include "HelpPatchStructure.h"
+#include "HelpPatchParser.h"
 
 Help::ComponentsView::ComponentsView(QWidget* parent, ComponentsModel* model)
    : Abstract::ItemTreeView(parent, model)
@@ -12,13 +12,13 @@ Help::ComponentsView::ComponentsView(QWidget* parent, ComponentsModel* model)
 
 void Help::ComponentsView::clicked(ModelItem* item)
 {
-   const QVariant markerVariant = item->data(PatchStructure::RoleMarker);
+   const QVariant markerVariant = item->data(PatchParser::RoleMarker);
    if (!markerVariant.isValid())
       return;
 
-   const PatchStructure::Marker marker = markerVariant.value<PatchStructure::Marker>();
+   const PatchParser::Marker marker = markerVariant.value<PatchParser::Marker>();
 
-   const QVariant data = item->data(PatchStructure::RoleData);
+   const QVariant data = item->data(PatchParser::RoleData);
 
    callOnAllHubInstances(&ComponentsView::componentSelected, marker, data);
 }

@@ -9,7 +9,7 @@ HEADERS += \
    $$PWD/HelpEditMessage.h \
    $$PWD/HelpEditOutput.h \
    $$PWD/HelpEditPatch.h \
-   $$PWD/HelpPatchStructure.h \
+   $$PWD/HelpPatchParser.h \
    $$PWD/HelpPersona.h \
    $$PWD/HelpSelectModel.h \
    $$PWD/HelpSelectView.h
@@ -24,7 +24,7 @@ SOURCES += \
    $$PWD/HelpEditMessage.cpp \
    $$PWD/HelpEditOutput.cpp \
    $$PWD/HelpEditPatch.cpp \
-   $$PWD/HelpPatchStructure.cpp \
+   $$PWD/HelpPatchParser.cpp \
    $$PWD/HelpPersona.cpp \
    $$PWD/HelpSelectModel.cpp \
    $$PWD/HelpSelectView.cpp

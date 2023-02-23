@@ -13,7 +13,7 @@ namespace Help
          Q_OBJECT
 
       public:
-         Patch(Persona* persona, const PatchStructure::Marker& marker);
+         Patch(Persona* persona, const PatchParser::Marker& marker);
 
       private:
          void slotChangedMetaTag();
@@ -23,7 +23,7 @@ namespace Help
          void slotChangeSeeAlso();
 
       private:
-         void componentSelected(PatchStructure::Marker marker, QVariant data) override;
+         void componentSelected(PatchParser::Marker marker, QVariant data) override;
 
       private:
          QButtonGroup* standardMethodGroup;

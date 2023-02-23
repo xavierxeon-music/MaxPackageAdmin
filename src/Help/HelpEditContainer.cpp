@@ -14,15 +14,15 @@ Help::Edit::Container::Container(Persona* persona)
    , persona(persona)
    , editorMap()
 {
-   addEditor<Argument>(PatchStructure::Marker::Argument);
-   addEditor<Attribute>(PatchStructure::Marker::Attribute);
-   addEditor<Message>(PatchStructure::Marker::Message);
-   addEditor<Output>(PatchStructure::Marker::Output);
-   addEditor<Patch>(PatchStructure::Marker::Patch);
+   addEditor<Argument>(PatchParser::Marker::Argument);
+   addEditor<Attribute>(PatchParser::Marker::Attribute);
+   addEditor<Message>(PatchParser::Marker::Message);
+   addEditor<Output>(PatchParser::Marker::Output);
+   addEditor<Patch>(PatchParser::Marker::Patch);
 }
 
 template <typename EditorType>
-void Help::Edit::Container::addEditor(const PatchStructure::Marker& marker)
+void Help::Edit::Container::addEditor(const PatchParser::Marker& marker)
 {
    Abstract* abstract = new EditorType(persona, marker);
    addWidget(abstract);
@@ -30,7 +30,7 @@ void Help::Edit::Container::addEditor(const PatchStructure::Marker& marker)
    editorMap[marker] = abstract;
 }
 
-void Help::Edit::Container::componentSelected(PatchStructure::Marker marker, QVariant data)
+void Help::Edit::Container::componentSelected(PatchParser::Marker marker, QVariant data)
 {
    Q_UNUSED(data);
 

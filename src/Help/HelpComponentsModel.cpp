@@ -14,17 +14,22 @@ void Help::ComponentsModel::patchSelected(QString patchPath, QString key)
    Q_UNUSED(patchPath)
    Q_UNUSED(key)
 
+   rebuild();
+}
+
+void Help::ComponentsModel::rebuild()
+{
    clear();
 
    const PatchStructure structure = persona->structure();
 
-   auto addMarker = [](const PatchStructure::Marker& marker, const QVariant& data, ModelItem* item1, ModelItem* item2)
+   auto addMarker = [](const PatchParser::Marker& marker, const QVariant& data, ModelItem* item1, ModelItem* item2)
    {
-      item1->setData(QVariant::fromValue(marker), PatchStructure::RoleMarker);
-      item1->setData(data, PatchStructure::RoleData);
+      item1->setData(QVariant::fromValue(marker), PatchParser::RoleMarker);
+      item1->setData(data, PatchParser::RoleData);
 
-      item2->setData(QVariant::fromValue(marker), PatchStructure::RoleMarker);
-      item2->setData(data, PatchStructure::RoleData);
+      item2->setData(QVariant::fromValue(marker), PatchParser::RoleMarker);
+      item2->setData(data, PatchParser::RoleData);
    };
 
    {
@@ -32,7 +37,7 @@ void Help::ComponentsModel::patchSelected(QString patchPath, QString key)
       ModelItem* patchDigestItem = new ModelItem(structure.patchDigest.text);
 
       invisibleRootItem()->appendRow({patchItem, patchDigestItem});
-      addMarker(PatchStructure::Marker::Patch, true, patchItem, patchDigestItem);
+      addMarker(PatchParser::Marker::Patch, true, patchItem, patchDigestItem);
    }
 
    {
@@ -46,7 +51,7 @@ void Help::ComponentsModel::patchSelected(QString patchPath, QString key)
          ModelItem* argDigestItem = new ModelItem(argument.digest.text);
 
          argumentListItem->appendRow({argItem, argDigestItem});
-         addMarker(PatchStructure::Marker::Argument, index, argItem, argDigestItem);
+         addMarker(PatchParser::Marker::Argument, index, argItem, argDigestItem);
       }
    }
 
@@ -59,7 +64,7 @@ void Help::ComponentsModel::patchSelected(QString patchPath, QString key)
          ModelItem* attrrDigestItem = new ModelItem(it.value().digest.text);
 
          attributeListItem->appendRow({attrItem, attrrDigestItem});
-         addMarker(PatchStructure::Marker::Attribute, it.key(), attrItem, attrrDigestItem);
+         addMarker(PatchParser::Marker::Attribute, it.key(), attrItem, attrrDigestItem);
       }
    }
 
@@ -72,7 +77,7 @@ void Help::ComponentsModel::patchSelected(QString patchPath, QString key)
          ModelItem* msgDigestItem = new ModelItem(it.value().digest.text);
 
          messageListItem->appendRow({msgItem, msgDigestItem});
-         addMarker(PatchStructure::Marker::Message, true, msgDigestItem, msgDigestItem);
+         addMarker(PatchParser::Marker::Message, true, msgDigestItem, msgDigestItem);
       }
    }
 
@@ -85,7 +90,7 @@ void Help::ComponentsModel::patchSelected(QString patchPath, QString key)
          ModelItem* outputDigestItem = new ModelItem(QString::number(it.key()));
 
          outputListItem->appendRow({outputItem, outputDigestItem});
-         addMarker(PatchStructure::Marker::Output, it.key(), outputItem, outputDigestItem);
+         addMarker(PatchParser::Marker::Output, it.key(), outputItem, outputDigestItem);
       }
    }
 }

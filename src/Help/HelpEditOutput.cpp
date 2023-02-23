@@ -1,13 +1,13 @@
 #include "HelpEditOutput.h"
 
-Help::Edit::Output::Output(Persona* persona, const PatchStructure::Marker& marker)
+Help::Edit::Output::Output(Persona* persona, const PatchParser::Marker& marker)
    : Abstract(persona, marker)
    , outputIndex()
 {
    setupUi(this);
 }
 
-void Help::Edit::Output::componentSelected(PatchStructure::Marker marker, QVariant data)
+void Help::Edit::Output::componentSelected(PatchParser::Marker marker, QVariant data)
 {
    if (this->marker != marker)
       return;

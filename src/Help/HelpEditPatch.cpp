@@ -4,7 +4,7 @@
 
 #include <ChildrenSignalBlocker.h>
 
-Help::Edit::Patch::Patch(Persona* persona, const PatchStructure::Marker& marker)
+Help::Edit::Patch::Patch(Persona* persona, const PatchParser::Marker& marker)
    : Abstract(persona, marker)
    , standardMethodGroup(nullptr)
 {
@@ -51,7 +51,7 @@ void Help::Edit::Patch::slotChangeSeeAlso()
    copyIfChanged(persona->structureRef().seeAlsoList, seeAlsoList);
 }
 
-void Help::Edit::Patch::componentSelected(PatchStructure::Marker marker, QVariant data)
+void Help::Edit::Patch::componentSelected(PatchParser::Marker marker, QVariant data)
 {
    Q_UNUSED(data)
 

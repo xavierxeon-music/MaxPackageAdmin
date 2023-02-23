@@ -16,6 +16,7 @@ namespace Help
 
    private:
       void patchSelected(QString patchPath, QString key) override;
+      void rebuild();
 
    private:
       Persona* persona;

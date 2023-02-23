@@ -1,4 +1,4 @@
-#include "HelpPatchStructure.h"
+#include "HelpPatchParser.h"
 
 #include <QDomDocument>
 #include <QFile>
@@ -10,16 +10,16 @@
 #include <JSONModel.h>
 #include <Message.h>
 
-Help::PatchStructure::PatchStructure()
-   : ::PatchStructure()
+Help::PatchParser::PatchParser()
+   : PatchStructure()
    , patchName()
    , patchPath()
    , helpPath()
 {
 }
 
-Help::PatchStructure::PatchStructure(const QString& patchPath)
-   : ::PatchStructure()
+Help::PatchParser::PatchParser(const QString& patchPath)
+   : PatchStructure()
    , patchName()
    , patchPath(patchPath)
    , helpPath()
@@ -40,7 +40,7 @@ Help::PatchStructure::PatchStructure(const QString& patchPath)
       writeXML();
 }
 
-void Help::PatchStructure::writeXML()
+void Help::PatchParser::writeXML()
 {
    QDomDocument doc;
 
@@ -150,7 +150,7 @@ void Help::PatchStructure::writeXML()
    file.close();
 }
 
-QDomElement Help::PatchStructure::createSubElement(QDomElement parent, const QString& name, const QString& text, const TagMap& tagMap)
+QDomElement Help::PatchParser::createSubElement(QDomElement parent, const QString& name, const QString& text, const TagMap& tagMap)
 {
    QDomElement element = parent.ownerDocument().createElement(name);
    parent.appendChild(element);
@@ -169,14 +169,14 @@ QDomElement Help::PatchStructure::createSubElement(QDomElement parent, const QSt
    return element;
 }
 
-void Help::PatchStructure::addDigest(const QDomElement& parentElement, const Digest& digest)
+void Help::PatchParser::addDigest(const QDomElement& parentElement, const Digest& digest)
 {
    createSubElement(parentElement, "digest", digest.text);
    if (!digest.description.isEmpty())
       createSubElement(parentElement, "description", digest.description);
 }
 
-void Help::PatchStructure::readXML()
+void Help::PatchParser::readXML()
 {
    QFile file(helpPath);
    if (!file.open(QIODevice::ReadOnly))
@@ -307,7 +307,7 @@ void Help::PatchStructure::readXML()
    }
 }
 
-void Help::PatchStructure::readDigest(const QDomElement& parentElement, Digest& digest) const
+void Help::PatchParser::readDigest(const QDomElement& parentElement, Digest& digest) const
 {
    const QDomElement textElement = parentElement.firstChildElement("digest");
    digest.text = readText(textElement);
@@ -316,7 +316,7 @@ void Help::PatchStructure::readDigest(const QDomElement& parentElement, Digest& 
    digest.description = readText(descriptionElement);
 }
 
-QString Help::PatchStructure::readText(const QDomElement& element) const
+QString Help::PatchParser::readText(const QDomElement& element) const
 {
    if (element.isNull())
       return QString();
@@ -328,7 +328,7 @@ QString Help::PatchStructure::readText(const QDomElement& element) const
    return textNode.data();
 }
 
-QDomElement Help::PatchStructure::findFirstDirectChildElementWithAttributes(const QDomElement& element, const QString& tag, const TagMap& tagMap) const
+QDomElement Help::PatchParser::findFirstDirectChildElementWithAttributes(const QDomElement& element, const QString& tag, const TagMap& tagMap) const
 {
    for (QDomElement childElement = element.firstChildElement(tag); !childElement.isNull(); childElement = childElement.nextSiblingElement(tag))
    {
@@ -355,7 +355,7 @@ QDomElement Help::PatchStructure::findFirstDirectChildElementWithAttributes(cons
    return QDomElement();
 }
 
-QList<QDomElement> Help::PatchStructure::compileAllDirectChildElements(const QDomElement& element, const QString& tag, const TagMap& tagMap) const
+QList<QDomElement> Help::PatchParser::compileAllDirectChildElements(const QDomElement& element, const QString& tag, const TagMap& tagMap) const
 {
    QList<QDomElement> list;
    for (QDomElement childElement = element.firstChildElement(tag); !childElement.isNull(); childElement = childElement.nextSiblingElement(tag))
@@ -386,7 +386,7 @@ QList<QDomElement> Help::PatchStructure::compileAllDirectChildElements(const QDo
    return list;
 }
 
-void Help::PatchStructure::addJSON()
+void Help::PatchParser::addJSON()
 {
    QJsonObject object = JSON::fromFile(patchPath);
    if (object.empty())
@@ -544,7 +544,7 @@ void Help::PatchStructure::addJSON()
    }
 }
 
-PatchStructure::Output& Help::PatchStructure::findOrCreateOutput(const int id)
+PatchStructure::Output& Help::PatchParser::findOrCreateOutput(const int id)
 {
    if (!outputMap.contains(id))
       outputMap[id] = Output{};
@@ -552,14 +552,14 @@ PatchStructure::Output& Help::PatchStructure::findOrCreateOutput(const int id)
    return outputMap[id];
 }
 
-QByteArray Help::PatchStructure::domToMaxFile(QByteArray domXML) const
+QByteArray Help::PatchParser::domToMaxFile(QByteArray domXML) const
 {
    domXML.replace("&lt;", "<");
    domXML.replace("&gt;", ">");
    return domXML;
 }
 
-QByteArray Help::PatchStructure::maxFileToDom(QByteArray maxXML) const
+QByteArray Help::PatchParser::maxFileToDom(QByteArray maxXML) const
 {
    static const QList<QByteArray> descriptionMaxTags = {"o", "m", "at", "ar", "b", "u", "i"};
    for (const QByteArray& tag : descriptionMaxTags)

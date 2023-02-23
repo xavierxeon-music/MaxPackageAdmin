@@ -6,7 +6,7 @@
 
 #include <Central.h>
 
-#include "HelpPatchStructure.h"
+#include "HelpPatchParser.h"
 
 namespace Help
 {
@@ -22,7 +22,7 @@ namespace Help
       struct FunctionHub : public Abstract::FunctionHub<Persona>
       {
          virtual void patchSelected(QString patchPath, QString key);
-         virtual void componentSelected(PatchStructure::Marker marker, QVariant data);
+         virtual void componentSelected(PatchParser::Marker marker, QVariant data);
       };
 
    public:
@@ -30,13 +30,13 @@ namespace Help
 
    public:
       const QString& getCurrentKey() const;
-      PatchStructure structure() const;
-      PatchStructure& structureRef();
+      PatchParser structure() const;
+      PatchParser& structureRef();
       void savePatchStructures();
       void buildPatchStructure(QString patchPath, const QString& key);
 
    private:
-      using StructureMap = QMap<QString, PatchStructure>;
+      using ParserMap = QMap<QString, PatchParser>;
 
    private slots:
       void slotReload();
@@ -46,7 +46,7 @@ namespace Help
       SelectModel* selectModel;
       ComponentsModel* componentsModel;
       QString currentKey;
-      StructureMap structureMap;
+      ParserMap parserMap;
    };
 } // namespace Help
 

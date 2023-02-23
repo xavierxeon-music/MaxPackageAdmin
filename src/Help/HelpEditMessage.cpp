@@ -1,13 +1,13 @@
 #include "HelpEditMessage.h"
 
-Help::Edit::Message::Message(Persona* persona, const PatchStructure::Marker& marker)
+Help::Edit::Message::Message(Persona* persona, const PatchParser::Marker& marker)
    : Abstract(persona, marker)
    , messageName()
 {
    setupUi(this);
 }
 
-void Help::Edit::Message::componentSelected(PatchStructure::Marker marker, QVariant data)
+void Help::Edit::Message::componentSelected(PatchParser::Marker marker, QVariant data)
 {
    if (this->marker != marker)
       return;

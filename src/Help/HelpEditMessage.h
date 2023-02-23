@@ -13,10 +13,10 @@ namespace Help
          Q_OBJECT
 
       public:
-         Message(Persona* persona, const PatchStructure::Marker& marker);
+         Message(Persona* persona, const PatchParser::Marker& marker);
 
       private:
-         void componentSelected(PatchStructure::Marker marker, QVariant data) override;
+         void componentSelected(PatchParser::Marker marker, QVariant data) override;
 
       private:
          QString messageName;

@@ -5,7 +5,7 @@
 
 #include <Central.h>
 
-#include "HelpPatchStructure.h"
+#include "HelpPatchParser.h"
 #include "HelpPersona.h"
 
 namespace Help
@@ -21,18 +21,18 @@ namespace Help
          Q_OBJECT
 
       public:
-         Abstract(Persona* persona, const PatchStructure::Marker& marker);
+         Abstract(Persona* persona, const PatchParser::Marker& marker);
          virtual ~Abstract();
 
       protected:
-         virtual void componentSelected(PatchStructure::Marker marker, QVariant data) override = 0;
+         virtual void componentSelected(PatchParser::Marker marker, QVariant data) override = 0;
 
          template <typename DataType>
          bool copyIfChanged(DataType& target, const DataType& data);
 
       protected:
          Persona* persona;
-         const PatchStructure::Marker marker;
+         const PatchParser::Marker marker;
       };
    } // namespace Edit
 } // namespace Help

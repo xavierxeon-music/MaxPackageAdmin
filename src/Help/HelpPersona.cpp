@@ -16,7 +16,7 @@ void Help::Persona::FunctionHub::patchSelected(QString patchPath, QString key)
    Q_UNUSED(key)
 }
 
-void Help::Persona::FunctionHub::componentSelected(PatchStructure::Marker marker, QVariant data)
+void Help::Persona::FunctionHub::componentSelected(PatchParser::Marker marker, QVariant data)
 {
    // do nothing
    Q_UNUSED(marker)
@@ -31,7 +31,7 @@ Help::Persona::Persona(MainWidget* mainWidget)
    , selectModel(nullptr)
    , componentsModel(nullptr)
    , currentKey()
-   , structureMap()
+   , parserMap()
 {
    selectModel = new SelectModel(this);
    componentsModel = new ComponentsModel(this);
@@ -54,28 +54,28 @@ const QString& Help::Persona::getCurrentKey() const
    return currentKey;
 }
 
-Help::PatchStructure Help::Persona::structure() const
+Help::PatchParser Help::Persona::structure() const
 {
-   return structureMap[currentKey];
+   return parserMap[currentKey];
 }
 
-Help::PatchStructure& Help::Persona::structureRef()
+Help::PatchParser& Help::Persona::structureRef()
 {
-   return structureMap[currentKey];
+   return parserMap[currentKey];
 }
 
 void Help::Persona::buildPatchStructure(QString patchPath, const QString& key)
 {
    currentKey = key;
 
-   if (!structureMap.contains(key))
-      structureMap[key] = PatchStructure(patchPath);
+   if (!parserMap.contains(key))
+      parserMap[key] = PatchParser(patchPath);
 }
 
 void Help::Persona::savePatchStructures()
 {
-   for (PatchStructure& patchStructure : structureMap)
-      patchStructure.writeXML();
+   for (PatchParser& parser : parserMap)
+      parser.writeXML();
 
    callOnAllHubInstances(&Persona::setModified, false);
 }

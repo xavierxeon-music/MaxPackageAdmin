@@ -2,7 +2,7 @@
 
 #include "HelpPersona.h"
 
-Help::Edit::Abstract::Abstract(Persona* persona, const PatchStructure::Marker& marker)
+Help::Edit::Abstract::Abstract(Persona* persona, const PatchParser::Marker& marker)
    : QWidget(persona)
    , Persona::FunctionHub()
    , Central::FunctionHub()
