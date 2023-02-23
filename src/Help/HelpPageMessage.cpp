@@ -1,20 +1,21 @@
-#include "HelpEditMessage.h"
+#include "HelpPageMessage.h"
 
 #include <ChildrenSignalBlocker.h>
 
-Help::Edit::Message::Message(Persona* persona, const PatchParser::Marker& marker)
+Help::Page::Message::Message(Persona* persona, const PatchParser::Marker& marker)
    : Abstract(persona, marker)
    , highlighter(nullptr)
    , messageName()
 {
    setupUi(this);
    highlighter = new DescriptionHighlighter(descrptionEdit->document());
+
    keyInfo->setText("MESSAGE");
 }
 
-void Help::Edit::Message::componentSelected(PatchParser::Marker marker, QVariant data)
+void Help::Page::Message::componentSelected(PatchParser::Marker marker, QVariant data)
 {
-   if (this->marker != marker)
+   if (editMarker != marker)
       return;
 
    messageName = data.toString();
@@ -26,6 +27,5 @@ void Help::Edit::Message::componentSelected(PatchParser::Marker marker, QVariant
    digestEdit->setText(message.digest.text);
    descrptionEdit->setPlainText(message.digest.description);
 
-   highlighter->rehighlight(); // because signals are blocked
-   qDebug() << __FUNCTION__ << "end";
+   highlighter->rehighlight();
 }

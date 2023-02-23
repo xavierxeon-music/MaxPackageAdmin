@@ -1,16 +1,17 @@
-#include "HelpEditPatch.h"
+#include "HelpPagePatch.h"
 
 #include <QButtonGroup>
 
 #include <ChildrenSignalBlocker.h>
 
-Help::Edit::Patch::Patch(Persona* persona, const PatchParser::Marker& marker)
+Help::Page::Patch::Patch(Persona* persona, const PatchParser::Marker& marker)
    : Abstract(persona, marker)
    , highlighter(nullptr)
    , standardMethodGroup(nullptr)
 {
    setupUi(this);
    highlighter = new DescriptionHighlighter(descrptionEdit->document());
+
    keyInfo->setText("PATCH");
 
    standardMethodGroup = new QButtonGroup(this);
@@ -27,48 +28,47 @@ Help::Edit::Patch::Patch(Persona* persona, const PatchParser::Marker& marker)
    connect(seeAlsoEdit, &QLineEdit::textChanged, this, &Patch::slotChangeSeeAlso);
 }
 
-void Help::Edit::Patch::slotChangedMetaTag()
+void Help::Page::Patch::slotChangedMetaTag()
 {
    const QStringList metaTageList = metaTagEdit->text().split(";");
    copyIfChanged(persona->parserRef().metaTagList, metaTageList);
 }
 
-void Help::Edit::Patch::slotAddStandardMethond(int type)
+void Help::Page::Patch::slotAddStandardMethond(int type)
 {
    qDebug() << __FUNCTION__ << type;
 }
 
-void Help::Edit::Patch::slotChangeDigest()
+void Help::Page::Patch::slotChangeDigest()
 {
    copyIfChanged(persona->parserRef().patchDigest.text, digestEdit->text());
 }
 
-void Help::Edit::Patch::slotChangeDescription()
+void Help::Page::Patch::slotChangeDescription()
 {
    copyIfChanged(persona->parserRef().patchDigest.description, descrptionEdit->toPlainText());
 }
 
-void Help::Edit::Patch::slotChangeSeeAlso()
+void Help::Page::Patch::slotChangeSeeAlso()
 {
    const QStringList seeAlsoList = seeAlsoEdit->text().split(";");
    copyIfChanged(persona->parserRef().seeAlsoList, seeAlsoList);
 }
 
-void Help::Edit::Patch::componentSelected(PatchParser::Marker marker, QVariant data)
+void Help::Page::Patch::componentSelected(PatchParser::Marker marker, QVariant data)
 {
    Q_UNUSED(data)
 
-   if (this->marker != marker)
+   if (editMarker != marker)
       return;
 
    ChildrenSignalBlocker blocker(this);
 
-   keyInfo->setText("PATCH " + persona->getCurrentKey());
+   keyInfo->setText("patch @ " + persona->getCurrentKey());
    metaTagEdit->setText(persona->parserRef().metaTagList.join(";"));
    digestEdit->setText(persona->parserRef().patchDigest.text);
    descrptionEdit->setPlainText(persona->parserRef().patchDigest.description);
    seeAlsoEdit->setText(persona->parserRef().seeAlsoList.join(";"));
 
-   highlighter->rehighlight(); // because signals are blocked
-   qDebug() << __FUNCTION__ << "end";
+   highlighter->rehighlight();
 }

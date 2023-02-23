@@ -1,14 +1,14 @@
-#ifndef HelpEditPatchH
-#define HelpEditPatchH
+#ifndef HelpPagePatchH
+#define HelpPagePatchH
 
-#include "HelpEditAbstract.h"
-#include "ui_HelpEditPatch.h"
+#include "HelpPageAbstract.h"
+#include "ui_HelpPagePatch.h"
 
 #include "HelpDescriptionHighlighter.h"
 
 namespace Help
 {
-   namespace Edit
+   namespace Page
    {
       class Patch : public Abstract, private Ui::Patch
       {
@@ -34,4 +34,4 @@ namespace Help
    } // namespace Edit
 } // namespace Help
 
-#endif // NOT HelpEditPatchH
+#endif // NOT HelpPagePatchH

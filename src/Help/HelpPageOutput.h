@@ -1,14 +1,14 @@
-#ifndef HelpEditOutputH
-#define HelpEditOutputH
+#ifndef HelpPageOutputH
+#define HelpPageOutputH
 
-#include "HelpEditAbstract.h"
-#include "ui_HelpEditOutput.h"
+#include "HelpPageAbstract.h"
+#include "ui_HelpPageOutput.h"
 
 #include "HelpDescriptionHighlighter.h"
 
 namespace Help
 {
-   namespace Edit
+   namespace Page
    {
       class Output : public Abstract, private Ui::Output
       {
@@ -27,4 +27,4 @@ namespace Help
    } // namespace Edit
 } // namespace Help
 
-#endif // NOT HelpEditOutputH
+#endif // NOT HelpPageOutputH

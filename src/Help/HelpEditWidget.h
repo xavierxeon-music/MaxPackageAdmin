@@ -1,9 +1,9 @@
-#ifndef HelpEditContainerH
-#define HelpEditContainerH
+#ifndef HelpEditWidgetH
+#define HelpEditWidgetH
 
 #include <QStackedWidget>
 
-#include "HelpEditAbstract.h"
+#include "HelpPageAbstract.h"
 #include "HelpPatchParser.h"
 
 namespace Help
@@ -12,16 +12,16 @@ namespace Help
 
    namespace Edit
    {
-      class Container : public QStackedWidget,
-                        private Persona::FunctionHub
+      class Widget : public QStackedWidget,
+                     private Persona::FunctionHub
       {
          Q_OBJECT
 
       public:
-         Container(Persona* persona);
+         Widget(Persona* persona);
 
       private:
-         using EditorMap = QMap<PatchParser::Marker, Abstract*>;
+         using EditorMap = QMap<PatchParser::Marker, Page::Abstract*>;
 
       private:
          template <typename EditorType>
@@ -36,4 +36,4 @@ namespace Help
    } // namespace Edit
 } // namespace Help
 
-#endif // NOT HelpEditContainerH
+#endif // NOT HelpEditWidgetH

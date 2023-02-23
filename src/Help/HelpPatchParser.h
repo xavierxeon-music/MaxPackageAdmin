@@ -21,6 +21,7 @@ namespace Help
 
       enum class Marker
       {
+         Undefined,
          Patch,
          Argument,
          Attribute,

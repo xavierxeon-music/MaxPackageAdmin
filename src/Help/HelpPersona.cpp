@@ -5,7 +5,7 @@
 
 #include "HelpComponentsModel.h"
 #include "HelpComponentsView.h"
-#include "HelpEditContainer.h"
+#include "HelpEditWidget.h"
 #include "HelpSelectModel.h"
 #include "HelpSelectView.h"
 
@@ -38,11 +38,11 @@ Help::Persona::Persona(MainWidget* mainWidget)
 
    SelectView* selectView = new SelectView(this, selectModel);
    ComponentsView* componentsView = new ComponentsView(this, componentsModel);
-   Edit::Container* editorContainer = new Edit::Container(this);
+   Edit::Widget* editWidget = new Edit::Widget(this);
 
    addWidget(selectView, "select");
    addWidget(componentsView, "components");
-   addWidget(editorContainer, "edit");
+   addWidget(editWidget, "edit");
 
    getToolBar()->addAction(QIcon(":/Reload.svg"), "Reload", this, &Persona::slotReload);
    QAction* saveAction = getToolBar()->addAction(QIcon(":/Save.svg"), "Save", this, &Persona::slotSave);

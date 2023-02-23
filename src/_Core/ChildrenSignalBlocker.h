@@ -1,16 +1,16 @@
 #ifndef ChildrenSignalBlockerH
 #define ChildrenSignalBlockerH
 
-#include <QObject>
+#include <QWidget>
 
 class ChildrenSignalBlocker
 {
 public:
-   ChildrenSignalBlocker(QObject* object);
+   ChildrenSignalBlocker(QWidget* parent);
    ~ChildrenSignalBlocker();
 
 private:
-   QObject* object;
+   QWidget* parent;
 };
 
 #endif // NOT ChildrenSignalBlockerH

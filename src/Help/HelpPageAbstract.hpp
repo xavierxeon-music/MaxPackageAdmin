@@ -1,10 +1,10 @@
-#ifndef HelpEditAbstractHPP
-#define HelpEditAbstractHPP
+#ifndef HelpPageAbstractHPP
+#define HelpPageAbstractHPP
 
-#include "HelpEditAbstract.h"
+#include "HelpPageAbstract.h"
 
 template <typename DataType>
-bool Help::Edit::Abstract::copyIfChanged(DataType& target, const DataType& data)
+bool Help::Page::Abstract::copyIfChanged(DataType& target, const DataType& data)
 {
    if (data == target)
       return false;
@@ -15,4 +15,4 @@ bool Help::Edit::Abstract::copyIfChanged(DataType& target, const DataType& data)
    return true;
 }
 
-#endif // NOT HelpEditAbstractHPP
+#endif // NOT HelpPageAbstractHPP

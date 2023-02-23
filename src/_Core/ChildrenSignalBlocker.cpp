@@ -1,14 +1,14 @@
 #include "ChildrenSignalBlocker.h"
 
-ChildrenSignalBlocker::ChildrenSignalBlocker(QObject* object)
-   : object(object)
+ChildrenSignalBlocker::ChildrenSignalBlocker(QWidget* parent)
+   : parent(parent)
 {
-   for (QObject* childObject : object->findChildren<QObject*>())
-      childObject->blockSignals(true);
+   for (QWidget* childWidget : parent->findChildren<QWidget*>(Qt::FindDirectChildrenOnly))
+      childWidget->blockSignals(true);
 }
 
 ChildrenSignalBlocker::~ChildrenSignalBlocker()
 {
-   for (QObject* childObject : object->findChildren<QObject*>())
-      childObject->blockSignals(false);
+   for (QWidget* childWidget : parent->findChildren<QWidget*>(Qt::FindDirectChildrenOnly))
+      childWidget->blockSignals(false);
 }

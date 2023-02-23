@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Help::Edit::Message</class>
- <widget class="QWidget" name="Help::Edit::Message">
+ <class>Help::Page::Attribute</class>
+ <widget class="QWidget" name="Help::Page::Attribute">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -27,14 +27,21 @@
    <item>
     <widget class="QGroupBox" name="digestGroup">
      <property name="title">
-      <string>Description</string>
+      <string>Digest / Description</string>
      </property>
      <property name="flat">
       <bool>true</bool>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QLineEdit" name="digestEdit"/>
+       <widget class="QLineEdit" name="digestEdit">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>30</height>
+         </size>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPlainTextEdit" name="descrptionEdit"/>

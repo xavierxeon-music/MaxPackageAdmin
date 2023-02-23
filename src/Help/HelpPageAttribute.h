@@ -1,14 +1,14 @@
-#ifndef HelpEditAttributeH
-#define HelpEditAttributeH
+#ifndef HelpPageAttributeH
+#define HelpPageAttributeH
 
-#include "HelpEditAbstract.h"
-#include "ui_HelpEditAttribute.h"
+#include "HelpPageAbstract.h"
+#include "ui_HelpPageAttribute.h"
 
 #include "HelpDescriptionHighlighter.h"
 
 namespace Help
 {
-   namespace Edit
+   namespace Page
    {
       class Attribute : public Abstract, private Ui::Attribute
       {
@@ -27,4 +27,4 @@ namespace Help
    } // namespace Edit
 } // namespace Help
 
-#endif // NOT HelpEditAttributeH
+#endif // NOT HelpPageAttributeH

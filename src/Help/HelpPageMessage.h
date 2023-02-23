@@ -1,14 +1,14 @@
-#ifndef HelpEditMessageH
-#define HelpEditMessageH
+#ifndef HelpPageMessageH
+#define HelpPageMessageH
 
-#include "HelpEditAbstract.h"
-#include "ui_HelpEditMessage.h"
+#include "HelpPageAbstract.h"
+#include "ui_HelpPageMessage.h"
 
 #include "HelpDescriptionHighlighter.h"
 
 namespace Help
 {
-   namespace Edit
+   namespace Page
    {
       class Message : public Abstract, private Ui::Message
       {
@@ -27,4 +27,4 @@ namespace Help
    } // namespace Edit
 } // namespace Help
 
-#endif // NOT HelpEditMessageH
+#endif // NOT HelpPageMessageH

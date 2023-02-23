@@ -1,5 +1,5 @@
-#ifndef HelpEditAbstractH
-#define HelpEditAbstractH
+#ifndef HelpPageAbstractH
+#define HelpPageAbstractH
 
 #include <QWidget>
 
@@ -12,7 +12,7 @@ namespace Help
 {
    class Persona;
 
-   namespace Edit
+   namespace Page
    {
       class Abstract : public QWidget,
                        protected Persona::FunctionHub,
@@ -32,13 +32,13 @@ namespace Help
 
       protected:
          Persona* persona;
-         const PatchParser::Marker marker;
+         const PatchParser::Marker editMarker;
       };
    } // namespace Edit
 } // namespace Help
 
-#ifndef HelpEditAbstractHPP
-#include "HelpEditAbstract.hpp"
-#endif // NOT HelpEditAbstractHPP
+#ifndef HelpPageAbstractHPP
+#include "HelpPageAbstract.hpp"
+#endif // NOT HelpPageAbstractHPP
 
-#endif // NOT HelpEditAbstractH
+#endif // NOT HelpPageAbstractH

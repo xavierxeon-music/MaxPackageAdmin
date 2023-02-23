@@ -11,7 +11,7 @@ namespace Help
       Q_OBJECT
 
    public:
-      DescriptionHighlighter(QObject* parent);
+      DescriptionHighlighter(QTextDocument* document);
 
    protected:
       void highlightBlock(const QString& text) override;

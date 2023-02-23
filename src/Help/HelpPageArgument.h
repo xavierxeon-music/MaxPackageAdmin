@@ -1,14 +1,14 @@
-#ifndef HelpEditArgumentH
-#define HelpEditArgumentH
+#ifndef HelpPageArgumentH
+#define HelpPageArgumentH
 
-#include "HelpEditAbstract.h"
-#include "ui_HelpEditArgument.h"
+#include "HelpPageAbstract.h"
+#include "ui_HelpPageArgument.h"
 
 #include "HelpDescriptionHighlighter.h"
 
 namespace Help
 {
-   namespace Edit
+   namespace Page
    {
       class Argument : public Abstract, private Ui::Argument
       {
@@ -27,4 +27,4 @@ namespace Help
    } // namespace Edit
 } // namespace Help
 
-#endif // NOT HelpEditArgumentH
+#endif // NOT HelpPageArgumentH
