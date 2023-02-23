@@ -21,7 +21,7 @@ void Help::ComponentsModel::rebuild()
 {
    clear();
 
-   const PatchStructure structure = persona->structure();
+   const PatchStructure structure = persona->parser();
 
    auto addMarker = [](const PatchParser::Marker& marker, const QVariant& data, ModelItem* item1, ModelItem* item2)
    {

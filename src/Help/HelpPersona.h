@@ -30,8 +30,8 @@ namespace Help
 
    public:
       const QString& getCurrentKey() const;
-      PatchParser structure() const;
-      PatchParser& structureRef();
+      PatchParser parser() const;
+      PatchParser& parserRef();
       void savePatchStructures();
       void buildPatchStructure(QString patchPath, const QString& key);
 

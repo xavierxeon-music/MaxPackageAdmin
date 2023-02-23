@@ -13,5 +13,5 @@ void Help::Edit::Attribute::componentSelected(PatchParser::Marker marker, QVaria
       return;
 
    attributeName = data.toString();
-   const PatchStructure::Attribute& attribute = persona->structure().attributeMap[attributeName];
+   const PatchStructure::Attribute& attribute = persona->parser().attributeMap[attributeName];
 }

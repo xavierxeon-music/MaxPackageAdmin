@@ -13,5 +13,5 @@ void Help::Edit::Message::componentSelected(PatchParser::Marker marker, QVariant
       return;
 
    messageName = data.toString();
-   const PatchStructure::Message& message = persona->structure().messageMap[messageName];
+   const PatchStructure::Message& message = persona->parser().messageMap[messageName];
 }

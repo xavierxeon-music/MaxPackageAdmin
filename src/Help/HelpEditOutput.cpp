@@ -13,5 +13,5 @@ void Help::Edit::Output::componentSelected(PatchParser::Marker marker, QVariant 
       return;
 
    outputIndex = data.toInt();
-   const PatchStructure::Output& output = persona->structure().outputMap[outputIndex];
+   const PatchStructure::Output& output = persona->parser().outputMap[outputIndex];
 }

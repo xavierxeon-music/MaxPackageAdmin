@@ -54,12 +54,12 @@ const QString& Help::Persona::getCurrentKey() const
    return currentKey;
 }
 
-Help::PatchParser Help::Persona::structure() const
+Help::PatchParser Help::Persona::parser() const
 {
    return parserMap[currentKey];
 }
 
-Help::PatchParser& Help::Persona::structureRef()
+Help::PatchParser& Help::Persona::parserRef()
 {
    return parserMap[currentKey];
 }
