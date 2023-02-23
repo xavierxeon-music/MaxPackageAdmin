@@ -307,8 +307,16 @@ void Help::PatchParser::readXML()
 
          readDigest(messageElement, message.digest);
 
-         messageElement.attribute("standard");
-         messageFreeMap[name] = message;
+         const bool isStandard = ("1" == messageElement.attribute("standard"));
+         if (isStandard)
+         {
+            const Type type = toType(name);
+            messageStandardMap[type] = message;
+         }
+         else
+         {
+            messageFreeMap[name] = message;
+         }
       }
    }
 
