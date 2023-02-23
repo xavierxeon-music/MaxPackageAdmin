@@ -40,9 +40,8 @@ public:
    struct Argument
    {
       QString name;
-      bool optional;
+      bool optional = false;
       Type type = Type::Symbol;
-      QString defaultValue;
       Digest digest;
 
       using List = QList<Argument>;
@@ -53,14 +52,15 @@ public:
       Argument::List arguments;
       Digest digest;
 
-      using Map = QMap<QString, Message>; // name vs message
+      using FreeMap = QMap<QString, Message>; // name vs message
+      using StandardMap = QMap<Type, Message>;
    };
 
    // things in patcherargs with @
    struct Attribute
    {
-      bool get;
-      bool set;
+      bool get = false;
+      bool set = false;
       Type type = Type::Symbol;
       int size = 1;
       Digest digest;
@@ -73,10 +73,12 @@ public:
 public:
    Digest patchDigest;
    MetaTagList metaTagList;
+   int inletCount = 0;
    Output::Map outputMap;
    Argument::List argumentList;
    Attribute::Map attributeMap;
-   Message::Map messageMap;
+   Message::FreeMap messageFreeMap;
+   Message::StandardMap messageStandardMap;
    SeeAlsoList seeAlsoList;
 
 public:

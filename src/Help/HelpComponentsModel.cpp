@@ -71,7 +71,7 @@ void Help::ComponentsModel::rebuild()
    {
       ModelItem* messageListItem = new ModelItem("MESSAGES");
       invisibleRootItem()->appendRow(messageListItem);
-      for (PatchStructure::Message::Map::ConstIterator it = structure.messageMap.constBegin(); it != structure.messageMap.constEnd(); it++)
+      for (PatchStructure::Message::FreeMap::ConstIterator it = structure.messageFreeMap.constBegin(); it != structure.messageFreeMap.constEnd(); it++)
       {
          ModelItem* msgItem = new ModelItem(it.key());
          ModelItem* msgDigestItem = new ModelItem(it.value().digest.text);

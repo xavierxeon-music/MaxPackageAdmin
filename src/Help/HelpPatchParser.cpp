@@ -58,13 +58,18 @@ void Help::PatchParser::writeXML()
    }
 
    {
+      QDomElement parserElement = createSubElement(rootElement, "parser");
+      parserElement.setAttribute("inlet_count", inletCount);
+   }
+
+   {
       QDomElement outputListElement = createSubElement(rootElement, "misc");
       outputListElement.setAttribute("name", "Outputs");
       for (Output::Map::ConstIterator it = outputMap.constBegin(); it != outputMap.constEnd(); it++)
       {
          QDomElement outputElement = createSubElement(outputListElement, "entry");
          outputElement.setAttribute("name", it.value().name);
-         outputElement.setAttribute("id", QString::number(it.key()));
+         outputElement.setAttribute("id", it.key());
 
          addDigest(outputElement, it.value().digest);
       }
@@ -76,9 +81,8 @@ void Help::PatchParser::writeXML()
       {
          QDomElement arguemntElement = createSubElement(objArgListElement, "objarg");
          arguemntElement.setAttribute("name", argument.name);
-         arguemntElement.setAttribute("optional", argument.optional ? "1" : "0");
+         arguemntElement.setAttribute("optional", argument.optional);
          arguemntElement.setAttribute("type", typeName(argument.type));
-         arguemntElement.setAttribute("default", argument.defaultValue);
 
          addDigest(arguemntElement, argument.digest);
       }
@@ -92,10 +96,10 @@ void Help::PatchParser::writeXML()
 
          QDomElement attributeElement = createSubElement(attributeListElement, "attribute");
          attributeElement.setAttribute("name", it.key());
-         attributeElement.setAttribute("get", attribute.get ? "1" : "0");
-         attributeElement.setAttribute("set", attribute.set ? "1" : "0");
+         attributeElement.setAttribute("get", attribute.get);
+         attributeElement.setAttribute("set", attribute.set);
          attributeElement.setAttribute("type", typeName(attribute.type));
-         attributeElement.setAttribute("size", QString::number(attribute.size));
+         attributeElement.setAttribute("size", attribute.size);
 
          addDigest(attributeElement, attribute.digest);
       }
@@ -103,12 +107,12 @@ void Help::PatchParser::writeXML()
 
    {
       QDomElement messageListElement = createSubElement(rootElement, "methodlist");
-      for (Message::Map::ConstIterator it = messageMap.constBegin(); it != messageMap.constEnd(); it++)
-      {
-         const Message& message = it.value();
 
+      auto addMessage = [&](const Message& message, const QString& name, const bool isStandaard)
+      {
          QDomElement messageElement = createSubElement(messageListElement, "method");
-         messageElement.setAttribute("name", it.key());
+         messageElement.setAttribute("name", name);
+         messageElement.setAttribute("standard", isStandaard);
 
          if (!message.arguments.empty())
          {
@@ -117,13 +121,26 @@ void Help::PatchParser::writeXML()
             {
                QDomElement arguemntElement = createSubElement(argListElement, "arg");
                arguemntElement.setAttribute("name", argument.name);
-               arguemntElement.setAttribute("optional", argument.optional ? "1" : "0");
+               arguemntElement.setAttribute("optional", argument.optional);
                arguemntElement.setAttribute("type", typeName(argument.type));
-               arguemntElement.setAttribute("default", argument.defaultValue);
             }
          }
 
          addDigest(messageElement, message.digest);
+      };
+
+      for (Message::StandardMap::ConstIterator it = messageStandardMap.constBegin(); it != messageStandardMap.constEnd(); it++)
+      {
+         const Message& message = it.value();
+         const QString& name = typeName(it.key());
+         addMessage(message, name, false);
+      }
+
+      for (Message::FreeMap::ConstIterator it = messageFreeMap.constBegin(); it != messageFreeMap.constEnd(); it++)
+      {
+         const Message& message = it.value();
+         const QString& name = it.key();
+         addMessage(message, name, false);
       }
    }
 
@@ -239,7 +256,6 @@ void Help::PatchParser::readXML()
          argument.name = arguemntElement.attribute("name");
          argument.optional = ("1" == arguemntElement.attribute("optional"));
          argument.type = toType(arguemntElement.attribute("type"));
-         argument.defaultValue = arguemntElement.attribute("default");
 
          readDigest(arguemntElement, argument.digest);
 
@@ -284,7 +300,6 @@ void Help::PatchParser::readXML()
                argument.name = arguemntElement.attribute("name");
                argument.optional = ("1" == arguemntElement.attribute("optional"));
                argument.type = toType(arguemntElement.attribute("type"));
-               argument.defaultValue = arguemntElement.attribute("default");
 
                message.arguments.append(argument);
             }
@@ -292,7 +307,8 @@ void Help::PatchParser::readXML()
 
          readDigest(messageElement, message.digest);
 
-         messageMap[name] = message;
+         messageElement.attribute("standard");
+         messageFreeMap[name] = message;
       }
    }
 
@@ -460,7 +476,6 @@ void Help::PatchParser::addJSON()
             {
                Argument argument;
                argument.name = QString::number(i);
-               argument.defaultValue = arg;
                argument.optional = true;
 
                if (i > argumentList.count())
@@ -479,6 +494,8 @@ void Help::PatchParser::addJSON()
          }
       }
    }
+
+   inletCount = inletConnectionMap.count();
 
    // find objects connected to inlets
    for (int index = 0; index < lineArray.size(); index++)
@@ -537,8 +554,8 @@ void Help::PatchParser::addJSON()
          {
             const QString& messageText = contentList.at(i);
 
-            if (!messageMap.contains(messageText))
-               messageMap[messageText] = Message{};
+            if (!messageFreeMap.contains(messageText))
+               messageFreeMap[messageText] = Message{};
          }
       }
    }
