@@ -1,4 +1,5 @@
 HEADERS += \
+   $$PWD/HelpArgumentView.h \
    $$PWD/HelpComponentsModel.h \
    $$PWD/HelpComponentsView.h \
    $$PWD/HelpDescriptionHighlighter.h \
@@ -16,6 +17,7 @@ HEADERS += \
    $$PWD/HelpSelectView.h
 
 SOURCES += \
+   $$PWD/HelpArgumentView.cpp \
    $$PWD/HelpComponentsModel.cpp \
    $$PWD/HelpComponentsView.cpp \
    $$PWD/HelpDescriptionHighlighter.cpp \

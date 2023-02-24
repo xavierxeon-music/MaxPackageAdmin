@@ -9,6 +9,7 @@ Help::Page::Argument::Argument(Persona* persona, const PatchParser::Marker& mark
    highlighter = new DescriptionHighlighter(descrptionEdit->document());
 
    keyInfo->setText("ARGUMENT");
+   argumentView->allowNameEdit(true);
 }
 
 void Help::Page::Argument::update(const QVariant& data)
@@ -19,4 +20,7 @@ void Help::Page::Argument::update(const QVariant& data)
 
    monitor(digestEdit, &argument.digest.text);
    monitor(descrptionEdit, &argument.digest.description);
+
+   argumentView->clearMonitors();
+   argumentView->monitor(&argument);
 }

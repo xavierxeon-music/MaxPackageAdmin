@@ -25,38 +25,33 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="valueGroup">
      <property name="title">
       <string>Values</string>
      </property>
      <property name="flat">
       <bool>true</bool>
      </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <widget class="QLabel" name="nameInfo">
-        <property name="text">
-         <string>Name</string>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="Help::ArgumentView" name="argumentView">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="nameEdit"/>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="typeInfo">
-        <property name="text">
-         <string>Type</string>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>50</height>
+         </size>
         </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QComboBox" name="typeCombo"/>
-      </item>
-      <item row="2" column="0" colspan="2">
-       <widget class="QCheckBox" name="optionalCheck">
-        <property name="text">
-         <string>Optional</string>
+        <property name="baseSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
         </property>
        </widget>
       </item>
@@ -90,6 +85,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Help::ArgumentView</class>
+   <extends>QTreeView</extends>
+   <header>Help/HelpArgumentView.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
