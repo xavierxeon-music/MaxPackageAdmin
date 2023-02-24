@@ -82,8 +82,8 @@ public:
    SeeAlsoList seeAlsoList;
 
 public:
-   QString typeName(const Type& type);
-   Type toType(const QString& name);
+   static QString typeName(const Type& type);
+   static Type toType(const QString& name);
 };
 
 #endif // NOT PatchStructureH

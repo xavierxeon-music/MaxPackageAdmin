@@ -2,8 +2,6 @@
 
 #include <QComboBox>
 
-static constexpr int TypeRole = Qt::UserRole + 1;
-
 // view
 
 Help::ArgumentView::ArgumentView(QWidget* parent)
@@ -43,7 +41,6 @@ void Help::ArgumentView::monitor(PatchStructure::Argument* argument)
    nameItem->setEditable(nameEditable);
 
    QStandardItem* typeItem = new QStandardItem(PatchStructure::typeName(argument->type));
-   typeItem->setData(QVariant::fromValue(argument->type), TypeRole);
 
    argumentModel->appendRow({optionalItem, nameItem, typeItem});
    argumentList.append(argument);
@@ -54,7 +51,7 @@ void Help::ArgumentView::monitor(PatchStructure::Argument* argument)
 
 void Help::ArgumentView::slotItemChanged(QStandardItem* item)
 {
-   qDebug() << __FUNCTION__ << item->column() << item->text() << item->data(TypeRole);
+   qDebug() << __FUNCTION__ << item->column() << item->text();
 }
 
 // delegate
@@ -62,22 +59,7 @@ void Help::ArgumentView::slotItemChanged(QStandardItem* item)
 Help::TypeDelegate::TypeDelegate(ArgumentView* view)
    : QStyledItemDelegate(view)
    , view(view)
-   , typeModel(nullptr)
 {
-   static const QList<PatchStructure::Type> typeList = {PatchStructure::Type::Symbol,
-                                                        PatchStructure::Type::Float,
-                                                        PatchStructure::Type::Integer,
-                                                        PatchStructure::Type::Bang,
-                                                        PatchStructure::Type::List,
-                                                        PatchStructure::Type::Signal};
-
-   typeModel = new QStandardItemModel(this);
-   for (const PatchStructure::Type& type : typeList)
-   {
-      QStandardItem* nameItem = new QStandardItem(PatchStructure::typeName(type));
-      nameItem->setEditable(false);
-      typeModel->appendRow(nameItem);
-   }
 }
 
 QWidget* Help::TypeDelegate::createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const
@@ -85,8 +67,24 @@ QWidget* Help::TypeDelegate::createEditor(QWidget* parent, const QStyleOptionVie
    Q_UNUSED(option)
    Q_UNUSED(index)
 
+   static const QList<PatchStructure::Type> typeList = {PatchStructure::Type::Symbol,
+                                                        PatchStructure::Type::Float,
+                                                        PatchStructure::Type::Integer,
+                                                        PatchStructure::Type::Bang,
+                                                        PatchStructure::Type::List,
+                                                        PatchStructure::Type::Signal};
+
    QComboBox* comboBox = new QComboBox(parent);
-   comboBox->setModel(typeModel);
+   comboBox->setFrame(false);
+   for (const PatchStructure::Type& type : typeList)
+   {
+      comboBox->addItem(PatchStructure::typeName(type));
+   }
+
+   for (int index = 0; index < comboBox->count(); index++)
+   {
+      comboBox->setItemData(index, Qt::AlignCenter, Qt::TextAlignmentRole);
+   }
    return comboBox;
 }
 

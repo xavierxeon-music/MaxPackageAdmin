@@ -49,7 +49,6 @@ namespace Help
 
    private:
       ArgumentView* view;
-      QStandardItemModel* typeModel;
    };
 } // namespace Help
 

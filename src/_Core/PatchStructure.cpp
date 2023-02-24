@@ -12,6 +12,10 @@ QString PatchStructure::typeName(const Type& type)
          return "int";
       case Type::Bang:
          return "bang";
+      case Type::List:
+         return "list";
+      case Type::Signal:
+         return "signal";
       default:
          break;
    }
@@ -29,6 +33,10 @@ PatchStructure::Type PatchStructure::toType(const QString& name)
       return Type::Integer;
    else if ("bang" == name)
       return Type::Bang;
+   else if ("list" == name)
+      return Type::List;
+   else if ("signal" == name)
+      return Type::Signal;
 
    return Type::Unkown;
 }
