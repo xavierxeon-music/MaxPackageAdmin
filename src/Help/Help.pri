@@ -4,7 +4,6 @@ HEADERS += \
    $$PWD/HelpDescriptionHighlighter.h \
    $$PWD/HelpEditWidget.h \
    $$PWD/HelpPageAbstract.h \
-   $$PWD/HelpPageAbstract.hpp \
    $$PWD/HelpPageArgument.h \
    $$PWD/HelpPageAttribute.h \
    $$PWD/HelpPageBlank.h \

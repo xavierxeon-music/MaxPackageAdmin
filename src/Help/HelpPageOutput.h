@@ -18,13 +18,13 @@ namespace Help
          Output(Persona* persona, const PatchParser::Marker& marker);
 
       private:
-         void componentSelected(PatchParser::Marker marker, QVariant data) override;
+         void update(const QVariant& data) override;
 
       private:
          DescriptionHighlighter* highlighter;
          int outputIndex;
       };
-   } // namespace Edit
+   } // namespace Page
 } // namespace Help
 
 #endif // NOT HelpPageOutputH

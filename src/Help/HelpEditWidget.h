@@ -27,6 +27,7 @@ namespace Help
          template <typename EditorType>
          void addEditor(const PatchParser::Marker& marker);
 
+         void patchSelected(QString patchPath, QString key) override;
          void componentSelected(PatchParser::Marker marker, QVariant data) override;
 
       private:

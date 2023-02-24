@@ -16,7 +16,7 @@ namespace Help
          Blank(Persona* persona, const PatchParser::Marker& marker);
 
       private:
-         void componentSelected(PatchParser::Marker marker, QVariant data) override;
+         void update(const QVariant& data) override;
       };
 
    } // namespace Page

@@ -19,6 +19,8 @@ void Help::ComponentsModel::patchSelected(QString patchPath, QString key)
 
 void Help::ComponentsModel::rebuild()
 {
+   beginResetModel();
+
    clear();
 
    const PatchStructure structure = persona->parser();
@@ -83,7 +85,7 @@ void Help::ComponentsModel::rebuild()
          ModelItem* msgDigestItem = new ModelItem(it.value().digest.text);
 
          messageListItem->appendRow({msgItem, msgDigestItem});
-         addMarker(PatchParser::Marker::Message, true, msgDigestItem, msgDigestItem);
+         addMarker(PatchParser::Marker::Message, it.key(), msgItem, msgDigestItem);
       }
    }
 
@@ -101,4 +103,6 @@ void Help::ComponentsModel::rebuild()
          addMarker(PatchParser::Marker::Output, it.key(), outputItem, outputDigestItem);
       }
    }
+
+   endResetModel();
 }

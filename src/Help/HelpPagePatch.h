@@ -17,21 +17,17 @@ namespace Help
       public:
          Patch(Persona* persona, const PatchParser::Marker& marker);
 
-      private:
-         void slotChangedMetaTag();
+      private slots:
          void slotAddStandardMethond(int type);
-         void slotChangeDigest();
-         void slotChangeDescription();
-         void slotChangeSeeAlso();
 
       private:
-         void componentSelected(PatchParser::Marker marker, QVariant data) override;
+         void update(const QVariant& data) override;
 
       private:
          DescriptionHighlighter* highlighter;
          QButtonGroup* standardMethodGroup;
       };
-   } // namespace Edit
+   } // namespace Page
 } // namespace Help
 
 #endif // NOT HelpPagePatchH

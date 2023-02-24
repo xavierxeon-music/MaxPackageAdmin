@@ -13,7 +13,24 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="../Main/resources/resources.qrc">:/MPA.svg</pixmap>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../Main/resources/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

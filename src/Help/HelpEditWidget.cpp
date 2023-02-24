@@ -32,6 +32,14 @@ void Help::Edit::Widget::addEditor(const PatchParser::Marker& marker)
    editorMap[marker] = abstract;
 }
 
+void Help::Edit::Widget::patchSelected(QString patchPath, QString key)
+{
+   Q_UNUSED(patchPath)
+   Q_UNUSED(key)
+
+   setCurrentWidget(editorMap.value(PatchParser::Marker::Undefined));
+}
+
 void Help::Edit::Widget::componentSelected(PatchParser::Marker marker, QVariant data)
 {
    Q_UNUSED(data);

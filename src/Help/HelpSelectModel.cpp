@@ -12,6 +12,8 @@ Help::SelectModel::SelectModel(QObject* parent)
 
 void Help::SelectModel::setPackagePath(QString packageDir)
 {
+   beginResetModel();
+
    clear();
    setHorizontalHeaderLabels({"Patch"});
 
@@ -47,6 +49,8 @@ void Help::SelectModel::setPackagePath(QString packageDir)
 
       parentMap[patchDir]->appendRow(patchItem);
    }
+
+   endResetModel();
 }
 
 void Help::SelectModel::recursiveSearch(const QString& path, InfoMap& infoMap)

@@ -1,7 +1,5 @@
 #include "HelpPageMessage.h"
 
-#include <ChildrenSignalBlocker.h>
-
 Help::Page::Message::Message(Persona* persona, const PatchParser::Marker& marker)
    : Abstract(persona, marker)
    , highlighter(nullptr)
@@ -13,19 +11,12 @@ Help::Page::Message::Message(Persona* persona, const PatchParser::Marker& marker
    keyInfo->setText("MESSAGE");
 }
 
-void Help::Page::Message::componentSelected(PatchParser::Marker marker, QVariant data)
+void Help::Page::Message::update(const QVariant& data)
 {
-   if (editMarker != marker)
-      return;
-
    messageName = data.toString();
-   const PatchStructure::Message& message = persona->parserRef().messageFreeMap.value(messageName);
+   PatchStructure::Message& message = persona->parserRef().messageFreeMap[messageName];
+   keyInfo->setText("messsage " + messageName + " @ " + persona->getCurrentKey());
 
-   ChildrenSignalBlocker blocker(this);
-
-   keyInfo->setText("MESSAGE " + persona->getCurrentKey());
-   digestEdit->setText(message.digest.text);
-   descrptionEdit->setPlainText(message.digest.description);
-
-   highlighter->rehighlight();
+   monitor(digestEdit, &message.digest.text);
+   monitor(descrptionEdit, &message.digest.description);
 }

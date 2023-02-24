@@ -27,7 +27,7 @@
    <item>
     <widget class="QGroupBox" name="digestGroup">
      <property name="title">
-      <string>Digest / Description</string>
+      <string>Description</string>
      </property>
      <property name="flat">
       <bool>true</bool>

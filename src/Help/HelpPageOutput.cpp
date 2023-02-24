@@ -1,7 +1,5 @@
 #include "HelpPageOutput.h"
 
-#include <ChildrenSignalBlocker.h>
-
 Help::Page::Output::Output(Persona* persona, const PatchParser::Marker& marker)
    : Abstract(persona, marker)
    , highlighter(nullptr)
@@ -13,18 +11,11 @@ Help::Page::Output::Output(Persona* persona, const PatchParser::Marker& marker)
    keyInfo->setText("OUTPUT");
 }
 
-void Help::Page::Output::componentSelected(PatchParser::Marker marker, QVariant data)
+void Help::Page::Output::update(const QVariant& data)
 {
-   if (editMarker != marker)
-      return;
-
    outputIndex = data.toInt();
-   const PatchStructure::Output& output = persona->parserRef().outputMap.value(outputIndex);
+   PatchStructure::Output& output = persona->parserRef().outputMap[outputIndex];
+   keyInfo->setText("output " + QString::number(outputIndex) + " @ " + persona->getCurrentKey());
 
-   ChildrenSignalBlocker blocker(this);
-
-   keyInfo->setText("OUTPUT " + persona->getCurrentKey());
-   descrptionEdit->setPlainText(output.digest.description);
-
-   highlighter->rehighlight();
+   monitor(descrptionEdit, &output.digest.description);
 }

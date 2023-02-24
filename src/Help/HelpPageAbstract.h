@@ -3,6 +3,9 @@
 
 #include <QWidget>
 
+#include <QLineEdit>
+#include <QPlainTextEdit>
+
 #include <Central.h>
 
 #include "HelpPatchParser.h"
@@ -25,20 +28,26 @@ namespace Help
          virtual ~Abstract();
 
       protected:
-         virtual void componentSelected(PatchParser::Marker marker, QVariant data) override = 0;
-
-         template <typename DataType>
-         bool copyIfChanged(DataType& target, const DataType& data);
+         virtual void update(const QVariant& data) = 0;
+         void monitor(QLineEdit* lineEdit, QString* variable);
+         void monitor(QLineEdit* lineEdit, QStringList* variable);
+         void monitor(QPlainTextEdit* textEdit, QString* variable);
 
       protected:
          Persona* persona;
          const PatchParser::Marker editMarker;
-      };
-   } // namespace Edit
-} // namespace Help
 
-#ifndef HelpPageAbstractHPP
-#include "HelpPageAbstract.hpp"
-#endif // NOT HelpPageAbstractHPP
+      private:
+         using ConnectionMap = QMap<QWidget*, QMetaObject::Connection>;
+
+      private:
+         void componentSelected(PatchParser::Marker marker, QVariant data) override final;
+
+      private:
+         ConnectionMap connectionMap;
+         bool blocked;
+      };
+   } // namespace Page
+} // namespace Help
 
 #endif // NOT HelpPageAbstractH
